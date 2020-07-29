@@ -1,6 +1,6 @@
 library(sf)
 library(mapview)
-
+library(raster)
 myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827  +lat_0=45.827 +lon_0=11.625 +x_0=4000000 +y_0=2800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
 
 
@@ -29,6 +29,14 @@ tiles.latlng <- tiles %>% st_transform("+init=epsg:4326")
 
 st_write(tiles.latlng, "data/tiles.shp" )
 
-mapview( nodes.buffered ) + mapview( tiles ) 
+
+## after google earth map-reduce to percentiles
+grid.points.gee <- st_read( "data/tiles_withData.shp" )
+grid.points.gee$iqr<-grid.points.gee$p75 - grid.points.gee$p25
+
+pal = mapviewPalette("mapviewSpectralColors")
+mapview( grid.points.gee, col.regions = pal(100), zcol = "p50", 
+         color=NULL  ) 
+
 
  
