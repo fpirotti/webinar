@@ -1,3 +1,8 @@
+#' To add functionalities you must load the specific libraries
+#' REMEMBER to make sure that they are installed in your system
+#' if not you can install in RStudio on menù => Tools => Install Packages
+#' or directly with command 
+#' install.packages("NAME OF PACKAGE")
 library(sf)
 library(mapview)
 library(raster)
@@ -6,7 +11,7 @@ library(raster)
 myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827  +lat_0=45.827 +lon_0=11.625 +x_0=4000000 +y_0=2800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
 
 #' my points (in lat long) over the regular grid/lattice these points are 666.67 m apart
-grid.points <- st_read( "data/points.shp" )
+grid.points <- st_read( "data/webinar1_2020_07_29/points.shp" )
 
 #' convert my points from lat long to my custom CRS projection
 grid.points.myproj <-   grid.points %>% st_transform(myproj)
