@@ -55,11 +55,19 @@ tiles.latlng <- tiles %>% st_transform("+init=epsg:4326")
 #' Google Earth Engine space
 st_write(tiles.latlng, "data/tiles.shp" )
 
-############
-#' DO THINGS IN GOOGLE EARTH
+################################################
+################################################
+################################################
+#' Import tiles.shp in GOOGLE EARTH ENGINE AND 
+#' DO THINGS 
+#' code shared https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series 
+#' in script
+#' https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series/+/636ab64efd7b09a0d45d3d10a992b8a44bd119c7/webinar1
 #' AND EXPORT THE RESULTS TO A SHAPEFILE CALLED
 #' tiles_withData.shp
-############
+################################################
+################################################
+################################################
 
 #' Read the file exported from GEE
 grid.points.gee <- st_read( "data/tiles_withData.shp" )
