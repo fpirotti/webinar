@@ -1,0 +1,159 @@
+---
+title: "Aggregating Earth Surface data using GEE and R"
+author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
+date: "\\#Summer Webinar Series — Sept. 29, 2020"
+output: html_document
+  # revealjs::revealjs_presentation:
+  #   theme: night
+  #   #transition: none
+  #   self_contained: false
+  #   css: slides.css 
+  # beamer_presentation:
+  #   toc: false
+  #   incremental: false
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Agenda
+
+- From a regular lattice of points create squares to calculate values from aggregating data (e.g. height above sea level of Earth surface)
+
+
+## Starters
+
+To add functionalities you must load the specific libraries - REMEMBER to make sure that they are installed in your system. If  not you can install in RStudio on **menu => Tools => Install Packages**  
+or directly with command  
+```{r   eval=F   }
+install.packages("NAME OF PACKAGE")
+```
+
+
+
+```{r  }
+library(sf)
+library(mapview)
+library(raster)
+```
+
+### My custom CRS projection Lambert Conical Conformal NOT secant but tangent at lat=45.827 and lon=11.625
+
+```{r}
+myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827  +lat_0=45.827 +lon_0=11.625 +x_0=4000000 +y_0=2800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+```
+
+### My points (in lat long) over the regular grid/lattice these points are 666.67 m apart
+
+```{r}
+grid.points <- st_read( "data/webinar1_2020_07_29/points.shp" )
+```
+
+###  Convert my points from lat long to my custom CRS projection  
+
+```{r}
+grid.points.myproj <-   grid.points %>% st_transform(myproj)
+```
+
+Run this line to view   
+
+```{r}
+  mapview( grid.points.myproj )
+```
+
+Trick to create a rhomboid with a certain distance from the point ("radius")   
+ half the distance between points (333.33 m)  
+```{r}
+nodes.buffered<-st_buffer(grid.points.myproj, 333.33, nQuadSegs = 1)
+```
+ 
+More complex function the includes another function    
+
+```{r}
+
+st_bbox_by_feature = function(geom) {
+  
+  ## make sure that object "geom" becomes a geometry object;
+  ## geom is your data set with all the single geometries/polygons
+  geom2 = st_geometry(geom)
+  
+  #' Function to:
+  #' (a) take a single geometry, 
+  #' (b) create a bounding box with st_bbox and 
+  #' (c) convert the bbox object to a new geometry (a square)
+  f <- function(single.geom) { 
+    st_as_sfc( st_bbox(single.geom,), crs=myproj)
+  }
+  
+  #' This line calls the function above LOOPING over each single geometry (lapply)
+  #'  in the geom2 object 
+  do.call("c", lapply(geom2, f))
+}
+```
+
+This line calls the above function    
+```{r} 
+tiles <- st_bbox_by_feature( nodes.buffered )
+```
+
+Assign the CRS to the new dataset    
+```{r}
+tiles <- tiles %>% st_set_crs(myproj)
+```
+
+Convert to Latitude and Longitude for ingesting into Google Earth Engine       
+```{r}
+tiles.latlng <- tiles %>% st_transform("+init=epsg:4326")
+```
+
+
+Save it to a shapefile ... this shapefile will be uploaded to your    
+Google Earth Engine space  
+```{r}
+#st_write(tiles.latlng, "data/tiles.shp" )
+```
+
+ Import tiles.shp in GOOGLE EARTH ENGINE AND    
+ DO THINGS 
+ code shared https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series 
+ in script
+ https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series/+/636ab64efd7b09a0d45d3d10a992b8a44bd119c7/webinar1
+ AND EXPORT THE RESULTS TO A SHAPEFILE CALLED   
+  tiles_withData.shp     
+  
+
+Read the file exported from GEE   
+```{r}
+grid.points.gee <- st_read( "data/webinar1_2020_07_29/tiles_withData.shp" )
+```
+
+
+Create a new attribute column with the interquartile range    
+(The difference between p75 and p25)    
+```{r}
+grid.points.gee$iqr<-grid.points.gee$p75 - grid.points.gee$p25
+```
+
+Draw some results!!!!  
+
+Figure 2 - 50th Percentile (median)  
+
+```{r}
+pal = mapviewPalette("mapviewSpectralColors")
+mapview( grid.points.gee, col.regions = pal(100), zcol = "p50", 
+         color=NULL, alpha.regions=0.8  ) 
+```
+
+Figure 2 - 10th Percentile  
+```{r}
+mapview( grid.points.gee, col.regions = pal(100), zcol = "p10", 
+         color=NULL, alpha.regions=0.8  ) 
+```
+
+Figure 3 - Inter Quartile Range  
+```{r}
+mapview( grid.points.gee, col.regions = pal(100), zcol = "iqr", 
+         color=NULL, alpha.regions=0.8)
+```
+
+   
