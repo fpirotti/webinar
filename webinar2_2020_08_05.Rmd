@@ -3,47 +3,40 @@ title: "Time-series of RADAR backscatter using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — August 5, 2020"
 output:
-  revealjs::revealjs_presentation:
-    theme: night
-    #transition: none
-    self_contained: false
-    css: slides.css
-  html_document:
-    css: slides_presenter.css
-  beamer_presentation:
-    toc: false
-    incremental: false
+  html_document 
 ---
 
 ## Agenda
 
-- Load to Google Earth areas which have been subject to changes in the past 5 years 
-  - I will use areas strongly damaged by VAIA but you can use your own
-  - The data is also downloadable from the windthrow database that was created for the paper by  [[@Forzieri2020]](https://essd.copernicus.org/articles/12/257/2020/) linking to an <a href="https://figshare.com/articles/A_spatially-explicit_database_of_wind_disturbances_in_European_forests_over_the_period_2000-2018/9555008" target="_blank">open database</a>  containing polygons of damaged areas. 
+- Load to Google Earth Engine (GEE) vegetation areas which have been subject to changes: (disturbance by fire, windthrow) 
+  - In the past 5 years (Sentinel 1 data are  available since 2014) 
+  - I will use areas strongly damaged by VAIA downloadable from the windthrow database   [[@Forzieri2020]](https://essd.copernicus.org/articles/12/257/2020/) linking to an <a href="https://figshare.com/articles/A_spatially-explicit_database_of_wind_disturbances_in_European_forests_over_the_period_2000-2018/9555008" target="_blank">open database</a>  - but you can use your own scenario  
 - Extract time series of Sentinel 1 backscatter data
 - Import extracted data in R CRAN
 - Plot time series data and applying a Z-score filter over past N values to detect changes
 
 ## Before we begin
 
-**Where is the webinar?** 
-
-Seminars are open (moderated) and accessible via zoom @ https://unipd.zoom.us/j/98756930077
- 
-
-**What software should I have?** 
-
-For this Webinar we use Google Earth Engine (GEE) and RStudio - if you want to follow along, make sure you have an account with GEE and have installed R + RStudio in your PC - and you have downloaded some polygons of data - I suggest to start with not more than 10-20 polygons for the excercises.
+- For this Webinar we use Google Earth Engine (GEE) and RStudio - if you want to follow along, make sure you have an account with GEE and have installed R + RStudio in your PC - and you have downloaded some polygons of data - I suggest to start with not more than 10-20 polygons for the excercises.
  
 **Will it be recorded?** 
 
-Slides and exercises will also be available on GitHub:
+Slides and exercises will also be available on GitHub:    
 
-https://github.com/fpirotti/webinar_series_R_GEE
-
-
+[https://github.com/fpirotti/webinar_series_R_GEE](https://github.com/fpirotti/webinar_series_R_GEE)
 
 
+## What we will touch on
+ 
+
+- Accessing data through GIS WFS services  
+- Filtering data with QGIS to select only areas larget than 2500 m2 (Sentinel 1 has 10 m resolution, thus 5 x 5 pixels are the least number of values for a decent statistic of backscatter values in the area)
+- Uploading to GEE your data
+
+
+ 
+
+ 
 
 ## R CRAN
 
