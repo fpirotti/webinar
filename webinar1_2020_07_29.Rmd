@@ -2,7 +2,14 @@
 title: "Aggregating Earth Surface data using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — Sept. 29, 2020"
-output: html_document
+output: 
+  html_document:    
+    theme: united
+    highlight: tango
+    code_folding: show  
+    toc: true
+    toc_float: true
+    toc_depth: 2
   # revealjs::revealjs_presentation:
   #   theme: night
   #   #transition: none
@@ -13,61 +20,86 @@ output: html_document
   #   incremental: false
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = T, message=FALSE )
 ```
 
-## Agenda
+# Agenda
 
-- From a regular lattice of points create squares to calculate values from aggregating data (e.g. height above sea level of Earth surface)
+- From a regular lattice of points create squares
+- In each square assign values from aggregating data (e.g. height above sea level of Earth surface)
 
+<img src="doc/webinar1/AREA.JPG" />
+&nbsp;
 
-## Starters
+# R CRAN
 
-To add functionalities you must load the specific libraries - REMEMBER to make sure that they are installed in your system. If  not you can install in RStudio on **menu => Tools => Install Packages**  
-or directly with command  
-```{r   eval=F   }
-install.packages("NAME OF PACKAGE")
-```
+## Starters   
 
+We use RStudio IDE.  Create a .R file (ours is called *webinar1_2020_07_29.R*) and write the following lines of code. Ctrl-Return to run the line that cursor is on or run all highlighted lines. Or use the button in top right part of the editor.  
 
+To add functionalities to your .R script you must load the specific libraries.  **REMEMBER:** make sure that they are installed in your system. If  not you can install through RStudio on **menu => Tools => Install Packages** or directly through R console with command   `{r   eval=F   } install.packages("NAME OF PACKAGE") `
+   
 
-```{r  }
+Below we add three libraries which add functionalities that we need  
+
+```{r message=FALSE }
 library(sf)
 library(mapview)
 library(raster)
 ```
 
-### My custom CRS projection Lambert Conical Conformal NOT secant but tangent at lat=45.827 and lon=11.625
+## Coordinate Reference System
+
+My custom Coordinate Reference System (CRS) projection, Lambert Conical Conformal (LCC), NOT secant but tangent at lat=45.827 and lon=11.625 - for more info:   
+
+- [PROJ library ](https://proj.org/operations/projections/lcc.html)   
+- [Wikipedia](https://en.wikipedia.org/wiki/Lambert_conformal_conic_projection)   
+- [Wolfram Mathworld](http://mathworld.wolfram.com/LambertConformalConicProjection.html)    
+- [John P. Snyder “Map projections: A working manual” (pp. 104-110)](https://pubs.er.usgs.gov/publication/pp1395)   
+ 
 
 ```{r}
 myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827  +lat_0=45.827 +lon_0=11.625 +x_0=4000000 +y_0=2800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
 ```
 
-### My points (in lat long) over the regular grid/lattice these points are 666.67 m apart
+## Read lattice
+
+My points (in lat long) over the regular grid/lattice these points are 666.67 m apart
 
 ```{r}
 grid.points <- st_read( "data/webinar1_2020_07_29/points.shp" )
 ```
 
-###  Convert my points from lat long to my custom CRS projection  
+## Transform CRS
+
+Convert my points from a Geographic (latitude and longitude degrees) to my custom CRS projection  
 
 ```{r}
 grid.points.myproj <-   grid.points %>% st_transform(myproj)
 ```
 
-Run this line to view   
+## View in webmap
+
+Run this line to view the points   
 
 ```{r}
   mapview( grid.points.myproj )
 ```
 
-Trick to create a rhomboid with a certain distance from the point ("radius")   
- half the distance between points (333.33 m)  
+## Points to Square
+
+Points to a square Polygon area. How? It is trivial, but faster way was to create a rhomboid with a certain distance from the point ("radius")  using a **buffer** of half the distance between points (333.33 m) .  The minimum bounding box of the buffer with that radius will be a square with sides  2x the size of the radius of the buffer.    
+
+**NB:** nQuadSegs is 1 which means a chord(segment) at each quadrand, i.e. 1/4th of a circunference; this give a rhomboid which is a "very very rough circle" - it saves a lot of memory from drawing with a defaul value of *nQuadSegs=30* - it makes a difference when processing a large number of points.
+
+We buffer each feature (point) and view results
 ```{r}
-nodes.buffered<-st_buffer(grid.points.myproj, 333.33, nQuadSegs = 1)
+nodes.buffered<-st_buffer(grid.points.myproj, 333.33,  nQuadSegs = 1)
+mapview( nodes.buffered )
 ```
+  
  
-More complex function the includes another function    
+Then we apply a function to each "rhomboid" for creating the square. It is a bit more complex as the function  includes another function inside.      
 
 ```{r}
 
@@ -91,35 +123,44 @@ st_bbox_by_feature = function(geom) {
 }
 ```
 
-This line calls the above function    
+This line calls the above function over our data (rhomboids)   
 ```{r} 
+
 tiles <- st_bbox_by_feature( nodes.buffered )
+  
 ```
 
-Assign the CRS to the new dataset    
+Assign the CRS to the new dataset as it got lost. To check the CRS of our data we can use  `{r} st_crs(tiles)`   
 ```{r}
-tiles <- tiles %>% st_set_crs(myproj)
+tiles <- tiles %>% st_set_crs(myproj) 
 ```
 
-Convert to Latitude and Longitude for ingesting into Google Earth Engine       
+We view all results all over the same map (small subset of data - the first 20 features). 
+```{r}
+mapview( grid.points.myproj[1:20,] ) + mapview( nodes.buffered[1:20,] )  + mapview( tiles[1:20,] )
+```
+
+## Save result
+
+Convert to Latitude and Longitude and save result to shapefile for future upload to Google Earth Engine       
 ```{r}
 tiles.latlng <- tiles %>% st_transform("+init=epsg:4326")
-```
-
-
-Save it to a shapefile ... this shapefile will be uploaded to your    
-Google Earth Engine space  
-```{r}
 #st_write(tiles.latlng, "data/tiles.shp" )
 ```
+ 
 
- Import tiles.shp in GOOGLE EARTH ENGINE AND    
- DO THINGS 
+# GOOGLE EARTH ENGINE (GEE) 
+
+Import shapefile files "tiles.XXX" by left panel "assets" and click "NEW" and choose shapefile from dropdown menu. 
+
+**DO THINGS in GEE** 
+
  code shared https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series 
  in script
  https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series/+/636ab64efd7b09a0d45d3d10a992b8a44bd119c7/webinar1
- AND EXPORT THE RESULTS TO A SHAPEFILE CALLED   
-  tiles_withData.shp     
+ 
+ 
+**EXPORT THE RESULTS TO A SHAPEFILE CALLED tiles_withData.shp**
   
 
 Read the file exported from GEE   
