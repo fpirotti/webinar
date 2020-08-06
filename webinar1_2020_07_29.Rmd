@@ -3,6 +3,8 @@ title: "Aggregating Earth Surface data using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — Sept. 29, 2020"
 output: 
+  pdf_document:
+    toc: yes
   html_document:
     code_folding: show
     theme: cosmo 
@@ -11,18 +13,22 @@ output:
     toc_float:
       collapsed: no
       smooth_scroll: no
-  pdf_document:
-    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
 
 ```
+
+
+# Code & Copyleft
+
 ```{r, message=FALSE, echo=FALSE}
 source("copyright.R")
 shiny::HTML(copyright)
 ```
  
+
+\newpage
 
 # Agenda
 
@@ -256,7 +262,7 @@ Map.addLayer(tiles, {}, "TILES");
 // this exports the data to our Google drive
  Export.table.toDrive({
     collection: height,
-    description:'outReducedVars',
+    description:'tiles_withData',
     fileFormat: 'SHP'
   });
 
