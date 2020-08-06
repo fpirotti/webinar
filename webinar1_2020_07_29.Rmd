@@ -8,8 +8,9 @@ output:
     highlight: tango
     code_folding: show  
     toc: true
-    toc_float: true
-    toc_depth: 2
+    toc_float:  
+      collapsed: false
+      smooth_scroll: false 
   # revealjs::revealjs_presentation:
   #   theme: night
   #   #transition: none
@@ -20,7 +21,7 @@ output:
   #   incremental: false
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = T, message=FALSE )
+knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
 ```
 
 # Agenda
@@ -41,12 +42,13 @@ To add functionalities to your .R script you must load the specific libraries.  
    
 
 Below we add three libraries which add functionalities that we need  
-
 ```{r message=FALSE }
 library(sf)
 library(mapview)
 library(raster)
 ```
+
+&nbsp;
 
 ## Coordinate Reference System
 
@@ -56,35 +58,49 @@ My custom Coordinate Reference System (CRS) projection, Lambert Conical Conforma
 - [Wikipedia](https://en.wikipedia.org/wiki/Lambert_conformal_conic_projection)   
 - [Wolfram Mathworld](http://mathworld.wolfram.com/LambertConformalConicProjection.html)    
 - [John P. Snyder “Map projections: A working manual” (pp. 104-110)](https://pubs.er.usgs.gov/publication/pp1395)   
- 
 
 ```{r}
 myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827  +lat_0=45.827 +lon_0=11.625 +x_0=4000000 +y_0=2800000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
 ```
 
+&nbsp;  
+&nbsp;  
+
 ## Read lattice
 
 My points (in lat long) over the regular grid/lattice these points are 666.67 m apart
-
 ```{r}
 grid.points <- st_read( "data/webinar1_2020_07_29/points.shp" )
 ```
 
+&nbsp;  
+
+
+&nbsp;  
+
 ## Transform CRS
 
 Convert my points from a Geographic (latitude and longitude degrees) to my custom CRS projection  
-
 ```{r}
 grid.points.myproj <-   grid.points %>% st_transform(myproj)
 ```
 
+
+&nbsp;  
+
+&nbsp;  
+
 ## View in webmap
 
 Run this line to view the points   
-
 ```{r}
   mapview( grid.points.myproj )
 ```
+
+
+&nbsp;  
+
+&nbsp;  
 
 ## Points to Square
 
@@ -97,8 +113,10 @@ We buffer each feature (point) and view results
 nodes.buffered<-st_buffer(grid.points.myproj, 333.33,  nQuadSegs = 1)
 mapview( nodes.buffered )
 ```
-  
- 
+&nbsp;  
+
+&nbsp;  
+
 Then we apply a function to each "rhomboid" for creating the square. It is a bit more complex as the function  includes another function inside.      
 
 ```{r}
@@ -123,6 +141,7 @@ st_bbox_by_feature = function(geom) {
 }
 ```
 
+
 This line calls the above function over our data (rhomboids)   
 ```{r} 
 
@@ -130,15 +149,22 @@ tiles <- st_bbox_by_feature( nodes.buffered )
   
 ```
 
-Assign the CRS to the new dataset as it got lost. To check the CRS of our data we can use  `{r} st_crs(tiles)`   
+&nbsp;  
+
+Assign the CRS to the new dataset as it got lost. To check the CRS of our data we can use  `{r} st_crs(tiles)`  
 ```{r}
 tiles <- tiles %>% st_set_crs(myproj) 
 ```
+
+
+&nbsp;  
 
 We view all results all over the same map (small subset of data - the first 20 features). 
 ```{r}
 mapview( grid.points.myproj[1:20,] ) + mapview( nodes.buffered[1:20,] )  + mapview( tiles[1:20,] )
 ```
+
+&nbsp;  
 
 ## Save result
 
@@ -169,32 +195,34 @@ grid.points.gee <- st_read( "data/webinar1_2020_07_29/tiles_withData.shp" )
 ```
 
 
-Create a new attribute column with the interquartile range    
-(The difference between p75 and p25)    
+# R - Plot
+
+## Calculate new IQR field
+
+Create a new attribute column with the interquartile range (The difference between p75 and p25, i.e. 75<sup>th</sup> and 25<sup>th</sup> percentile)    
 ```{r}
 grid.points.gee$iqr<-grid.points.gee$p75 - grid.points.gee$p25
 ```
 
-Draw some results!!!!  
-
-Figure 2 - 50th Percentile (median)  
+## PLOT variables
 
 ```{r}
 pal = mapviewPalette("mapviewSpectralColors")
 mapview( grid.points.gee, col.regions = pal(100), zcol = "p50", 
          color=NULL, alpha.regions=0.8  ) 
 ```
-
-Figure 2 - 10th Percentile  
+Figure 1 - 50th Percentile (median)  
+  
 ```{r}
 mapview( grid.points.gee, col.regions = pal(100), zcol = "p10", 
          color=NULL, alpha.regions=0.8  ) 
 ```
+Figure 2 - 10th Percentile
 
-Figure 3 - Inter Quartile Range  
 ```{r}
 mapview( grid.points.gee, col.regions = pal(100), zcol = "iqr", 
          color=NULL, alpha.regions=0.8)
 ```
+Figure 3 - Inter Quartile Range  
 
    
