@@ -3,22 +3,16 @@ title: "Aggregating Earth Surface data using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — Sept. 29, 2020"
 output: 
-  html_document:    
-    theme: united
+  pdf_document:
+    toc: yes
+  html_document:
+    code_folding: show
     highlight: tango
-    code_folding: show  
-    toc: true
-    toc_float:  
-      collapsed: false
-      smooth_scroll: false 
-  # revealjs::revealjs_presentation:
-  #   theme: night
-  #   #transition: none
-  #   self_contained: false
-  #   css: slides.css 
-  # beamer_presentation:
-  #   toc: false
-  #   incremental: false
+    theme: united
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
@@ -94,7 +88,7 @@ grid.points.myproj <-   grid.points %>% st_transform(myproj)
 
 Run this line to view the points   
 ```{r}
-  mapview( grid.points.myproj )
+  mapview( grid.points.myproj, legend = F  )
 ```
 
 
@@ -102,16 +96,16 @@ Run this line to view the points
 
 &nbsp;  
 
-## Points to Square
+## Points to Squares
 
-Points to a square Polygon area. How? It is trivial, but faster way was to create a rhomboid with a certain distance from the point ("radius")  using a **buffer** of half the distance between points (333.33 m) .  The minimum bounding box of the buffer with that radius will be a square with sides  2x the size of the radius of the buffer.    
+Points to a square Polygon areas. How? It is trivial, but faster way was to create a rhomboid with a certain distance from the point ("radius")  using a **buffer** of half the distance between points (333.33 m) .  The minimum bounding box of the buffer with that radius will be a square with sides  2x the size of the radius of the buffer.    
 
 **NB:** nQuadSegs is 1 which means a chord(segment) at each quadrand, i.e. 1/4th of a circunference; this give a rhomboid which is a "very very rough circle" - it saves a lot of memory from drawing with a defaul value of *nQuadSegs=30* - it makes a difference when processing a large number of points.
 
 We buffer each feature (point) and view results
 ```{r}
 nodes.buffered<-st_buffer(grid.points.myproj, 333.33,  nQuadSegs = 1)
-mapview( nodes.buffered )
+mapview( nodes.buffered, legend = F  )
 ```
 &nbsp;  
 
@@ -159,9 +153,14 @@ tiles <- tiles %>% st_set_crs(myproj)
 
 &nbsp;  
 
-We view all results all over the same map (small subset of data - the first 20 features). 
+We view all results all over the same map (small subset of data - the first 20 features).
+
+PS you might notice a mis-alignment of the geometries, this is due to the webgis using a CRS called "earth universal transverse mercator" projection which as small deformations when representing data that is in other CRS.
+
+For more reading see  [Wikipedia](https://en.wikipedia.org/wiki/Mercator_projection).
+
 ```{r}
-mapview( grid.points.myproj[1:20,] ) + mapview( nodes.buffered[1:20,] )  + mapview( tiles[1:20,] )
+mapview( grid.points.myproj[1:5,], legend = F ) + mapview( nodes.buffered[1:5,], legend = F  )  + mapview( tiles[1:5,], legend = F  )
 ```
 
 &nbsp;  
@@ -273,6 +272,8 @@ Create a new attribute column with the interquartile range (The difference betwe
 grid.points.gee$iqr<-grid.points.gee$p75 - grid.points.gee$p25
 ```
 
+\newpage
+
 ## PLOT variables
 
 ```{r}
@@ -282,11 +283,16 @@ mapview( grid.points.gee, col.regions = pal(100), zcol = "p50",
 ```
 Figure 1 - 50th Percentile (median)  
   
+\newpage
+  
 ```{r}
 mapview( grid.points.gee, col.regions = pal(100), zcol = "p10", 
          color=NULL, alpha.regions=0.8  ) 
 ```
 Figure 2 - 10th Percentile
+
+
+\newpage
 
 ```{r}
 mapview( grid.points.gee, col.regions = pal(100), zcol = "iqr", 

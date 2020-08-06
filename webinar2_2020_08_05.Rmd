@@ -2,8 +2,17 @@
 title: "Time-series of RADAR backscatter using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — August 5, 2020"
-output:
-  html_document 
+output: 
+  html_document:
+    code_folding: show
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  pdf_document:
+    toc: yes
 ---
 
 ## Agenda
@@ -12,7 +21,7 @@ output:
   - In the past 5 years (Sentinel 1 data are  available since 2014) 
   - I will use areas strongly damaged by VAIA downloadable from the windthrow database   [[@Forzieri2020]](https://essd.copernicus.org/articles/12/257/2020/) linking to an <a href="https://figshare.com/articles/A_spatially-explicit_database_of_wind_disturbances_in_European_forests_over_the_period_2000-2018/9555008" target="_blank">open database</a>  - but you can use your own scenario  
 - Extract time series of Sentinel 1 backscatter data
-- Import extracted data in R CRAN
+- Import extracted data in R CRAN ()
 - Plot time series data and applying a Z-score filter over past N values to detect changes
 
 ## Before we begin
