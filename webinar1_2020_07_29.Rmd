@@ -3,20 +3,26 @@ title: "Aggregating Earth Surface data using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — Sept. 29, 2020"
 output: 
-  pdf_document:
-    toc: yes
   html_document:
     code_folding: show
-    highlight: tango
-    theme: united
+    theme: cosmo 
+    highlight: tango 
     toc: yes
     toc_float:
       collapsed: no
       smooth_scroll: no
+  pdf_document:
+    toc: yes
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
+
 ```
+```{r, message=FALSE, echo=FALSE}
+source("copyright.R")
+shiny::HTML(copyright)
+```
+ 
 
 # Agenda
 
@@ -185,13 +191,18 @@ Import shapefile files "tiles.XXX" by left panel "assets" and click "NEW" and ch
  
  
  
-```{java}
+```{javascript }
 // IMPORTS 
-// these are in the "import" top part of the script editor in GEE, but can also be added to the script itself.
-var srtm = ee.Image("CGIAR/SRTM90_V4"),
-    srtm_viz = {"opacity":1,"bands":["elevation"],"min":1439.9060309998727,"max":2892.700269813135,"palette":["005aff","ff0000"]},
-    geometry = /* color: #d63000 */ee.Geometry.MultiPoint(),
-    tiles = ee.FeatureCollection("users/2020_Kanan/summer_webinar_series/Webinar1_tiles");
+// these are in the "import" top part of the script editor in GEE, 
+// but can also be added to the script itself.
+
+var srtm = ee.Image("CGIAR/SRTM90_V4");
+
+var  srtm_viz = {"opacity":1,"bands":["elevation"],
+      "min":1439.9060309998727,"max":2892.700269813135,
+      "palette":["005aff","ff0000"]}; 
+
+var tiles = ee.FeatureCollection("users/2020_Kanan/summer_webinar_series/Webinar1_tiles");
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,6 +245,9 @@ var  height =  srtm.reduceRegions({
   collection: tiles 
 }); 
 
+// this prints result
+print(height);
+
 // here we zoom to our tiles and add the layers
 Map.centerObject(tiles, 12)
 Map.addLayer(srtm, srtm_viz, "SRTM");
@@ -241,7 +255,7 @@ Map.addLayer(tiles, {}, "TILES");
 
 // this exports the data to our Google drive
  Export.table.toDrive({
-    collection: unBuffer,
+    collection: height,
     description:'outReducedVars',
     fileFormat: 'SHP'
   });
@@ -300,4 +314,10 @@ mapview( grid.points.gee, col.regions = pal(100), zcol = "iqr",
 ```
 Figure 3 - Inter Quartile Range  
 
-   
+<br>
+<br>
+
+```{r}
+sessionInfo()
+```
+
