@@ -38,7 +38,7 @@ knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
 
 We use RStudio IDE.  Create a .R file (ours is called *webinar1_2020_07_29.R*) and write the following lines of code. Ctrl-Return to run the line that cursor is on or run all highlighted lines. Or use the button in top right part of the editor.  
 
-To add functionalities to your .R script you must load the specific libraries.  **REMEMBER:** make sure that they are installed in your system. If  not you can install through RStudio on **menu => Tools => Install Packages** or directly through R console with command   `{r   eval=F   } install.packages("NAME OF PACKAGE") `
+To add functionalities to your .R script you must load the specific libraries.  **REMEMBER:** make sure that they are installed in your system. If  not you can install through RStudio on **menu => Tools => Install Packages** or directly through R console with command   `install.packages("NAME OF PACKAGE") `
    
 
 Below we add three libraries which add functionalities that we need  
@@ -169,9 +169,9 @@ mapview( grid.points.myproj[1:20,] ) + mapview( nodes.buffered[1:20,] )  + mapvi
 ## Save result
 
 Convert to Latitude and Longitude and save result to shapefile for future upload to Google Earth Engine       
-```{r}
+```{r eval=F }
 tiles.latlng <- tiles %>% st_transform("+init=epsg:4326")
-#st_write(tiles.latlng, "data/tiles.shp" )
+st_write(tiles.latlng, "data/tiles.shp" )
 ```
  
 
@@ -181,9 +181,78 @@ Import shapefile files "tiles.XXX" by left panel "assets" and click "NEW" and ch
 
 **DO THINGS in GEE** 
 
- code shared https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series 
- in script
- https://earthengine.googlesource.com/users/2020_Kanan/summer_webinar_series/+/636ab64efd7b09a0d45d3d10a992b8a44bd119c7/webinar1
+ code shared: <a href="https://code.earthengine.google.com/?scriptPath=users%2F2020_Kanan%2Fsummer_webinar_series%3Awebinar1" target="_blank" >[click HERE to open your GEE code editor]</a> but also reported here below 
+ 
+ 
+ 
+ 
+```{java}
+// IMPORTS 
+// these are in the "import" top part of the script editor in GEE, but can also be added to the script itself.
+var srtm = ee.Image("CGIAR/SRTM90_V4"),
+    srtm_viz = {"opacity":1,"bands":["elevation"],"min":1439.9060309998727,"max":2892.700269813135,"palette":["005aff","ff0000"]},
+    geometry = /* color: #d63000 */ee.Geometry.MultiPoint(),
+    tiles = ee.FeatureCollection("users/2020_Kanan/summer_webinar_series/Webinar1_tiles");
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+///////////////// PART OF SUMMER WEBINAR SERIES 2020 /////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////////////
+/////  Francesco Pirotti - CIRGEO / TESAF Department University of Padova //////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+/////  https://www.cirgeo.unipd.it/shared/R/webinars/webinar1_2020_07_29.html  /////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+ 
+
+// "run" this script and then go to "tasks" button in the right panel to 
+// run also the export of the data. 
+// The last function in this script, "Export...", 
+// will create a "task" that you have to launch manually 
+// to put the final data  to your google drive
+
+
+// this prints info on the "srtm" dataset that we imported 
+print(srtm)
+// PS double click in the link "SRTM Digital Elevation Data Version 4." above in the
+// "imports" to see what data we are reading and aggregating at tiles 
+///////////////////////////////////////////////////////////////////////////////////////
+
+// this prints info on the "tiles" dataset that we imported from the 
+// shapefile created with R
+print(tiles);
+///////////////////////////////////////////////////////////////////////////////////////
+
+// this function below applies the "reduceRegions" function to the "srtm" dataset (image)
+// over each feature (square polygon in our "tiles" dataset) ... 
+// NB the "reducer" function applies 5 percentiles (10, 25, 50, 75, 90) thus allowing a good
+// representation of distribution of height values inside the square. 
+// We could also use average and standard deviation as reducers.
+var  height =  srtm.reduceRegions({
+  reducer: ee.Reducer.percentile([10,25,50,75,90]), 
+  //reducer: ee.Reducer.mean(), 
+  collection: tiles 
+}); 
+
+// here we zoom to our tiles and add the layers
+Map.centerObject(tiles, 12)
+Map.addLayer(srtm, srtm_viz, "SRTM");
+Map.addLayer(tiles, {}, "TILES");
+
+// this exports the data to our Google drive
+ Export.table.toDrive({
+    collection: unBuffer,
+    description:'outReducedVars',
+    fileFormat: 'SHP'
+  });
+
+
+
+
+```
+
+ 
  
  
 **EXPORT THE RESULTS TO A SHAPEFILE CALLED tiles_withData.shp**
