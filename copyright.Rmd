@@ -1,5 +1,3 @@
-![](doc/cc-by-sa.png){width=120} 
-
-Except where otherwise  [noted](https://creativecommons.org/policies#license) content on this site is licensed under a [Creative Commons Attribution ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/){target="_blank"} 
+![](doc/cc-by-sa.png){width=100 style="vertical-align:top;margin-right:10px;" align=left } Except where otherwise  [noted](https://creativecommons.org/policies#license) content on this site is licensed under a [Creative Commons Attribution ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/){target="_blank"} 
 <hr>
-Code available in [GITHUB here](https://github.com/fpirotti/webinar_series_R_GEE){target="_blank"}
+Code available in [ ![](doc/GitHub-Mark-32px.png){ style="margin:3px;"}GITHUB here](https://github.com/fpirotti/webinar_series_R_GEE){target="_blank"}
