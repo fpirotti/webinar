@@ -3,8 +3,6 @@ title: "Aggregating Earth Surface data using GEE and R"
 author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
 date: "\\#Summer Webinar Series — Sept. 29, 2020"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     code_folding: show
     highlight: tango
@@ -13,9 +11,8 @@ output:
     toc_float:
       collapsed: no
       smooth_scroll: no
-  pdf_document2:
-    toc: yes
-  urlcolor: blue
+  pdf_document:
+    toc: yes 
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
@@ -24,12 +21,6 @@ knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
 
 
 # Code & Copyleft
-<!--- 
-# ```{r, message=FALSE, echo=FALSE}
-# source("copyright.R")
-# shiny::HTML(copyright)
-# ```
--->
 
 ```{r, child=c('copyright.Rmd')}
 ``` 
@@ -84,7 +75,9 @@ myproj <- "+proj=lcc +lat_1=45.827  +lat_2=45.827
 
 ## Read lattice
 
-My points (in lat long) over the regular grid/lattice these points are 666.67 m apart
+My points (in lat long) over the regular grid/lattice these points are 666.67 m apart.
+**You can find the data points in the GITHUB link at [top of this page](#code-copyleft).**
+
 ```{r}
 grid.points <- st_read( "data/webinar1_2020_07_29/points.shp" )
 ```

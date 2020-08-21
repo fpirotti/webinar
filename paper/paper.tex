@@ -1,0 +1,306 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{Science of Remote Sensing} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+\usepackage{booktabs} % book-quality tables
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={RADAR Backscatter - can it be used to discriminate damages in forests?},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{0}
+% Pandoc toggle for numbering sections (defaults to be off)
+\setcounter{secnumdepth}{0}
+
+
+% Pandoc header
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{RADAR Backscatter - can it be used to discriminate damages in forests?}
+    \author[CIRGEO Interdepartmental Research Center of Research of Geomatics]{Francesco Pirotti\corref{1}}
+   \ead{francesco.pirotti@unipd.it} 
+    \author[TESAF Department]{Francesco Pirotti\corref{2}}
+   \ead{francesco.pirotti@unipd.it} 
+      \address[CIRGEO Interdepartmental Research Center of Research of Geomatics]{Agripolis, University of Padova, Legnaro 35020, Italy}
+    \address[TESAF Department]{University of Padova, Legnaro 35020, Italy}
+      \cortext[1]{Corresponding Author}
+    \cortext[2]{Equal contribution}
+  
+  \begin{abstract}
+  This is the abstract. It consists of two paragraphs.
+  \end{abstract}
+  
+ \end{frontmatter}
+
+\emph{Text based on elsarticle sample manuscript, see
+\url{http://www.elsevier.com/author-schemas/latex-instructions\#elsarticle}}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+In this work we present results from the analysis of time-series of
+RADAR backscatter values over forests that were subject to heavy damage
+due to extreme wind (VAIA storm - 28 October 2018). The hypothesis is
+that, with due processing, RADAR backscatter can be used to detect and
+assess damage of forest, under certain conditions.
+
+Remote sensing for determining changes in the Earth surface is a common
+application. Optical remote sensing if very much used, through
+classification of imagery before and after events and successive
+comparison, or also by difference of specific band transformations. It
+is well known that the main drawback of optical imagery is weather and
+atmospheric condition in general. This is not a problem if the damaged
+area can be assessed without urgency, ie. waiting for a cloud-free
+imagery or at least partially cloud-free areas is not a problem. If a
+more timely assessment must be undertaken, then doing without the
+atmospheric problem can become a big advantage. This is were active
+remote sensing with micro-wave wavelength can bring a significant
+advantage.
+
+The effect of clouds over RADAR backscatter is negligible, but many
+other factors concur to backscatter values and variations thereof .
+
+Satellite open data allows a large audience of researchers to test
+methods for interpreting phenomena impacting the Earth surface. Optical
+and SAR data have complementary characteristics that can be integrated
+to provide more information to models and methods. The Sentinel 1 C-band
+SAR data {[}\protect\hyperlink{ref-Torres2012}{1}{]} and the Sentinel 2
+optical multispectral data {[}\protect\hyperlink{ref-Drusch2012}{2}{]}
+provide open data in the two realms of SAR and optical. The datasets are
+also available as products in Google Earth Engine (GEE), an integrated
+platform designed to empower not only traditional remote sensing
+scientists but also a wider audience
+{[}\protect\hyperlink{ref-Gorelick2017}{3}{]}. With the availability of
+both optical and SAR data free of cost and already preprocessed, the
+Copernicus datasets represent an optimal and rapid tool for the
+assessment of forest damages, such as windthrows (\textbf{???} - not yet
+published).
+
+Early applications of remote sensing in forestry to detect and assess
+damages dates to the 80's and was related to land-use/land-cover
+classification using Thematic Mapper (TM), Landsat Multispectral Scanner
+(MSS), the Advanced Very High Resolution Radiometer (AVHRR), and the
+French Systeme Probatoire d'Observation de la Terre (SPOT) are passive
+sensors applied to classification tasks
+{[}\protect\hyperlink{ref-Iverson1989}{4}{]}.
+
+Radar data started being used over forest environment to detect
+deforestation, showing that stronger backscatter signals arrive at the
+radar sensor from smooth, deforested areas
+{[}\protect\hyperlink{ref-Saatchi1997}{5},\protect\hyperlink{ref-Stone1988}{6}{]}.
+It must be noted that this requires the forest to be free from fallen
+trunks, which is not true in the case windthrow were stems are left on
+the ground.
+
+Investigation on how forest parameters can be estimated with radar also
+started in the 80's. A sensor with L-Band radar recording four
+polarizations (VV, VH, HH, HV) and derived indices from their median
+values can be used to estimate basal area, tree height, and total tree
+biomass respectively with a correlation coefficient (r) of 0.50 0.82 and
+0.77 {[}\protect\hyperlink{ref-Sader1987}{7}{]}.
+
+{[}\protect\hyperlink{ref-VaglioLaurin2016}{8}{]} arrived to assess
+biomass with radar and grey level Grey Level Co-occurrence Measure
+(GLCM) texture features of NDVI reaching r=0.81.
+
+With respect to windthrow, {[}\protect\hyperlink{ref-Ruetschi2019}{9}{]}
+{[}\protect\hyperlink{ref-Farr_Rosen2007}{10}{]}
+
+\hypertarget{material-and-methods}{%
+\section{Material and methods}\label{material-and-methods}}
+
+For both Sentinel 1 and PALSAR/PALSAR-2,
+
+\hypertarget{theorycalculation}{%
+\section{Theory/calculation}\label{theorycalculation}}
+
+\hypertarget{sentinel-1}{%
+\subsection{Sentinel 1}\label{sentinel-1}}
+
+Google Earth Engine (GEE) provides Sentinel 1 in preprocessed GRD
+products with \(\sigma^0\) (sigma-naught) of VV and VH polarizations,
+after processing for removing thermal noise, calibrating radiometry and
+converting \(\beta^0\) beta-naught to sigma-naught using a digital
+elevation model (DEM). The DEM at the latitudes of the analysed study
+areas used is from the Shuttle Radar Topography Mission (SRTM) that took
+place in february 2000 \textbf{???}. Sigma-naught is provided in dB by
+transformation the backscatter value \(Y=10*log_{10}(X)\) .
+{[}\protect\hyperlink{ref-Small2011}{11}{]}. The GEE product was further
+transformed to provide gamma-naught (\(\gamma^0\)) values, thus
+correcting for the local incidence angle with the SRTM product. This
+removed the bias between ascending and descenging orbits that was
+evident from plotting the data.
+
+Incidence angle was further corrected using a frequency-histogram based
+mehod as described in {[}\protect\hyperlink{ref-Mladenova2013}{12}{]}.
+This method is not site-specific or sensor-dependant. Is has also proven
+to be effective not only for small incidence angles, which is the case
+here as the area is over mountainous region.
+
+\hypertarget{palsar-2}{%
+\subsection{PALSAR-2}\label{palsar-2}}
+
+Polarization data are stored in GEE as 16-bit digital numbers (DN). As
+per indication in the GEE website, the DN values can be converted to
+gamma naught (\(\gamma^0\)) values in decibel unit (dB) using the
+following equation:
+
+\[
+\begin{aligned}
+ \gamma^0 = 10*log_{10}(DN) - 83.0  
+\end{aligned}
+\]
+
+where \(83.0 \  dB\) offset and \(\gamma^0\) is in dB.
+
+values, thus correcting for the local incidence angle with the SRTM
+product.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
+
+\hypertarget{acknowledgements}{%
+\section{Acknowledgements}\label{acknowledgements}}
+
+This effort is also part of the
+\href{https://www.tesaf.unipd.it/ricerca/progetti-dip-tesaf}{VAIA FRONT
+project - FRom lessong learned to future Options} .
+
+\hypertarget{bibliography-styles}{%
+\section{Bibliography styles}\label{bibliography-styles}}
+
+There are various bibliography styles available. You can select the
+style of your choice in the preamble of this document. These styles are
+Elsevier styles based on standard styles like Harvard and Vancouver.
+Please use BibTeX~to generate your bibliography and include DOIs
+whenever available.
+
+Here are two sample references: {[}{\textbf{???}}{]}.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-Torres2012}{}%
+{[}1{]} Torres R, Snoeij P, Geudtner D, Bibby D, Davidson M, Attema E,
+et al. GMES Sentinel-1 mission. Remote Sensing of Environment 2012.
+doi:\href{https://doi.org/10.1016/j.rse.2011.05.028}{10.1016/j.rse.2011.05.028}.
+
+\leavevmode\hypertarget{ref-Drusch2012}{}%
+{[}2{]} Drusch M, Del Bello U, Carlier S, Colin O, Fernandez V, Gascon
+F, et al. Sentinel-2: ESA's Optical High-Resolution Mission for GMES
+Operational Services. Remote Sensing of Environment 2012.
+doi:\href{https://doi.org/10.1016/j.rse.2011.11.026}{10.1016/j.rse.2011.11.026}.
+
+\leavevmode\hypertarget{ref-Gorelick2017}{}%
+{[}3{]} Gorelick N, Hancher M, Dixon M, Ilyushchenko S, Thau D, Moore R.
+Google Earth Engine: Planetary-scale geospatial analysis for everyone.
+Remote Sensing of Environment 2017.
+doi:\href{https://doi.org/10.1016/j.rse.2017.06.031}{10.1016/j.rse.2017.06.031}.
+
+\leavevmode\hypertarget{ref-Iverson1989}{}%
+{[}4{]} Iverson LR, Graham RL, Cook EA. Applications of satellite remote
+sensing to forested ecosystems. Landscape Ecology 1989.
+doi:\href{https://doi.org/10.1007/BF00131175}{10.1007/BF00131175}.
+
+\leavevmode\hypertarget{ref-Saatchi1997}{}%
+{[}5{]} Saatchi SS, Soares JV, Alves DS. Mapping deforestation and land
+use in Amazon rainforest by using SIR-C imagery. Remote Sensing of
+Environment 1997.
+doi:\href{https://doi.org/10.1016/S0034-4257(96)00153-8}{10.1016/S0034-4257(96)00153-8}.
+
+\leavevmode\hypertarget{ref-Stone1988}{}%
+{[}6{]} Stone TA, Woodwell GM. Shuttle imaging radar a analysis of land
+use in Amazonia. International Journal of Remote Sensing 1988.
+doi:\href{https://doi.org/10.1080/01431168808954839}{10.1080/01431168808954839}.
+
+\leavevmode\hypertarget{ref-Sader1987}{}%
+{[}7{]} Sader SA, Wu S-T. Multipolarization SAR Data for Surface Feature
+Delineation and Forest Vegetation Characterization. IEEE Transactions on
+Geoscience and Remote Sensing 1987.
+
+\leavevmode\hypertarget{ref-VaglioLaurin2016}{}%
+{[}8{]} Vaglio Laurin G, Pirotti F, Callegari M, Chen Q, Cuozzo G,
+Lingua E, et al. Potential of ALOS2 and NDVI to Estimate Forest
+Above-Ground Biomass, and Comparison with Lidar-Derived Estimates.
+Remote Sensing 2016;9:18.
+doi:\href{https://doi.org/10.3390/rs9010018}{10.3390/rs9010018}.
+
+\leavevmode\hypertarget{ref-Ruetschi2019}{}%
+{[}9{]} Rüetschi M, Small D, Waser L. Rapid Detection of Windthrows
+Using Sentinel-1 C-Band SAR Data. Remote Sensing 2019;11:115.
+doi:\href{https://doi.org/10.3390/rs11020115}{10.3390/rs11020115}.
+
+\leavevmode\hypertarget{ref-Farr_Rosen2007}{}%
+{[}10{]} Farr TG, Rosen PA, Caro E, Crippen R, Duren R, Hensley S, et
+al. The Shuttle Radar Topography Mission. Reviews of Geophysics 2007;45.
+doi:\href{https://doi.org/10.1029/2005RG000183}{10.1029/2005RG000183}.
+
+\leavevmode\hypertarget{ref-Small2011}{}%
+{[}11{]} Small D. Flattening gamma: Radiometric terrain correction for
+SAR imagery. IEEE Transactions on Geoscience and Remote Sensing 2011.
+doi:\href{https://doi.org/10.1109/TGRS.2011.2120616}{10.1109/TGRS.2011.2120616}.
+
+\leavevmode\hypertarget{ref-Mladenova2013}{}%
+{[}12{]} Mladenova IE, Jackson TJ, Bindlish R, Hensley S. Incidence
+Angle Normalization of Radar Backscatter Data. IEEE Transactions on
+Geoscience and Remote Sensing 2013;51:1791--804.
+doi:\href{https://doi.org/10.1109/TGRS.2012.2205264}{10.1109/TGRS.2012.2205264}.
+
+
+\end{document}
+
+

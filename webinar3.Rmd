@@ -1,0 +1,350 @@
+---
+title: "Webinar 3"
+author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
+date: "\\#Summer Webinar Series — August xx, 2020"
+output:
+  html_document:
+    code_folding: show
+    self_contained: false
+    highlight: tango
+    theme: cosmo
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  always_allow_html: true
+  pdf_document:
+    toc: yes 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
+
+```
+
+**Time-series of RADAR backscatter using GEE and R - part 2**
+
+# Code & Copyleft
+
+```{r, child=c('copyright.Rmd')}
+``` 
+ 
+
+```{r message=FALSE, echo=F }
+library(icon)
+ 
+```
+# Agenda
+
+- Part 2 from webinar related to how Google Earth Engine (GEE) can be used to extract time series per each polygon of areas damaged by VAIA 
+- Import extracted data in R CRAN
+- Plot time series data and applying a Z-score filter over past N values to detect changes
+
+# Before we begin
+
+- For this Webinar we use  R and RStudio IDE `r icon::fa_r_project(colour = "#384CB7") ` - if you want to follow along, make sure you have have installed R + RStudio in your PC   
+- Make sure you have downloaded the data [download here](data/webinar3/GEEdataFromWebinar2.zip).
+
+# Suggested reading
+
+- Some helpful pre-webinar reading
+  - Data from Google Earth Engine is in [GeoJSON format](https://en.wikipedia.org/wiki/GeoJSON){target=_blank}
+  - Date information is in ou data is in [Date-time UNIX standard](https://en.wikipedia.org/wiki/Unix_time){target=_blank}
+  - `For` loops [here](#readers)
+  - Plotting with ggplot2:
+    - [basics](https://rpubs.com/arvindpdmn/ggplot2-basics){target=_blank}
+    - [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf){target=_blank}
+  - 
+
+
+# Data
+Data from  [previous webinar](webinar2.html) and you can  [download here](data/webinar3/GEEdataFromWebinar2.zip).  
+The data is in GeoJSON format, so processing it takes a bit of extra steps as it is different from typical tabular data.
+JSON data is unstructured data and very popular in the "BigDATA" era. For further reading see [wikipedia](https://en.wikipedia.org/wiki/GeoJSON){target=_blank}
+
+
+# Ok let's start!
+
+## Add R libraries
+
+```{r message=FALSE }
+library(sf)
+library(mapview)
+library(raster)
+library(RJSONIO)
+library(ggplot2)
+library(leaflet)
+library(mapview)
+library(plotly)
+```
+
+## Read data   
+Data is zipped, but we can extract with R and then read the file.
+The first line extracts the file **webinar2vaia.geojson** from the archived dataset in **GEEdataFromWebinar2.zip**...
+The second line reads the GeoJSON data.
+
+```{r}
+mydata<-unzip("data/webinar3/GEEdataFromWebinar2.zip")
+mydata.adv<-unzip("data/webinar3/GEEdataFromWebinar2advanced.zip")
+data.gee <-    fromJSON( mydata )  
+data.gee.adv <-    fromJSON( mydata.adv )  
+
+```
+To see how data is structured, go to top left panel in RStudio, "Environment" and click the "data.gee" icon on the right like shown in picture below. You can see many layers of information, that you can access with the "$" or "[[]]" operators.  
+![st](doc/jsonstruct.JPG)  
+
+&nbsp;
+
+\newpage
+
+
+For example below we analyse the object "data.gee" and show "type", "id" of first feature(polygon) "features"[[1]]$"id".   
+Please note how we can use index ([[ N ]]) where N is the index. If we use **single square brakets** ([]) then we can show multiple indexes such as 1:3 (last line). The **":"** is a "range" of number, thus 1:3 means 1,2,3.
+```{r}
+ print(data.gee$type)
+
+ print(data.gee$features[[1]]$id )
+ 
+ print(data.gee$features[[1]]$properties$Date[1:3] )
+ 
+
+```
+
+The data has 40 polygons of areas heavily damaged by VAIA storm. The "address" (index) of the information (properties) of the first area is 
+```{r eval=F }
+data.gee$features[[1]]$properties
+```
+
+and the following plots the data.
+
+```{r}
+plot( data.gee$features[[1]]$properties$Date, 
+      data.gee$features[[1]]$properties$VV_p50 )
+```
+
+But the plot is strange... why is "Date" in numbers? We can ask R to provide the class that the data is in by typing `class` function. 
+
+```{r}
+class( data.gee$features[[1]]$properties$Date)
+```
+
+A Date timestamp is actually stored as a big integer, and R reads it as "numeric" and we must convert the class **numeric** to **date**.  
+R has many types of "Date-Time" classes, one is called "POSIXct". Get more info by typing `?POSIXct` in the console and read the documentation.
+
+We can proceed  by using the function "as.POSIXct". But before we are dividing by 1000, because our Date from GEE is in milliseconds that elapsed from a starting date.  and then provide an "origin" which is from when the "clock" started to record time. It is a common standard, also used by GEE, to count time since the first of January in 1970 [see here why](https://en.wikipedia.org/wiki/Unix_time){target=_blank}.
+
+
+```{r}
+ as.POSIXct.numeric( as.numeric( data.gee$features[[1]]$properties$Date[1:10] )/1000, 
+                     origin = "1970-01-01", tz = "GMT")
+```
+ 
+ Ok, so how do we convert all dates from all features? We must use a "loop" over all the features. There are several ways to do this:   
+<a id="readers"></a> 
+
+- "starters" reading about simple "for" loops [here](https://www.r-bloggers.com/how-to-write-the-first-for-loop-in-r/)  
+
+- further reading on for/while/repeat/apply loops [here](https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r)
+
+- reading on parallel loops (very important if you have very big datasets) [here](https://privefl.github.io/blog/a-guide-to-parallelism-in-r/)
+
+First we convert the properties (that we extracted from GEE remember?) from the first feature to a **data frame** which is R's way to define a table. The function "head" provides a view of the first rows of the table, to see how our data looks.
+
+```{r}
+  feature1<-as.data.frame( data.gee$features[[1]]$properties )
+  head(feature1)
+```
+
+
+## Plot data 
+
+Ok so let's convert the Date column and start some more advanced plotting using **ggplot2** library. This library allows advanced plotting. 
+
+```{r}
+
+  feature1$Date<- as.POSIXct.numeric( as.numeric( feature1$Date  )/1000,
+                                      origin = "1970-01-01", tz = "GMT")
+  
+  ggplot(feature1, aes(x=Date, y=VH_p50) ) + geom_point()
+
+```
+
+Even better, we want white background (better for papers), and we want a different color depending on the value of the _Orbit_ column. This column provides information on the Sentinel 1 image - same Orbit value means that it is the same 
+
+Why do we put "as.factor" to the Orbit column? Because otherwise it gets interpreted as a number and the ggplot will give a continous color scale... you can try to remove the function and see what happens. 
+
+```{r}
+  ggplot(feature1, aes(x=Date, y=VH_p50) ) + 
+    geom_point( aes(colour=as.factor(Orbit) ) ) + 
+    theme_bw()
+
+```
+
+We see from the image above that there is a clear difference between different "Orbit" values.
+Let's divide plots per Orbit so that we scale them accordingly, and add a line with the date of the VAIA storm.
+
+From results we can see a very weak signal that 
+
+
+```{r echo=F }
+
+myarea<-st_point(data.gee$features[[1]]$geometry$coordinates)
+m <-   mapview() + mapview(  myarea  ) 
+
+m@map = m@map %>%   addWMSTiles(group = 'Orthophoto',
+                              "https://www.cirgeo.unipd.it/cgi-bin/qgis_mapserv.fcgi?map=/archivio/shared/geodati/archivio.qgz&",
+                              layers  = "ortofoto_blocco05", 
+                              options = leaflet::WMSTileOptions(format = "image/png",version = "1.3", transparent = TRUE, crs="epsg:6707"),
+                              attribution = "CIRGEO-AVEPA") %>% mapview:::mapViewLayersControl(names = c( "Orthophoto"))  %>% leaflet::setView( myarea[[1]], myarea[[2]], 15 )
+m
+
+ 
+```
+
+Below we create a more complex plot with "facets". 
+
+```{r}
+ p <- ggplot(feature1, aes(x=Date, y=VH_p50) ) + 
+    geom_point( aes(colour=as.factor(Orbit) ) ) + 
+    facet_wrap(vars(Orbit), scales = "free_y" )  + 
+    geom_vline(aes(xintercept= as.POSIXct("2018-10-28") ) ) + 
+    theme_bw()
+
+ p
+ 
+ # fig <- ggplotly(p)
+ # 
+ # fig
+```
+
+But wait... we plotted the median VH values inside each area, we want to also plot the distribution using the other percentiles to create a box-whisker plot. In this case we add "stat = identity" and provide info on the various parts of the boxplot - see also that we put all facets in a single column to improve time visualization. 
+
+
+```{r}
+ggplot(feature1, aes(Date) ) +
+  geom_boxplot(
+   aes(group=Date, ymin = VH_p10, lower = VH_p25, middle = VH_p50, upper = VH_p75, ymax = VH_p90),
+   stat = "identity"
+ ) + 
+    facet_wrap(vars(Orbit), scales = "free_y", ncol = 1 )  + 
+    geom_vline(aes(xintercept= as.POSIXct("2018-10-28") ) ) + 
+    theme_bw()
+
+```
+
+We close our plotting experience with a library called "plotly" that allows interactive plots. Two new things going on here: 
+
+- The `%>%` operator
+- 
+
+
+```{r}
+
+
+
+p <- feature1 %>%
+        plot_ly(x = ~Date, type="candlestick",
+          open = ~VH_p50, close = ~VH_p50,
+          high = ~VH_p75, low = ~VH_p25) %>%
+        layout(title="IQ diagram of VH backscatter")
+
+p
+
+```
+
+And now with a reference to the VAIA storm.
+
+```{r}
+vaia.annotation <- list(text = "VAIA Storm",
+          x = '2018-10-31',
+          y = 0.92,
+          xref = 'x',
+          yref = 'paper',
+          xanchor = 'left',
+          showarrow = T
+)
+vaia.line <- list(type = line,
+          x0 = '2018-10-28',
+          x1 = '2018-10-30',
+          y0 = 0,
+          y1 = 1,
+          xref = 'x',
+          yref = 'paper',
+          line = list(color = 'black',  width = 2)
+)
+
+p <- p %>% layout(annotations = vaia.annotation,
+         shapes = vaia.line)
+
+p
+```
+
+
+## Analyze data 
+
+Now, we have 40 "features", ie. polygons, so we have to analyze all of them.
+
+```{r}
+feature1.2017 <- feature1[ as.character.Date( feature1$Date, "%Y" ) == "2017", ]
+
+plot( feature1.2017$Date, feature1.2017$VH_p50 )
+
+
+feature1.2017.lm <- lm( feature1.2017$VH_p50  ~ feature1.2017$Date )
+feature1.2017.lm2 <- lm( feature1.2017$VH_p50  ~ feature1.2017$shadow_p50 )
+
+summary(feature1.2017.lm)
+summary(feature1.2017.lm2)
+ 
+
+
+ggplot(feature1.2017, aes(x=Date , y=VH_p50) ) + geom_point() +
+     geom_line( aes(feature1.2017$Date, feature1.2017.lm$fitted.values, color="red" ) )
+
+summary(feature1.2017.lm) 
+
+ggplot(feature1.2017, aes(x=Date , y=VH_p50) ) + geom_point() +
+     geom_smooth(method = "lm")
+
+# plot_ly(feature1, x = ~Date, xstart= ~Date,  xend = ~Date, color = ~Orbit, 
+#         colors = c("red", "forestgreen"), hoverinfo = "none") %>%
+#   add_segments(y = ~VH_p50,  ymin = ~VH_p25, yend = ~VH_p25, size = I(1)) %>%
+#  # add_segments(y = ~Open, yend = ~Close, size = I(3)) %>%
+#   layout(showlegend = FALSE, yaxis = list(title = "VH")) %>%
+#   rangeslider()
+
+```
+
+
+We enclose all steps that we want to apply to a single feature inside a **function**.
+A function is an object that 'does things' taking input arguments - inside parenthesis - and returns a value (object).
+
+```{r}
+
+myCoolFunction<-function(var) {
+  print( sprintf("ciao %s", var) )
+}
+
+for(i in c("Maria", "Bobby", "Cesare") ){
+  myCoolFunction(i)
+}
+ 
+
+```
+
+
+
+```{r}
+
+myCoolFunction<-function(feature) {
+  feature.df<-as.data.frame( feature$properties )
+  print(nrow(feature.df))
+}
+
+for(i in data.gee$features ){
+  myCoolFunction(i)
+}
+
+
+
+```
+

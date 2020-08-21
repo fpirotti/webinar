@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Francesco Pirotti &lt;francesco.pirotti@unipd.it&gt;" />
+
+
+<title>Webinar 3</title>
+
+<script src="webinar3_files/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="webinar3_files/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="webinar3_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="webinar3_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="webinar3_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="webinar3_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="webinar3_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="webinar3_files/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="webinar3_files/navigation-1.1/tabsets.js"></script>
+<script src="webinar3_files/navigation-1.1/codefolding.js"></script>
+<link href="webinar3_files/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+<script src="webinar3_files/htmlwidgets-1.5/htmlwidgets.js"></script>
+<link href="webinar3_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="webinar3_files/leaflet-1.3.1/leaflet.js"></script>
+<link href="webinar3_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="webinar3_files/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="webinar3_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="webinar3_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="webinar3_files/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="webinar3_files/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="webinar3_files/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<script src="webinar3_files/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="webinar3_files/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="webinar3_files/HomeButton-0.0.1/home-button.js"></script>
+<script src="webinar3_files/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="webinar3_files/plotly-binding-4.9.2/plotly.js"></script>
+<script src="webinar3_files/typedarray-0.1/typedarray.min.js"></script>
+<link href="webinar3_files/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="webinar3_files/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="webinar3_files/plotly-htmlwidgets-css-1.52.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="webinar3_files/plotly-main-1.52.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Webinar 3</h1>
+<h4 class="author">Francesco Pirotti <a href="mailto:francesco.pirotti@unipd.it">&lt;francesco.pirotti@unipd.it&gt;</a></h4>
+<h4 class="date">#Summer Webinar Series — August xx, 2020</h4>
+
+</div>
+
+
+<p><strong>Time-series of RADAR backscatter using GEE and R - part 2</strong></p>
+<div id="code-copyleft" class="section level1">
+<h1>Code &amp; Copyleft</h1>
+<img src="doc/cc-by-sa.png" style="vertical-align:top;margin-right:10px;" align="left" width="100" /> Except where otherwise <a href="https://creativecommons.org/policies#license">noted</a> content on this site is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution ShareAlike 4.0 International license</a>
+<hr>
+<p><strong>Code and data available in <a href="https://github.com/fpirotti/webinar_series_R_GEE" target="_blank"><img src="doc/GitHub-Mark-32px.png" style="margin:3px;" />GITHUB here</a></strong></p>
+</div>
+<div id="agenda" class="section level1">
+<h1>Agenda</h1>
+<ul>
+<li>Part 2 from webinar related to how Google Earth Engine (GEE) can be used to extract time series per each polygon of areas damaged by VAIA</li>
+<li>Import extracted data in R CRAN</li>
+<li>Plot time series data and applying a Z-score filter over past N values to detect changes</li>
+</ul>
+</div>
+<div id="before-we-begin" class="section level1">
+<h1>Before we begin</h1>
+<ul>
+<li>For this Webinar we use R and RStudio IDE <i class="fab  fa-r-project " style="color:#384CB7;"></i> - if you want to follow along, make sure you have have installed R + RStudio in your PC<br />
+</li>
+<li>Make sure you have downloaded the data <a href="data/webinar3/GEEdataFromWebinar2.zip">download here</a>.</li>
+</ul>
+</div>
+<div id="suggested-reading" class="section level1">
+<h1>Suggested reading</h1>
+<ul>
+<li>Some helpful pre-webinar reading
+<ul>
+<li>Data from Google Earth Engine is in <a href="https://en.wikipedia.org/wiki/GeoJSON" target="_blank">GeoJSON format</a></li>
+<li>Date information is in ou data is in <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">Date-time UNIX standard</a></li>
+<li><code>For</code> loops <a href="#readers">here</a></li>
+<li>Plotting with ggplot2:
+<ul>
+<li><a href="https://rpubs.com/arvindpdmn/ggplot2-basics" target="_blank">basics</a></li>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" target="_blank">cheatsheet</a></li>
+</ul></li>
+<li></li>
+</ul></li>
+</ul>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Data from <a href="webinar2.html">previous webinar</a> and you can <a href="data/webinar3/GEEdataFromWebinar2.zip">download here</a>.<br />
+The data is in GeoJSON format, so processing it takes a bit of extra steps as it is different from typical tabular data. JSON data is unstructured data and very popular in the “BigDATA” era. For further reading see <a href="https://en.wikipedia.org/wiki/GeoJSON" target="_blank">wikipedia</a></p>
+</div>
+<div id="ok-lets-start" class="section level1">
+<h1>Ok let’s start!</h1>
+<div id="add-r-libraries" class="section level2">
+<h2>Add R libraries</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(mapview)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(RJSONIO)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(leaflet)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">library</span>(mapview)</a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="kw">library</span>(plotly)</a></code></pre></div>
+</div>
+<div id="read-data" class="section level2">
+<h2>Read data</h2>
+<p>Data is zipped, but we can extract with R and then read the file. The first line extracts the file <strong>webinar2vaia.geojson</strong> from the archived dataset in <strong>GEEdataFromWebinar2.zip</strong>… The second line reads the GeoJSON data.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">mydata&lt;-<span class="kw">unzip</span>(<span class="st">&quot;data/webinar3/GEEdataFromWebinar2.zip&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" title="2">mydata.adv&lt;-<span class="kw">unzip</span>(<span class="st">&quot;data/webinar3/GEEdataFromWebinar2advanced.zip&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3">data.gee &lt;-<span class="st">    </span><span class="kw">fromJSON</span>( mydata )  </a>
+<a class="sourceLine" id="cb2-4" title="4">data.gee.adv &lt;-<span class="st">    </span><span class="kw">fromJSON</span>( mydata.adv )  </a></code></pre></div>
+<p>To see how data is structured, go to top left panel in RStudio, “Environment” and click the “data.gee” icon on the right like shown in picture below. You can see many layers of information, that you can access with the “$” or “[[]]” operators.<br />
+<img src="doc/jsonstruct.JPG" alt="st" /></p>
+<p> </p>
+<div style="page-break-after: always;"></div>
+<p>For example below we analyse the object “data.gee” and show “type”, “id” of first feature(polygon) “features”[[1]]$“id”.<br />
+Please note how we can use index ([[ N ]]) where N is the index. If we use <strong>single square brakets</strong> ([]) then we can show multiple indexes such as 1:3 (last line). The <strong>“:”</strong> is a “range” of number, thus 1:3 means 1,2,3.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"> <span class="kw">print</span>(data.gee<span class="op">$</span>type)</a></code></pre></div>
+<pre><code>## [1] &quot;FeatureCollection&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"> <span class="kw">print</span>(data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>id )</a></code></pre></div>
+<pre><code>## [1] &quot;00000000000000000072&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"> <span class="kw">print</span>(data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties<span class="op">$</span>Date[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>] )</a></code></pre></div>
+<pre><code>## [1] 1.437370e+12 1.437671e+12 1.438103e+12</code></pre>
+<p>The data has 40 polygons of areas heavily damaged by VAIA storm. The “address” (index) of the information (properties) of the first area is</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties</a></code></pre></div>
+<p>and the following plots the data.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">plot</span>( data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties<span class="op">$</span>Date, </a>
+<a class="sourceLine" id="cb10-2" title="2">      data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties<span class="op">$</span>VV_p50 )</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>But the plot is strange… why is “Date” in numbers? We can ask R to provide the class that the data is in by typing <code>class</code> function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">class</span>( data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties<span class="op">$</span>Date)</a></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>A Date timestamp is actually stored as a big integer, and R reads it as “numeric” and we must convert the class <strong>numeric</strong> to <strong>date</strong>.<br />
+R has many types of “Date-Time” classes, one is called “POSIXct”. Get more info by typing <code>?POSIXct</code> in the console and read the documentation.</p>
+<p>We can proceed by using the function “as.POSIXct”. But before we are dividing by 1000, because our Date from GEE is in milliseconds that elapsed from a starting date. and then provide an “origin” which is from when the “clock” started to record time. It is a common standard, also used by GEE, to count time since the first of January in 1970 <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">see here why</a>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"> <span class="kw">as.POSIXct.numeric</span>( <span class="kw">as.numeric</span>( data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties<span class="op">$</span>Date[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>] )<span class="op">/</span><span class="dv">1000</span>, </a>
+<a class="sourceLine" id="cb13-2" title="2">                     <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;GMT&quot;</span>)</a></code></pre></div>
+<pre><code>##  [1] &quot;2015-07-20 05:26:37 GMT&quot; &quot;2015-07-23 16:58:34 GMT&quot;
+##  [3] &quot;2015-07-28 17:06:46 GMT&quot; &quot;2015-08-01 05:26:43 GMT&quot;
+##  [5] &quot;2015-08-04 16:58:24 GMT&quot; &quot;2015-08-08 05:18:23 GMT&quot;
+##  [7] &quot;2015-08-09 17:06:27 GMT&quot; &quot;2015-08-13 05:26:44 GMT&quot;
+##  [9] &quot;2015-08-16 16:58:25 GMT&quot; &quot;2015-08-20 05:18:23 GMT&quot;</code></pre>
+<p>Ok, so how do we convert all dates from all features? We must use a “loop” over all the features. There are several ways to do this:<br />
+<a id="readers"></a></p>
+<ul>
+<li><p>“starters” reading about simple “for” loops <a href="https://www.r-bloggers.com/how-to-write-the-first-for-loop-in-r/">here</a></p></li>
+<li><p>further reading on for/while/repeat/apply loops <a href="https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r">here</a></p></li>
+<li><p>reading on parallel loops (very important if you have very big datasets) <a href="https://privefl.github.io/blog/a-guide-to-parallelism-in-r/">here</a></p></li>
+</ul>
+<p>First we convert the properties (that we extracted from GEE remember?) from the first feature to a <strong>data frame</strong> which is R’s way to define a table. The function “head” provides a view of the first rows of the table, to see how our data looks.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">  feature1&lt;-<span class="kw">as.data.frame</span>( data.gee<span class="op">$</span>features[[<span class="dv">1</span>]]<span class="op">$</span>properties )</a>
+<a class="sourceLine" id="cb15-2" title="2">  <span class="kw">head</span>(feature1)</a></code></pre></div>
+<pre><code>##           Date Orbit  OrbitPass Platform VH_count    VH_p10    VH_p25    VH_p50
+## 1 1.437370e+12   168 DESCENDING        A      346 -19.88678 -14.91552 -12.08316
+## 2 1.437671e+12    44  ASCENDING        A      342 -14.94571 -13.67300 -11.80462
+## 3 1.438103e+12   117  ASCENDING        A      337 -15.42866 -13.94143 -12.21600
+## 4 1.438407e+12   168 DESCENDING        A      345 -18.16550 -14.94717 -12.54223
+## 5 1.438708e+12    44  ASCENDING        A      348 -14.90782 -13.15371 -11.59059
+## 6 1.439011e+12    95 DESCENDING        A      341 -14.10823 -12.71105 -11.05058
+##       VH_p75    VH_p90 VV_count     VV_p10    VV_p25    VV_p50    VV_p75
+## 1 -10.058983 -8.268616      346 -11.783320 -6.950433 -4.297575 -1.693068
+## 2 -10.306942 -8.794244      342  -9.369257 -7.447982 -5.796786 -4.196441
+## 3 -10.457614 -8.455414      337  -8.427476 -6.952696 -4.817103 -2.462672
+## 4 -10.161611 -8.692222      345 -11.180967 -7.663552 -4.704455 -2.805866
+## 5 -10.398530 -8.841611      348  -8.458085 -6.813063 -5.191033 -3.686764
+## 6  -9.410976 -7.977846      341  -8.068577 -6.444503 -4.302057 -2.208312
+##       VV_p90   id layover_count layover_p10 layover_p25 layover_p50 layover_p75
+## 1 -0.1952980 1237           346           0           1           1           1
+## 2 -2.8290188 1237           342           1           1           1           1
+## 3 -0.9399215 1237           337           1           1           1           1
+## 4 -1.5724907 1237           345           0           1           1           1
+## 5 -2.1751318 1237           348           1           1           1           1
+## 6 -0.7156182 1237           341           1           1           1           1
+##   layover_p90 perc_disb shadow_count shadow_p10 shadow_p25 shadow_p50
+## 1           1        80          346          1          1          1
+## 2           1        80          342          1          1          1
+## 3           1        80          337          1          1          1
+## 4           1        80          345          1          1          1
+## 5           1        80          348          1          1          1
+## 6           1        80          341          1          1          1
+##   shadow_p75 shadow_p90
+## 1          1          1
+## 2          1          1
+## 3          1          1
+## 4          1          1
+## 5          1          1
+## 6          1          1</code></pre>
+</div>
+<div id="plot-data" class="section level2">
+<h2>Plot data</h2>
+<p>Ok so let’s convert the Date column and start some more advanced plotting using <strong>ggplot2</strong> library. This library allows advanced plotting.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">  feature1<span class="op">$</span>Date&lt;-<span class="st"> </span><span class="kw">as.POSIXct.numeric</span>( <span class="kw">as.numeric</span>( feature1<span class="op">$</span>Date  )<span class="op">/</span><span class="dv">1000</span>,</a>
+<a class="sourceLine" id="cb17-2" title="2">                                      <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, <span class="dt">tz =</span> <span class="st">&quot;GMT&quot;</span>)</a>
+<a class="sourceLine" id="cb17-3" title="3">  </a>
+<a class="sourceLine" id="cb17-4" title="4">  <span class="kw">ggplot</span>(feature1, <span class="kw">aes</span>(<span class="dt">x=</span>Date, <span class="dt">y=</span>VH_p50) ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Even better, we want white background (better for papers), and we want a different color depending on the value of the <em>Orbit</em> column. This column provides information on the Sentinel 1 image - same Orbit value means that it is the same</p>
+<p>Why do we put “as.factor” to the Orbit column? Because otherwise it gets interpreted as a number and the ggplot will give a continous color scale… you can try to remove the function and see what happens.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">  <span class="kw">ggplot</span>(feature1, <span class="kw">aes</span>(<span class="dt">x=</span>Date, <span class="dt">y=</span>VH_p50) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">colour=</span><span class="kw">as.factor</span>(Orbit) ) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-3" title="3"><span class="st">    </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>We see from the image above that there is a clear difference between different “Orbit” values. Let’s divide plots per Orbit so that we scale them accordingly, and add a line with the date of the VAIA storm.</p>
+<p>From results we can see a very weak signal that</p>
+<div id="htmlwidget-932c8c00a71baff8e462" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-932c8c00a71baff8e462">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",1,"CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter",2,"CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenStreetMap",3,"OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",4,"Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["OpenTopoMap",5,"OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"createMapPane","args":["point",440]},{"method":"addCircleMarkers","args":[46.451801176641,12.0059999370536,6,null,"myarea",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"pane":"point","stroke":true,"color":"#333333","weight":2,"opacity":0.9,"fill":true,"fillColor":"#6666ff","fillOpacity":0.6},null,null,null,{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},"1",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addHomeButton","args":[12.0059999370536,46.451801176641,12.0059999370536,46.451801176641,"myarea","Zoom to myarea","<strong> myarea <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"myarea",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addHomeButton","args":[12.0059999370536,46.451801176641,12.0059999370536,46.451801176641,null,"Zoom to full extent","<strong>Zoom full<\/strong>","bottomleft"]},{"method":"addWMSTiles","args":["https://www.cirgeo.unipd.it/cgi-bin/qgis_mapserv.fcgi?map=/archivio/shared/geodati/archivio.qgz&",null,"Orthophoto",{"styles":"","format":"image/png","transparent":true,"version":"1.3","crs":"epsg:6707","attribution":"CIRGEO-AVEPA","layers":"ortofoto_blocco05"}]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],["myarea","Orthophoto"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]}],"setView":[[46.451801176641,12.0059999370536],15,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<p>Below we create a more complex plot with “facets”.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"> p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(feature1, <span class="kw">aes</span>(<span class="dt">x=</span>Date, <span class="dt">y=</span>VH_p50) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="st">    </span><span class="kw">geom_point</span>( <span class="kw">aes</span>(<span class="dt">colour=</span><span class="kw">as.factor</span>(Orbit) ) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-3" title="3"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(Orbit), <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span> )  <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-4" title="4"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span> <span class="kw">as.POSIXct</span>(<span class="st">&quot;2018-10-28&quot;</span>) ) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="st">    </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb19-6" title="6"></a>
+<a class="sourceLine" id="cb19-7" title="7"> p</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"> <span class="co"># fig &lt;- ggplotly(p)</span></a>
+<a class="sourceLine" id="cb20-2" title="2"> <span class="co"># </span></a>
+<a class="sourceLine" id="cb20-3" title="3"> <span class="co"># fig</span></a></code></pre></div>
+<p>But wait… we plotted the median VH values inside each area, we want to also plot the distribution using the other percentiles to create a box-whisker plot. In this case we add “stat = identity” and provide info on the various parts of the boxplot - see also that we put all facets in a single column to improve time visualization.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">ggplot</span>(feature1, <span class="kw">aes</span>(Date) ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb21-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(</a>
+<a class="sourceLine" id="cb21-3" title="3">   <span class="kw">aes</span>(<span class="dt">group=</span>Date, <span class="dt">ymin =</span> VH_p10, <span class="dt">lower =</span> VH_p25, <span class="dt">middle =</span> VH_p50, <span class="dt">upper =</span> VH_p75, <span class="dt">ymax =</span> VH_p90),</a>
+<a class="sourceLine" id="cb21-4" title="4">   <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span></a>
+<a class="sourceLine" id="cb21-5" title="5"> ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="kw">vars</span>(Orbit), <span class="dt">scales =</span> <span class="st">&quot;free_y&quot;</span>, <span class="dt">ncol =</span> <span class="dv">1</span> )  <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-7" title="7"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span> <span class="kw">as.POSIXct</span>(<span class="st">&quot;2018-10-28&quot;</span>) ) ) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-8" title="8"><span class="st">    </span><span class="kw">theme_bw</span>()</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>We close our plotting experience with a library called “plotly” that allows interactive plots. Two new things going on here:</p>
+<ul>
+<li>The <code>%&gt;%</code> operator</li>
+<li></li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">p &lt;-<span class="st"> </span>feature1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="st">        </span><span class="kw">plot_ly</span>(<span class="dt">x =</span> <span class="op">~</span>Date, <span class="dt">type=</span><span class="st">&quot;candlestick&quot;</span>,</a>
+<a class="sourceLine" id="cb22-3" title="3">          <span class="dt">open =</span> <span class="op">~</span>VH_p50, <span class="dt">close =</span> <span class="op">~</span>VH_p50,</a>
+<a class="sourceLine" id="cb22-4" title="4">          <span class="dt">high =</span> <span class="op">~</span>VH_p75, <span class="dt">low =</span> <span class="op">~</span>VH_p25) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb22-5" title="5"><span class="st">        </span><span class="kw">layout</span>(<span class="dt">title=</span><span class="st">&quot;IQ diagram of VH backscatter&quot;</span>)</a>
+<a class="sourceLine" id="cb22-6" title="6"></a>
+<a class="sourceLine" id="cb22-7" title="7">p</a></code></pre></div>
+<div id="htmlwidget-814e7bcb30955828a386" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-814e7bcb30955828a386">{"x":{"visdat":{"3a0b4664b580fc":["function () ","plotlyVisDat"]},"cur_data":"3a0b4664b580fc","attrs":{"3a0b4664b580fc":{"x":{},"open":{},"close":{},"high":{},"low":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"candlestick"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"IQ diagram of VH backscatter","xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["2015-07-20 05:26:37","2015-07-23 16:58:34","2015-07-28 17:06:46","2015-08-01 05:26:43","2015-08-04 16:58:24","2015-08-08 05:18:23","2015-08-09 17:06:27","2015-08-13 05:26:44","2015-08-16 16:58:25","2015-08-20 05:18:23","2015-08-21 17:06:27","2015-08-25 05:26:45","2015-08-28 16:58:25","2015-09-01 05:18:24","2015-09-02 17:06:28","2015-09-06 05:26:45","2015-09-09 16:58:25","2015-09-13 05:18:24","2015-09-14 17:06:28","2015-09-18 05:26:45","2015-09-21 16:58:25","2015-09-26 17:06:28","2015-09-30 05:26:46","2015-10-03 16:58:26","2015-10-08 17:06:29","2015-10-12 05:26:46","2015-10-20 17:06:29","2015-10-24 05:26:40","2015-10-27 16:58:26","2015-10-31 05:18:25","2015-11-01 17:06:29","2015-11-05 05:26:40","2016-05-30 16:58:27","2016-06-03 05:18:28","2016-06-04 17:06:38","2016-06-08 05:26:38","2016-06-11 16:58:27","2016-06-15 05:18:29","2016-06-28 17:06:40","2016-07-05 16:58:29","2016-07-09 05:18:30","2016-07-14 05:26:39","2016-07-17 16:58:29","2016-07-21 05:18:31","2016-07-22 17:06:41","2016-07-26 05:26:40","2016-08-02 05:18:32","2016-08-07 05:26:50","2016-08-10 16:58:30","2016-08-14 05:18:32","2016-08-15 17:06:42","2016-08-19 05:26:42","2016-08-22 16:58:31","2016-08-26 05:18:33","2016-08-27 17:06:33","2016-08-31 05:26:42","2016-09-03 16:58:32","2016-09-07 05:18:33","2016-09-08 17:06:43","2016-09-12 05:26:42","2016-09-15 16:58:41","2016-09-19 05:18:34","2016-09-20 17:06:44","2016-09-24 05:26:43","2016-09-27 16:58:32","2016-10-01 05:18:34","2016-10-02 17:06:44","2016-10-06 05:26:43","2016-10-09 16:58:32","2016-10-13 05:18:34","2016-10-14 17:06:44","2016-10-18 05:26:43","2016-10-21 16:58:32","2016-10-25 05:18:34","2016-10-26 17:06:44","2016-10-30 05:26:43","2016-11-02 16:58:32","2016-11-06 05:18:34","2016-11-07 17:06:44","2017-05-30 17:06:44","2017-06-03 05:26:54","2017-06-06 16:58:27","2017-06-10 05:18:46","2017-06-11 17:06:45","2017-06-15 05:26:55","2017-06-18 16:58:28","2017-06-22 05:18:46","2017-06-23 17:06:45","2017-06-27 05:26:55","2017-06-30 16:58:28","2017-07-04 05:18:47","2017-07-05 17:06:46","2017-07-09 05:26:56","2017-07-12 16:58:29","2017-07-16 05:18:48","2017-07-17 17:06:46","2017-07-21 05:26:57","2017-07-24 16:58:30","2017-07-28 05:18:48","2017-07-29 17:06:47","2017-08-02 05:26:58","2017-08-05 16:58:30","2017-08-09 05:18:49","2017-08-10 17:06:48","2017-08-14 05:26:58","2017-08-17 16:58:31","2017-08-21 05:18:50","2017-08-22 17:06:48","2017-08-26 05:26:59","2017-08-29 16:58:32","2017-09-02 05:18:50","2017-09-03 17:06:49","2017-09-07 05:26:59","2017-09-10 16:58:32","2017-09-14 05:18:50","2017-09-15 17:06:49","2017-09-19 05:27:00","2017-09-22 16:58:32","2017-09-26 05:18:51","2017-09-27 17:06:50","2017-10-01 05:27:00","2017-10-04 16:58:33","2017-10-08 05:18:51","2017-10-09 17:06:50","2017-10-13 05:27:00","2017-10-16 16:58:33","2017-10-20 05:18:51","2017-10-21 17:06:50","2017-10-25 05:27:00","2017-10-28 16:58:33","2017-11-01 05:18:51","2017-11-02 17:06:50","2017-11-06 05:27:00","2017-11-09 16:58:33","2018-06-01 16:58:33","2018-06-05 05:18:51","2018-06-06 17:06:50","2018-06-10 05:27:01","2018-06-13 16:58:34","2018-06-17 05:18:52","2018-06-18 17:06:51","2018-06-22 05:27:02","2018-06-25 16:58:35","2018-06-29 05:18:53","2018-06-30 17:06:52","2018-07-04 05:27:02","2018-07-11 05:18:54","2018-07-12 17:06:53","2018-07-16 05:27:03","2018-07-19 16:58:36","2018-07-23 05:18:54","2018-07-24 17:06:53","2018-07-28 05:27:04","2018-07-31 16:58:37","2018-08-04 05:18:55","2018-08-05 17:06:54","2018-08-09 05:27:04","2018-08-12 16:58:37","2018-08-16 05:18:56","2018-08-17 17:06:55","2018-08-21 05:27:05","2018-08-24 16:58:38","2018-08-28 05:18:57","2018-08-29 17:06:56","2018-09-02 05:27:06","2018-09-05 16:58:39","2018-09-09 05:18:57","2018-09-10 17:06:56","2018-09-14 05:27:06","2018-09-17 16:58:39","2018-09-21 05:18:57","2018-09-22 17:06:56","2018-09-26 05:27:06","2018-09-29 16:58:39","2018-10-03 05:18:57","2018-10-04 17:06:56","2018-10-08 05:27:07","2018-10-11 16:58:39","2018-10-15 05:18:58","2018-10-16 17:06:57","2018-10-20 05:27:07","2018-10-23 16:58:40","2018-10-27 05:18:58","2018-10-28 17:06:57","2018-11-01 05:27:07","2018-11-04 16:58:39","2018-11-08 05:18:58","2018-11-09 17:06:56","2019-05-31 05:18:57","2019-06-01 17:06:56","2019-06-05 05:27:06","2019-06-08 16:58:39","2019-06-12 05:18:58","2019-06-13 17:06:57","2019-06-17 05:27:07","2019-06-20 16:58:40","2019-06-24 05:18:59","2019-06-25 17:06:58","2019-06-29 05:27:08","2019-07-02 16:58:41","2019-07-06 05:18:59","2019-07-07 17:06:58","2019-07-11 05:27:08","2019-07-14 16:58:42","2019-07-18 05:19:00","2019-07-19 17:06:59","2019-07-23 05:27:09","2019-07-26 16:58:42","2019-07-30 05:19:01","2019-07-31 17:07:00","2019-08-04 05:27:10","2019-08-07 16:58:43","2019-08-11 05:19:02","2019-08-12 17:07:01","2019-08-16 05:27:11","2019-08-19 16:58:44","2019-08-23 05:19:02","2019-08-24 17:07:01","2019-08-28 05:27:11","2019-08-31 16:58:44","2019-09-04 05:19:03","2019-09-05 17:07:02","2019-09-09 05:27:12","2019-09-12 16:58:45","2019-09-16 05:19:03","2019-09-17 17:07:02","2019-09-21 05:27:13","2019-09-24 16:58:46","2019-09-28 05:19:04","2019-09-29 17:07:03","2019-10-03 05:27:13","2019-10-06 16:58:46","2019-10-10 05:19:04","2019-10-11 17:07:03","2019-10-15 05:27:13","2019-10-18 16:58:46","2019-10-22 05:19:04","2019-10-23 17:07:03","2019-10-27 05:27:13","2019-10-30 16:58:46","2019-11-03 05:19:04","2019-11-04 17:07:03","2019-11-08 05:27:13","2020-05-30 05:27:13","2020-06-02 16:58:46","2020-06-06 05:19:04","2020-06-07 17:07:03","2020-06-11 05:27:14","2020-06-14 16:58:47","2020-06-18 05:19:05","2020-06-19 17:07:04","2020-06-23 05:27:14","2020-06-26 16:58:47","2020-06-30 05:19:06","2020-07-01 17:07:04","2020-07-05 05:27:15","2020-07-08 16:58:48","2020-07-12 05:19:06","2020-07-13 17:07:05","2020-07-17 05:27:16","2020-07-20 16:58:49","2020-07-24 05:19:07","2020-07-25 17:07:06","2020-07-29 05:27:17","2020-08-01 16:58:49","2016-10-15 16:58:03","2016-10-17 05:33:29","2016-10-20 17:06:12","2016-10-24 05:25:18","2016-11-08 16:58:03","2016-11-10 05:33:29","2016-09-26 17:06:02","2016-09-30 05:26:04","2016-10-07 05:17:44","2016-10-19 05:17:44","2016-10-31 05:17:44","2017-05-31 16:57:43","2017-06-04 05:17:44","2017-06-05 17:06:01","2017-06-09 05:25:56","2017-06-12 16:57:44","2017-06-16 05:17:44","2017-06-17 17:06:02","2017-06-21 05:25:56","2017-06-24 16:57:44","2017-06-28 05:17:45","2017-06-29 17:06:02","2017-07-03 05:25:57","2017-07-06 16:57:45","2017-07-10 05:17:46","2017-07-11 17:06:03","2017-07-15 05:25:58","2017-07-18 16:57:46","2017-07-22 05:17:47","2017-07-23 17:06:04","2017-07-27 05:25:58","2017-07-30 16:57:46","2017-08-03 05:17:47","2017-08-04 17:06:05","2017-08-08 05:25:59","2017-08-11 16:57:47","2017-08-15 05:17:48","2017-08-16 17:06:05","2017-08-20 05:26:00","2017-08-23 16:57:48","2017-08-27 05:17:48","2017-08-28 17:06:06","2017-09-01 05:26:00","2017-09-04 16:57:48","2017-09-08 05:17:49","2017-09-09 17:06:06","2017-09-13 05:26:01","2017-09-16 16:57:49","2017-09-20 05:17:49","2017-09-21 17:06:07","2017-09-25 05:26:01","2017-09-28 16:57:49","2017-10-02 05:17:50","2017-10-03 17:06:07","2017-10-07 05:26:01","2017-10-10 16:57:49","2017-10-14 05:17:50","2017-10-15 17:06:07","2017-10-19 05:26:01","2017-10-22 16:57:49","2017-10-26 05:17:50","2017-10-27 17:06:07","2017-10-31 05:26:02","2017-11-03 16:57:49","2017-11-07 05:17:50","2017-11-08 17:06:07","2018-05-30 05:17:50","2018-05-31 17:06:07","2018-06-04 05:26:02","2018-06-07 16:57:50","2018-06-11 05:17:51","2018-06-12 17:06:08","2018-06-16 05:26:03","2018-06-19 16:57:51","2018-06-23 05:17:51","2018-06-24 17:06:09","2018-06-28 05:26:03","2018-07-01 16:57:51","2018-07-05 05:18:03","2018-07-06 17:06:09","2018-07-10 05:26:20","2018-07-13 16:57:52","2018-07-17 05:18:12","2018-07-18 17:06:10","2018-07-22 05:26:21","2018-07-29 05:18:13","2018-07-30 17:06:11","2018-08-03 05:26:22","2018-08-06 16:57:53","2018-08-10 05:18:13","2018-08-11 17:06:11","2018-08-15 05:26:22","2018-08-18 16:57:54","2018-08-22 05:18:14","2018-08-23 17:06:12","2018-08-27 05:26:23","2018-08-30 16:57:55","2018-09-03 05:18:14","2018-09-04 17:06:13","2018-09-08 05:26:24","2018-09-11 16:57:55","2018-09-15 05:18:15","2018-09-16 17:06:13","2018-09-20 05:26:24","2018-09-23 16:57:55","2018-09-27 05:17:56","2018-09-28 17:06:13","2018-10-02 05:26:24","2018-10-05 16:57:56","2018-10-09 05:18:15","2018-10-10 17:06:14","2018-10-14 05:26:25","2018-10-17 16:57:56","2018-10-21 05:18:16","2018-10-22 17:06:14","2018-10-26 05:26:25","2018-10-29 16:57:56","2018-11-02 05:18:16","2018-11-03 17:06:14","2018-11-07 05:26:02","2018-11-10 16:57:56","2019-05-30 05:26:02","2019-06-02 16:57:56","2019-06-06 05:18:16","2019-06-07 17:06:14","2019-06-11 05:26:26","2019-06-14 16:57:56","2019-06-18 05:18:16","2019-06-19 17:06:15","2019-06-23 05:26:03","2019-06-26 16:57:57","2019-06-30 05:18:17","2019-07-01 17:06:15","2019-07-05 05:26:04","2019-07-08 16:57:58","2019-07-12 05:18:18","2019-07-13 17:06:16","2019-07-17 05:26:05","2019-07-20 16:57:59","2019-07-24 05:18:18","2019-07-25 17:06:17","2019-07-29 05:26:05","2019-08-01 16:57:59","2019-08-05 05:18:19","2019-08-06 17:06:18","2019-08-10 05:26:06","2019-08-13 16:58:00","2019-08-17 05:18:20","2019-08-18 17:06:18","2019-08-22 05:26:07","2019-08-25 16:58:01","2019-08-29 05:18:20","2019-08-30 17:06:19","2019-09-03 05:26:07","2019-09-06 16:58:01","2019-09-10 05:18:21","2019-09-11 17:06:19","2019-09-15 05:26:08","2019-09-18 16:58:02","2019-09-22 05:18:22","2019-09-27 05:26:09","2019-09-30 16:58:02","2019-10-04 05:18:22","2019-10-05 17:06:20","2019-10-09 05:26:09","2019-10-12 16:58:02","2019-10-16 05:18:22","2019-10-17 17:06:20","2019-10-21 05:26:09","2019-10-24 16:58:02","2019-10-28 05:18:22","2019-10-29 17:06:20","2019-11-02 05:26:09","2019-11-05 16:58:02","2019-11-09 05:18:14","2019-11-10 17:06:20","2020-05-31 05:18:22","2020-06-01 17:06:20","2020-06-05 05:26:09","2020-06-08 16:58:03","2020-06-12 05:18:23","2020-06-13 17:06:21","2020-06-17 05:26:09","2020-06-20 16:58:03","2020-06-24 05:18:23","2020-06-25 17:06:21","2020-06-29 05:26:10","2020-07-02 16:58:04","2020-07-06 05:18:24","2020-07-07 17:06:22","2020-07-11 05:26:11","2020-07-14 16:58:05","2020-07-18 05:18:24","2020-07-19 17:06:23","2020-07-23 05:26:11","2020-07-26 16:58:05","2020-07-30 05:18:25","2020-07-31 17:06:24","2020-08-04 05:26:12"],"open":[-12.0831584005245,-11.8046247267045,-12.2159977706657,-12.5422311583213,-11.5905923935921,-11.0505763513231,-11.3386226434721,-10.8573813791068,-11.1113169951685,-12.0879535373356,-12.2117320131526,-11.3257904611268,-12.3165528271702,-12.5299237550023,-12.1993020055272,-12.0344123966623,-9.70948554036916,-12.6529304372232,-12.6799980408413,-12.0518028617314,-12.0465839066672,-12.6822105522421,-13.4311924444897,-12.5564081351907,-12.5623109477552,-12.0656166323124,-13.1990623777577,-11.0710591620989,-12.5705980882902,-13.103018641903,-12.678699930283,-12.6984975863756,-11.9354407384565,-13.0762195574291,-11.9365053129237,-13.4204011510577,-12.5453008418849,-11.6961211422144,-11.4570747491735,-11.9376256846687,-11.1680115452482,-9.84326370714046,-12.3310943651319,-12.0316317479973,-10.290114569817,-10.9418491993615,-11.6891669780216,-10.7006175791098,-12.1789464202479,-12.0674208227786,-11.5595416299882,-12.1947303048062,-12.2000595162299,-11.96138243588,-12.0386060165945,-11.9708646469291,-11.9309273455011,-12.2789810685454,-12.0607687703356,-12.7073925142116,-12.8092850227648,-12.6850166128415,-11.9360308337702,-12.5412632862505,-12.9021883665227,-13.0787541798562,-12.3061733263263,-14.5616818783901,-13.4371570398573,-15.4401640210809,-11.4281498021747,-12.7844169270092,-13.9290299705285,-12.3166981635127,-12.1984385681943,-12.8035127723278,-13.8213729801002,-11.5679289034842,-15.1636985110109,-12.0797394000052,-12.4432501377567,-12.306305691557,-12.1501253013311,-11.1873716006614,-10.9625114269159,-12.800980418512,-11.6342377722312,-11.0559267122992,-10.8133490191639,-11.9829958974162,-12.3911512543645,-11.0778621450189,-11.8250329418922,-11.9008967764713,-11.5625666426251,-11.4387052923042,-11.0618632196405,-12.4196263788203,-12.8550333342918,-11.8224309962969,-11.1986946064239,-12.1827859270402,-13.1624981206665,-11.9540715454848,-11.9406148746361,-12.3428837238823,-12.5739295296742,-12.2993505045493,-13.0937045994472,-12.6886657375918,-12.2958457253178,-12.8088864963856,-10.8136229836164,-12.5583281315922,-12.9689453726007,-12.6928612583232,-11.9615999273571,-13.2053477162233,-13.1265571939937,-12.0596754599077,-13.3219554452293,-13.4660257089012,-12.9089306863239,-13.0348955482829,-13.1987186186603,-13.6978835891555,-13.4196680098381,-12.8170851105663,-15.3331930139012,-13.6921654633759,-12.9206614858319,-13.0576273324071,-15.0603606878948,-13.9512072937558,-12.9449094603281,-11.9132623069271,-11.5546998765081,-11.5458784230571,-12.9266863131364,-12.2039632423674,-11.6908535342649,-10.1868729671504,-13.0814738144059,-11.9381906243655,-10.7993499323129,-11.2184816639961,-11.0690503654287,-11.798106329671,-11.0730629837417,-11.9364185031265,-12.1352931548294,-11.0635108015919,-11.058858151535,-12.1933245053256,-12.1173736776398,-11.3370763562359,-12.1891597190567,-12.7042692230095,-12.4589595915786,-12.0578038301588,-12.5598925236212,-12.4203458964957,-12.2053623130714,-12.1962146085429,-11.0771736834271,-13.080090254056,-12.6161233343376,-12.1800083308112,-11.7162836785735,-13.5962902618525,-13.0674355565712,-12.3303552381421,-13.4404125149462,-13.6891727709735,-12.8556541230977,-12.3229064818943,-13.690323004759,-13.9411491899369,-13.7055296572463,-13.1691366496001,-14.8398643727124,-13.3076981468213,-13.5774672153419,-11.9267776074259,-12.4419341417441,-12.8225471505498,-11.9073109499978,-12.6613771785743,-13.1001425910325,-13.8830547145931,-13.0567691367383,-13.3292290431923,-10.935454896395,-13.1733103278453,-14.3098208920926,-13.0943590636665,-12.2836799282488,-13.1261536872675,-15.43373565228,-12.2920689835542,-12.6668874220745,-13.1694922840077,-13.7784250750457,-14.200813613868,-11.8959825670102,-12.8847239844528,-13.3262665550197,-11.9348981129049,-12.605209109753,-12.295865283258,-13.5784313689572,-14.1756286103623,-13.9099631833933,-12.1666497161208,-11.5524358985821,-13.92357307082,-12.8786063665283,-13.1027168515805,-14.3054854559624,-13.9285799707738,-13.8860927167051,-13.8180963125949,-13.1762399851118,-14.1014086171386,-14.1063180096879,-13.0785564779294,-14.6887807202465,-13.8854713367192,-14.1929808908315,-14.677469330788,-15.0866764830238,-14.9362543594355,-12.4026370682562,-14.1485715360446,-14.5372544690047,-14.8132201781126,-13.321916926645,-13.3796581036118,-13.933299122462,-13.5756958068289,-11.6405650871195,-13.7208048789591,-13.2740150661156,-14.4536627451907,-14.4427851413011,-13.0867337065602,-11.6773327460066,-13.6683168557088,-14.445920877649,-13.9385938620998,-11.6821968226633,-15.4400143994783,-12.8238714377406,-13.1935440922331,-12.7979570576612,-15.1978174262853,-14.4497428545368,-12.688994726368,-15.0594881561764,-14.4728239381914,-14.5543209833113,-10.9678602188981,-14.3243211855578,-13.1972011041947,-14.4325271173779,-12.2646879224913,-11.1129242644353,-14.4599286149847,-12.3358170525158,-13.9492768866753,-14.372610096565,-12.3294168798764,-13.3183151127232,-14.6866307670268,-13.5830546142623,-14.4090128838302,-12.4085137287697,-12.9522230236815,-12.1871826422474,-11.945156608482,-12.4211035287294,-11.0433628760115,-11.5569586973347,-11.9140664251606,-12.5187130177686,-11.4334034735246,-11.9228603201277,-11.0533248272246,-12.5532238541179,-12.0543624329555,-11.9642168162444,-12.6842486392434,-12.6987267734308,-12.2187539944472,-12.1628894170492,-12.949862842738,-12.5623411207797,-11.4250423968226,-12.3290326066585,-13.0406026588433,-12.8334248216277,-13.3083171677327,-11.8000260566508,-12.56553730809,-12.8944131615758,-13.0893364971144,-12.2067006269663,-12.0378869047622,-13.291758696061,-13.311033518139,-12.6813085413103,-12.7303855134267,-13.0579830054624,-14.0476912357915,-12.5583882304042,-12.7990332082579,-13.1696580829806,-12.5219639957491,-11.9408522303889,-14.7109088908637,-13.4385936729987,-13.4414943139326,-12.6811258845217,-13.574894932441,-13.7210889133295,-13.1768505129168,-13.0736694678977,-13.048094220369,-13.5695921108182,-14.8456526329369,-12.9256485060604,-12.5576396873738,-11.7877232622987,-12.440249032726,-12.3102545992768,-11.4731078420656,-12.1762375434434,-12.5751867313422,-12.3059025899399,-12.7945566578361,-12.5692799487328,-12.922369899725,-13.3063474735037,-12.1714874320492,-11.7129381505449,-12.2012913097366,-12.4428181037179,-11.8880676410729,-11.938802226514,-11.1973645559576,-12.3780429969421,-12.0599234232711,-11.9572346082393,-12.3110860528832,-12.9120049550111,-11.8063328985955,-12.1688644767544,-12.838854724476,-11.1075273519295,-11.5368685332842,-12.8298393515411,-12.8957982321976,-12.8041232999935,-13.1940014011063,-11.690991535316,-12.8267487219346,-11.6615997346218,-12.3164541965411,-12.6585210222166,-13.5178374125355,-13.689706257809,-12.82242533275,-13.9170707838831,-13.8113357970613,-13.6544834185896,-12.8325567179487,-13.8134981865834,-14.4232276448402,-12.9318477460196,-12.9403288049121,-13.7132815913662,-12.1817404081084,-11.1879649863419,-13.1805031589801,-11.6053856414659,-13.1304281195355,-12.8842179474391,-13.4091720552122,-13.5498580713723,-13.3112151366699,-12.8186504809455,-13.1923783655317,-12.1916306932479,-13.5687817003585,-11.1738892235283,-13.3779724994505,-13.8110542613625,-12.5588577589679,-13.8794775683963,-13.952628732796,-12.1888595065907,-13.4360784383606,-13.5709893352555,-13.8147613620788,-13.6132432446857,-12.437205448505,-13.58732063794,-14.3053109753113,-14.5411594654743,-11.6573506512014,-14.3117603289698,-14.0480272349364,-15.1268963945212,-12.8562680635819,-12.6933774501452,-14.0670141914045,-13.8614674726277,-12.0647160833193,-13.4255314501465,-12.4378240584822,-12.8987869062234,-14.1251668672002,-15.3961519419997,-14.3297511740608,-14.6160375430682,-15.3069887852619,-14.5717182927217,-14.6909810349445,-14.4175572672987,-15.0838597032365,-14.4390638801093,-12.0606687158004,-14.7917160226301,-13.945889692519,-14.8116665322252,-13.9301542167594,-12.8213019886314,-14.3058389950029,-12.6544551527191,-13.3121281889658,-15.4163081743591,-14.5971246891295,-14.2960260049051,-13.3166224537116,-11.4468800361856,-12.1775265490297,-14.0428701012373,-12.3778348647329,-14.1567095406994,-14.6831844736934,-14.2060301507089,-13.6957067909441,-14.0579843584407,-14.0482257059131,-13.7087089492667,-14.8743994607972,-14.4300486351562,-16.2943868578541,-15.4389785195025,-12.9462681980559,-15.0581256963541,-11.47501983316,-15.2088089818356,-13.1017317009395],"close":[-12.0831584005245,-11.8046247267045,-12.2159977706657,-12.5422311583213,-11.5905923935921,-11.0505763513231,-11.3386226434721,-10.8573813791068,-11.1113169951685,-12.0879535373356,-12.2117320131526,-11.3257904611268,-12.3165528271702,-12.5299237550023,-12.1993020055272,-12.0344123966623,-9.70948554036916,-12.6529304372232,-12.6799980408413,-12.0518028617314,-12.0465839066672,-12.6822105522421,-13.4311924444897,-12.5564081351907,-12.5623109477552,-12.0656166323124,-13.1990623777577,-11.0710591620989,-12.5705980882902,-13.103018641903,-12.678699930283,-12.6984975863756,-11.9354407384565,-13.0762195574291,-11.9365053129237,-13.4204011510577,-12.5453008418849,-11.6961211422144,-11.4570747491735,-11.9376256846687,-11.1680115452482,-9.84326370714046,-12.3310943651319,-12.0316317479973,-10.290114569817,-10.9418491993615,-11.6891669780216,-10.7006175791098,-12.1789464202479,-12.0674208227786,-11.5595416299882,-12.1947303048062,-12.2000595162299,-11.96138243588,-12.0386060165945,-11.9708646469291,-11.9309273455011,-12.2789810685454,-12.0607687703356,-12.7073925142116,-12.8092850227648,-12.6850166128415,-11.9360308337702,-12.5412632862505,-12.9021883665227,-13.0787541798562,-12.3061733263263,-14.5616818783901,-13.4371570398573,-15.4401640210809,-11.4281498021747,-12.7844169270092,-13.9290299705285,-12.3166981635127,-12.1984385681943,-12.8035127723278,-13.8213729801002,-11.5679289034842,-15.1636985110109,-12.0797394000052,-12.4432501377567,-12.306305691557,-12.1501253013311,-11.1873716006614,-10.9625114269159,-12.800980418512,-11.6342377722312,-11.0559267122992,-10.8133490191639,-11.9829958974162,-12.3911512543645,-11.0778621450189,-11.8250329418922,-11.9008967764713,-11.5625666426251,-11.4387052923042,-11.0618632196405,-12.4196263788203,-12.8550333342918,-11.8224309962969,-11.1986946064239,-12.1827859270402,-13.1624981206665,-11.9540715454848,-11.9406148746361,-12.3428837238823,-12.5739295296742,-12.2993505045493,-13.0937045994472,-12.6886657375918,-12.2958457253178,-12.8088864963856,-10.8136229836164,-12.5583281315922,-12.9689453726007,-12.6928612583232,-11.9615999273571,-13.2053477162233,-13.1265571939937,-12.0596754599077,-13.3219554452293,-13.4660257089012,-12.9089306863239,-13.0348955482829,-13.1987186186603,-13.6978835891555,-13.4196680098381,-12.8170851105663,-15.3331930139012,-13.6921654633759,-12.9206614858319,-13.0576273324071,-15.0603606878948,-13.9512072937558,-12.9449094603281,-11.9132623069271,-11.5546998765081,-11.5458784230571,-12.9266863131364,-12.2039632423674,-11.6908535342649,-10.1868729671504,-13.0814738144059,-11.9381906243655,-10.7993499323129,-11.2184816639961,-11.0690503654287,-11.798106329671,-11.0730629837417,-11.9364185031265,-12.1352931548294,-11.0635108015919,-11.058858151535,-12.1933245053256,-12.1173736776398,-11.3370763562359,-12.1891597190567,-12.7042692230095,-12.4589595915786,-12.0578038301588,-12.5598925236212,-12.4203458964957,-12.2053623130714,-12.1962146085429,-11.0771736834271,-13.080090254056,-12.6161233343376,-12.1800083308112,-11.7162836785735,-13.5962902618525,-13.0674355565712,-12.3303552381421,-13.4404125149462,-13.6891727709735,-12.8556541230977,-12.3229064818943,-13.690323004759,-13.9411491899369,-13.7055296572463,-13.1691366496001,-14.8398643727124,-13.3076981468213,-13.5774672153419,-11.9267776074259,-12.4419341417441,-12.8225471505498,-11.9073109499978,-12.6613771785743,-13.1001425910325,-13.8830547145931,-13.0567691367383,-13.3292290431923,-10.935454896395,-13.1733103278453,-14.3098208920926,-13.0943590636665,-12.2836799282488,-13.1261536872675,-15.43373565228,-12.2920689835542,-12.6668874220745,-13.1694922840077,-13.7784250750457,-14.200813613868,-11.8959825670102,-12.8847239844528,-13.3262665550197,-11.9348981129049,-12.605209109753,-12.295865283258,-13.5784313689572,-14.1756286103623,-13.9099631833933,-12.1666497161208,-11.5524358985821,-13.92357307082,-12.8786063665283,-13.1027168515805,-14.3054854559624,-13.9285799707738,-13.8860927167051,-13.8180963125949,-13.1762399851118,-14.1014086171386,-14.1063180096879,-13.0785564779294,-14.6887807202465,-13.8854713367192,-14.1929808908315,-14.677469330788,-15.0866764830238,-14.9362543594355,-12.4026370682562,-14.1485715360446,-14.5372544690047,-14.8132201781126,-13.321916926645,-13.3796581036118,-13.933299122462,-13.5756958068289,-11.6405650871195,-13.7208048789591,-13.2740150661156,-14.4536627451907,-14.4427851413011,-13.0867337065602,-11.6773327460066,-13.6683168557088,-14.445920877649,-13.9385938620998,-11.6821968226633,-15.4400143994783,-12.8238714377406,-13.1935440922331,-12.7979570576612,-15.1978174262853,-14.4497428545368,-12.688994726368,-15.0594881561764,-14.4728239381914,-14.5543209833113,-10.9678602188981,-14.3243211855578,-13.1972011041947,-14.4325271173779,-12.2646879224913,-11.1129242644353,-14.4599286149847,-12.3358170525158,-13.9492768866753,-14.372610096565,-12.3294168798764,-13.3183151127232,-14.6866307670268,-13.5830546142623,-14.4090128838302,-12.4085137287697,-12.9522230236815,-12.1871826422474,-11.945156608482,-12.4211035287294,-11.0433628760115,-11.5569586973347,-11.9140664251606,-12.5187130177686,-11.4334034735246,-11.9228603201277,-11.0533248272246,-12.5532238541179,-12.0543624329555,-11.9642168162444,-12.6842486392434,-12.6987267734308,-12.2187539944472,-12.1628894170492,-12.949862842738,-12.5623411207797,-11.4250423968226,-12.3290326066585,-13.0406026588433,-12.8334248216277,-13.3083171677327,-11.8000260566508,-12.56553730809,-12.8944131615758,-13.0893364971144,-12.2067006269663,-12.0378869047622,-13.291758696061,-13.311033518139,-12.6813085413103,-12.7303855134267,-13.0579830054624,-14.0476912357915,-12.5583882304042,-12.7990332082579,-13.1696580829806,-12.5219639957491,-11.9408522303889,-14.7109088908637,-13.4385936729987,-13.4414943139326,-12.6811258845217,-13.574894932441,-13.7210889133295,-13.1768505129168,-13.0736694678977,-13.048094220369,-13.5695921108182,-14.8456526329369,-12.9256485060604,-12.5576396873738,-11.7877232622987,-12.440249032726,-12.3102545992768,-11.4731078420656,-12.1762375434434,-12.5751867313422,-12.3059025899399,-12.7945566578361,-12.5692799487328,-12.922369899725,-13.3063474735037,-12.1714874320492,-11.7129381505449,-12.2012913097366,-12.4428181037179,-11.8880676410729,-11.938802226514,-11.1973645559576,-12.3780429969421,-12.0599234232711,-11.9572346082393,-12.3110860528832,-12.9120049550111,-11.8063328985955,-12.1688644767544,-12.838854724476,-11.1075273519295,-11.5368685332842,-12.8298393515411,-12.8957982321976,-12.8041232999935,-13.1940014011063,-11.690991535316,-12.8267487219346,-11.6615997346218,-12.3164541965411,-12.6585210222166,-13.5178374125355,-13.689706257809,-12.82242533275,-13.9170707838831,-13.8113357970613,-13.6544834185896,-12.8325567179487,-13.8134981865834,-14.4232276448402,-12.9318477460196,-12.9403288049121,-13.7132815913662,-12.1817404081084,-11.1879649863419,-13.1805031589801,-11.6053856414659,-13.1304281195355,-12.8842179474391,-13.4091720552122,-13.5498580713723,-13.3112151366699,-12.8186504809455,-13.1923783655317,-12.1916306932479,-13.5687817003585,-11.1738892235283,-13.3779724994505,-13.8110542613625,-12.5588577589679,-13.8794775683963,-13.952628732796,-12.1888595065907,-13.4360784383606,-13.5709893352555,-13.8147613620788,-13.6132432446857,-12.437205448505,-13.58732063794,-14.3053109753113,-14.5411594654743,-11.6573506512014,-14.3117603289698,-14.0480272349364,-15.1268963945212,-12.8562680635819,-12.6933774501452,-14.0670141914045,-13.8614674726277,-12.0647160833193,-13.4255314501465,-12.4378240584822,-12.8987869062234,-14.1251668672002,-15.3961519419997,-14.3297511740608,-14.6160375430682,-15.3069887852619,-14.5717182927217,-14.6909810349445,-14.4175572672987,-15.0838597032365,-14.4390638801093,-12.0606687158004,-14.7917160226301,-13.945889692519,-14.8116665322252,-13.9301542167594,-12.8213019886314,-14.3058389950029,-12.6544551527191,-13.3121281889658,-15.4163081743591,-14.5971246891295,-14.2960260049051,-13.3166224537116,-11.4468800361856,-12.1775265490297,-14.0428701012373,-12.3778348647329,-14.1567095406994,-14.6831844736934,-14.2060301507089,-13.6957067909441,-14.0579843584407,-14.0482257059131,-13.7087089492667,-14.8743994607972,-14.4300486351562,-16.2943868578541,-15.4389785195025,-12.9462681980559,-15.0581256963541,-11.47501983316,-15.2088089818356,-13.1017317009395],"high":[-10.058983387691,-10.3069418402954,-10.4576143457211,-10.1616109155304,-10.3985299922762,-9.41097615492595,-9.54754455051017,-9.19234601920692,-8.60871314294505,-10.1765494085581,-9.80881569288514,-9.044754941915,-10.3145123006699,-10.6995896302959,-10.6795694647326,-10.1982897001934,-8.28697515079303,-11.0520870611289,-11.0713153155363,-9.69395942109991,-10.409264634797,-10.9294470030465,-11.8023093183704,-10.6782836872482,-10.7173856072528,-10.3211130523929,-11.8014817765703,-9.32968298955257,-11.1838705919554,-11.2022573992883,-11.314408067902,-10.2877457459896,-10.3209301182363,-11.738234718381,-10.3205175976219,-11.4408541302815,-10.8007943792096,-9.82155376476438,-9.67971424328151,-10.0468086180074,-9.20982512132589,-8.08609837558224,-10.6801869530658,-10.5760109090001,-8.70519350379993,-8.94002433613479,-9.82086316410811,-8.55971781619672,-10.6887629582285,-9.45540821006495,-9.66827576710941,-9.44752567730889,-10.7192779686126,-9.82494625510409,-10.154269131699,-9.80285618157875,-10.2903170145842,-10.3341476571689,-10.1949772296329,-10.4571797952497,-11.1792842143062,-10.8170484081263,-10.3047224631073,-10.4568895988555,-11.313427001015,-10.8183229572103,-10.9129845488717,-12.676858873658,-11.7974255796164,-13.5449301780295,-9.94454218960402,-10.8229792428933,-12.4585179857562,-10.4723117049259,-10.1901981660265,-10.9630331916008,-11.9427594318744,-9.82297992894806,-12.9240913763876,-10.4478344103799,-10.5540027138612,-10.4329130101334,-10.5457116693372,-9.66538417051146,-9.44977455663501,-10.6095762093188,-9.41354146883452,-9.2981595730114,-9.18304725581947,-10.4489152128339,-10.4100989961264,-9.95483480052288,-9.71566216289124,-10.0677379891913,-10.2038923309761,-10.0651566512119,-8.82058455987339,-10.8230981855792,-10.6221644812844,-10.2008892467062,-9.57312325579059,-10.5534501478811,-11.1440488647441,-9.56087248281081,-10.1922003117902,-10.4070181407319,-10.931878068935,-10.317620781623,-11.0807124957673,-10.8209092433741,-10.6815538148528,-11.0762641770663,-8.95169417857348,-10.7040810628892,-11.4243558656044,-10.944305608589,-10.2956068662905,-11.3186260949967,-11.6179091167026,-10.3448548581528,-10.8119651985541,-11.8130207512885,-11.704702171078,-11.0730171754813,-10.9991370330554,-11.9267277812068,-11.6449405177018,-10.9606806543759,-13.0582879163678,-12.1911926960745,-11.5345011432483,-10.835473179508,-12.7934493423147,-12.1796409052378,-11.5933807429202,-10.3706413423204,-9.94763922930037,-9.56795817511809,-10.3119044203775,-10.3390786970865,-9.68317922097046,-8.43227798382365,-11.0482366785572,-10.560000347693,-8.94612099496749,-9.43419826269667,-9.11671158350803,-9.92782438625984,-9.08450136357301,-10.3211589074043,-10.6492043729313,-9.65416911540137,-8.81680570553005,-10.0521368303106,-10.2844573717207,-9.54317612553707,-9.92350059461626,-10.8121526472916,-10.8290556785644,-10.4442691206151,-10.3674232803671,-10.700112431176,-10.5596166291588,-10.206700279128,-8.68056398885338,-11.411359938471,-10.8955587151007,-10.0553144717425,-9.68259484743555,-12.1139293500501,-11.1946561005255,-10.3316885856542,-11.1742261510746,-11.9237400570632,-11.385646105212,-10.6864237999044,-10.9463808909491,-11.6596828763771,-12.1833457128468,-10.8627533359566,-12.1832926920956,-11.4515813945455,-11.9124601027269,-9.931214732333,-10.1677007335373,-11.3423673978583,-10.1178411314975,-10.9411596234263,-10.8895285255118,-11.4196535130143,-10.5976352845196,-11.6933191944195,-9.17086184649485,-11.1364932122432,-12.3231246314968,-11.3975213124257,-10.5293804711122,-10.6678907769364,-11.9311415240803,-10.8249293944404,-10.6095267876171,-11.3928107343869,-11.854682395964,-11.9497863800632,-10.3687830480457,-10.893762525693,-10.7103197056246,-10.1935289529331,-10.6898230086276,-10.6523675057615,-11.0771681796192,-12.4307641967797,-12.0759840509277,-10.4259636994486,-8.92715341102442,-12.5799729204864,-11.1132882359823,-11.3889388343859,-11.5712335943553,-12.4269792135677,-12.3666305404883,-11.8107030117835,-10.5884388520208,-12.1679112741382,-11.8624459248398,-11.4378242756581,-12.164815909585,-12.3818723026026,-12.3106167586232,-12.318930259614,-12.5404891479201,-12.7861262255951,-10.8645907183712,-12.4360925536951,-12.2844961613552,-13.0352716223386,-11.3233699231868,-11.6331546269891,-11.5531607644621,-11.6747497372796,-10.105675965285,-11.9498055376575,-11.1607110726032,-11.9011383081003,-12.5593373223762,-11.0539906184378,-9.43925241072236,-11.1059419960598,-12.0627730384192,-11.4424070001094,-9.96324820315663,-12.1957570147337,-11.052842879747,-11.0291954013163,-11.197696976621,-12.5350072016289,-12.6719966585277,-10.3157674760176,-12.9566783464505,-11.6941629203862,-12.4328062929841,-9.12588726013697,-12.5774460451631,-11.1954470105007,-12.6743067360367,-11.5658208775053,-9.77900475002517,-13.0651996889909,-10.953829636418,-12.8945051457318,-12.952606945657,-10.4428751012256,-10.8068645487291,-13.1850965165273,-12.0471043005968,-12.3965543429028,-10.7385568227943,-11.0765679930854,-10.4397571918172,-9.53952465479365,-10.5654108485453,-9.84303485828899,-10.2075291089055,-8.93112750073795,-11.0265841162452,-9.42541103317497,-10.0582679772703,-9.1743210180336,-10.8111035356484,-9.92915049252464,-10.327252499173,-10.5507821344211,-11.1855303242618,-10.6975576841822,-10.4235071108794,-10.7077369627406,-11.3186183477185,-9.8265383818857,-10.4276116240383,-11.0986011409784,-11.4405900998742,-11.6714862631936,-10.3048552409869,-9.91465517671276,-11.1984867958336,-11.15488759999,-10.7095246921001,-9.57693438571626,-11.5765466365966,-11.7154474641736,-11.1774296794825,-10.6799424942996,-11.6662480171926,-11.9343433590848,-10.9498766523769,-10.9363282301214,-11.4339647664723,-11.0687078465558,-10.4420781654191,-12.2104602105849,-12.0532537552875,-12.0657030398446,-10.8133206527037,-11.5414902539193,-11.6824688980446,-11.6921767354278,-11.301159422616,-11.2951628430358,-11.8178152740602,-13.194102231853,-11.3183158358573,-10.1891775560981,-10.3339681277403,-10.5731996482012,-10.6713123476306,-9.97434476391502,-10.5303356423035,-10.6713072169971,-10.5406601307223,-11.1979255928087,-10.8164190877265,-10.6792402132897,-11.8019739079548,-10.5820350994846,-10.0534022928632,-9.5348937680497,-11.068329057291,-10.1602752946178,-9.79460800523334,-9.30899187016589,-10.1335413575233,-10.3388166440281,-10.4423206526624,-10.5856242465661,-10.3898260866,-9.80249767986493,-10.189590662654,-11.3135147859892,-9.11282315252344,-10.3049520346427,-11.0609280322092,-10.818590230424,-10.9304554167364,-11.2895128044318,-9.70254155738685,-11.307115261809,-10.4446951134701,-10.5407128099003,-9.67959959335481,-12.1791921382779,-11.7961361536828,-10.9490511263222,-11.4336880969513,-12.0376187115614,-11.4227780590676,-10.9397735531022,-11.7725437258314,-12.6835155439059,-10.8234215967025,-11.3240048029013,-11.6807921586469,-10.2931498704038,-9.80010427776842,-11.7124721073267,-8.88682382196885,-11.3541315855581,-10.3829281976012,-11.5705738792714,-12.2189474082958,-11.5690160375458,-10.4587477298307,-11.7885631087018,-10.5490806311944,-11.5411949016129,-8.37128626045601,-11.6206409917981,-11.8181980698653,-10.9297909510155,-11.4030298918823,-12.4368342036115,-10.707634714777,-11.5554910158238,-11.4528731554765,-12.1961727487694,-11.8958282873073,-10.7039793960834,-11.1647149935141,-12.2081536752826,-12.6899517008755,-10.0693994368844,-11.8095038923731,-12.0499026914556,-13.1314140305104,-11.1942054610272,-10.0640420337736,-12.4378699526805,-11.8445715874983,-10.0325763152676,-10.9120583203375,-10.325091397716,-11.0921239024856,-12.6321662386244,-12.3710821657905,-12.4419619976558,-12.5480565096637,-13.1612793884201,-12.8193886372616,-13.3230636389862,-12.6104034733728,-12.1829466093859,-12.9572862706831,-10.3057962135093,-12.8529248816749,-10.6895135498722,-13.08324071663,-12.4349819750855,-11.447621063642,-12.3045893544796,-10.9529752070412,-11.4326255746956,-13.8152448602904,-13.1472704152876,-12.2921078713461,-10.3830657816407,-9.8169954314272,-10.5372856742749,-11.4471684852103,-9.84564143806882,-12.0989362586938,-12.8007266218108,-12.240761416343,-10.0233896333164,-12.5921093495168,-12.2079459296821,-12.0566167123041,-12.5987655854226,-12.8005608460343,-13.9409547026432,-12.8147065077126,-10.430791787951,-12.9185132616253,-9.56587597115604,-13.1790753941448,-10.921521453028],"low":[-14.9155151778648,-13.6730029093905,-13.9414261450919,-14.9471738911275,-13.1537106487411,-12.7110472128666,-13.0581155050777,-13.5826551004828,-14.8220795165984,-14.1896709076533,-14.4448891738646,-13.4458736279742,-14.3106691463578,-14.5525888757649,-13.956973256007,-14.6589427386383,-11.2777521652222,-14.4848297478625,-14.082130002988,-14.5580542909043,-14.1686853501887,-14.1507135211131,-17.3066013078659,-14.2942685870234,-13.9482893370807,-14.3305440205991,-15.0539313244752,-14.5765813579696,-14.3165982098866,-15.3194753962268,-14.1841840264622,-15.4366972304416,-13.5666868439607,-14.7019879924084,-13.8371479970287,-15.9560508508566,-14.1813845262101,-13.0577934192826,-13.4429679252991,-13.8033530609568,-12.8117782670065,-13.8004158849387,-13.9091396119337,-13.6909941141311,-12.4617926309255,-13.6837206284361,-13.2868626125141,-13.5815238884545,-14.3070527646679,-14.025046574059,-13.8283337908396,-14.3243482909294,-13.9276963429131,-13.4566819252323,-14.0808730658437,-15.2800923177585,-13.9411318720883,-14.110880253308,-13.8118975271712,-16.0776834910118,-14.5679754907247,-14.3017879182604,-13.5593939578177,-15.1678796412679,-14.8115374148282,-15.1663214581612,-14.3382323929636,-17.1641062283255,-15.1839845087793,-16.9144545696302,-13.3195221832385,-16.5970246475228,-15.9428356381996,-14.1719422041716,-14.0820065294548,-16.312999908969,-15.8357592232864,-13.7999100350126,-16.8033954845401,-13.9178090123065,-15.082421217038,-13.7122351119055,-14.1694586579059,-13.0606711810555,-13.8196432505863,-14.5145800727882,-13.8853610371213,-12.5643139945687,-13.4608764727611,-13.8057550394818,-14.3691127026976,-12.6953981265713,-14.6742956357349,-13.7008728312875,-13.336474461504,-12.8141998932023,-14.7009611991883,-14.1721503731943,-14.3913338014836,-13.3243971924615,-14.3974973291806,-14.0409214953896,-14.5739142003176,-14.1706248351725,-14.4174986970938,-13.9935805725791,-14.6955914068737,-13.806324876701,-14.8286118991941,-14.3237886936303,-14.3007145662706,-14.5673230293569,-13.5390865096949,-14.7053012728298,-14.843140904536,-14.1967227412374,-14.9552801213219,-14.7999299303664,-14.8648006142502,-14.3037951078918,-16.4333306885873,-15.1730011477334,-14.0585582550142,-15.4198960806218,-15.4493119211572,-15.4516526589721,-15.0499022336017,-14.5638560942406,-18.3210936266353,-15.4207357820194,-14.559502306663,-14.9368792213695,-17.8113762658075,-16.0484701113997,-14.6809664358691,-13.8016868683147,-13.1777406207059,-15.4184179924507,-14.802186375127,-14.3148915466013,-13.5494181431799,-13.3116442979748,-15.0570607698857,-13.9546761302125,-13.04223751852,-13.434460470553,-13.3919046055438,-13.5501320310542,-14.3151052129185,-13.8152612341489,-13.8835275386458,-13.0229181108431,-13.663374262651,-14.2125340889097,-13.8708602413226,-13.5842683278172,-14.6901274027097,-14.4387368785325,-14.0945810024049,-13.9515832765377,-16.3229119596075,-14.3123203007469,-13.6799670232475,-14.4319441252797,-14.332398679201,-15.0439758828652,-14.8372494425666,-13.8194277224186,-14.6941254431935,-15.6176064741249,-14.935268238702,-14.1846581536595,-17.0500527549238,-15.591925695446,-15.1204144158502,-14.3246998608406,-16.8586612870814,-15.5868482306077,-15.2016598937055,-14.8434800515786,-18.1956128837674,-15.6576324708085,-15.261201939301,-13.7040352599883,-16.0644327314789,-14.5619490301598,-13.6406666595636,-14.2887350747399,-15.1455285474695,-15.5901424123323,-15.8626361557719,-15.5619939237611,-12.462792082664,-14.8685970341805,-16.6586409035444,-15.6287746278211,-13.723466949077,-15.1587820815083,-17.937681517506,-14.0239504248624,-14.6713734290816,-15.0822385964313,-16.1596697144605,-16.1422258782879,-13.6385599024903,-14.9159774962344,-16.1186306505682,-13.8054813942668,-14.8887252563434,-14.5731897602386,-16.7605434980572,-16.2031271613926,-15.8934994205241,-14.3068876888034,-14.1900866838057,-15.5489398651357,-15.3621379909672,-14.8753374463607,-17.3331564313597,-15.561377146043,-15.3723587862858,-15.8195988808553,-16.3288349282029,-15.8701141075626,-15.8810742432117,-15.0430750195501,-17.8246482215976,-15.3876775238087,-15.4266480381597,-16.9169641211357,-17.5679398971727,-16.9474105647731,-13.8246647143894,-16.437132576686,-17.213298284208,-16.6820951229591,-15.0706699993688,-15.8413136519467,-16.4395027710644,-15.4176620149924,-13.3964751126201,-15.4404947000363,-16.0859557530036,-16.7988643765427,-16.5610289856547,-15.5665554594309,-13.5556178115391,-17.3993238046501,-16.5585629037085,-16.0576635642912,-13.6915390476054,-18.2901507923934,-14.8472492110934,-15.0893066916203,-15.2792296248219,-17.9377195006304,-16.8194508247775,-14.2826114915094,-17.3138854816393,-17.6733510700281,-16.4023384487772,-13.1932607241194,-16.8599143004487,-16.9096457626916,-16.3134813608587,-13.8589249456136,-12.6879411327356,-16.5060975510859,-14.6778354888301,-14.7681090091344,-17.7532551157795,-14.8281668765303,-16.7894701264236,-16.1788538188429,-15.3175614800273,-16.0678018903773,-14.0252701413262,-14.5577008574225,-13.6797108555933,-14.5538746481983,-14.1722731664801,-12.7442091747261,-13.4474153266624,-15.6624759656718,-14.4083652033702,-13.3418593263118,-13.6857940802921,-13.9183979292836,-14.3096411570643,-14.0685287893437,-13.5687895520042,-15.7924103097415,-13.9363750213514,-14.1024330027993,-13.7912799557972,-15.8175313692903,-14.0869093957211,-13.1729656560051,-13.7961896945287,-15.5553647345181,-14.4337286213458,-15.1843075818108,-13.3054964939078,-16.4532818971678,-14.8073144970073,-14.898474657667,-13.8096686525067,-14.2910754755672,-14.788705025997,-15.079366438852,-14.544936458395,-15.4524699658109,-14.9112279606331,-15.5543633531861,-14.0644092964945,-16.4060708575189,-14.6775159284715,-13.8080946403181,-14.0618447760488,-16.9206391061,-15.0494576391664,-15.3444424775597,-14.8264791506868,-17.0719548114666,-15.6631683127589,-14.6689648507197,-14.8130764454056,-15.9201399351493,-15.5395508465792,-16.6093756341916,-14.9505563017629,-14.4201861610959,-13.7980589819349,-15.7760499114882,-14.0617031607106,-13.209443742275,-14.077031972928,-15.1601028769066,-13.9373448448493,-14.4120011634771,-14.402860468876,-16.5573095658617,-15.2934118237157,-14.5461041224187,-13.7131700042116,-15.4403307560341,-14.0460664027079,-13.608904904234,-13.7116906001146,-14.1077673925872,-14.8689047842867,-13.8091696514476,-14.7113921778498,-14.4409975372441,-14.898612696533,-13.8345209963948,-14.6837368744415,-14.7133698204808,-13.0814409677995,-13.5915314868793,-15.5381330574039,-14.9450785327074,-14.9222499697683,-15.0793774101978,-14.699622639246,-14.8363718274552,-13.4461940987085,-14.0510271885602,-16.3239206566065,-15.4223159107078,-15.6880903833128,-14.1764492106251,-17.0603773645095,-15.6859622401202,-15.9063113141779,-14.8131790442107,-15.3286442177195,-16.4170063885805,-14.5429678269157,-15.0902398199125,-17.3132662148159,-13.9177512312524,-12.6784062975502,-15.0814794870321,-14.6788645576345,-14.818227628187,-15.8910341632761,-15.0420314880197,-15.1908993514599,-15.5535575088627,-14.932999700639,-14.9436254229842,-13.8056916631382,-15.3134789363754,-14.328031592272,-15.3146135074913,-15.7064319830464,-14.4381941273569,-16.6056404574861,-15.5358955089585,-13.9193070474203,-16.0608568891031,-17.7846634508061,-15.9375620388896,-15.8528729369321,-14.4317889177123,-17.143276960116,-16.1611355574116,-16.2011825470999,-13.9623960231252,-17.9812530789499,-15.8142472507745,-17.3968577922404,-15.065083618944,-17.5839036118111,-15.8054013737748,-15.8413867544334,-14.1516524631358,-16.6617418401943,-14.2985494882777,-14.636517392138,-16.1634052070332,-18.1609537580774,-15.9066474612916,-16.6612490417079,-17.934089280388,-16.6896715309113,-16.4143973583778,-16.3579731280235,-18.3200936150879,-16.5659337041308,-14.5541588996148,-16.7127973432161,-16.4085458973091,-16.7986847305732,-15.8362379642314,-14.4308246744198,-17.4395246702085,-14.5319298080455,-14.7055169264039,-17.4400033918607,-16.1107546242909,-16.5192087691549,-16.8637741434384,-13.1809023205204,-14.2928945692636,-16.1659705912035,-15.348895804291,-15.9007198978026,-16.3960379357525,-16.2924583620805,-15.6935289173262,-15.9250627930975,-16.4398624651289,-16.3242963333121,-17.5958527454149,-16.4156580774282,-18.9424785350143,-17.6283549432891,-15.5475555710999,-17.1794969203228,-13.1896022172849,-16.5669981608208,-16.4221376907438],"type":"candlestick","line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>And now with a reference to the VAIA storm.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">vaia.annotation &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">text =</span> <span class="st">&quot;VAIA Storm&quot;</span>,</a>
+<a class="sourceLine" id="cb23-2" title="2">          <span class="dt">x =</span> <span class="st">&#39;2018-10-31&#39;</span>,</a>
+<a class="sourceLine" id="cb23-3" title="3">          <span class="dt">y =</span> <span class="fl">0.92</span>,</a>
+<a class="sourceLine" id="cb23-4" title="4">          <span class="dt">xref =</span> <span class="st">&#39;x&#39;</span>,</a>
+<a class="sourceLine" id="cb23-5" title="5">          <span class="dt">yref =</span> <span class="st">&#39;paper&#39;</span>,</a>
+<a class="sourceLine" id="cb23-6" title="6">          <span class="dt">xanchor =</span> <span class="st">&#39;left&#39;</span>,</a>
+<a class="sourceLine" id="cb23-7" title="7">          <span class="dt">showarrow =</span> T</a>
+<a class="sourceLine" id="cb23-8" title="8">)</a>
+<a class="sourceLine" id="cb23-9" title="9">vaia.line &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">type =</span> line,</a>
+<a class="sourceLine" id="cb23-10" title="10">          <span class="dt">x0 =</span> <span class="st">&#39;2018-10-28&#39;</span>,</a>
+<a class="sourceLine" id="cb23-11" title="11">          <span class="dt">x1 =</span> <span class="st">&#39;2018-10-30&#39;</span>,</a>
+<a class="sourceLine" id="cb23-12" title="12">          <span class="dt">y0 =</span> <span class="dv">0</span>,</a>
+<a class="sourceLine" id="cb23-13" title="13">          <span class="dt">y1 =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb23-14" title="14">          <span class="dt">xref =</span> <span class="st">&#39;x&#39;</span>,</a>
+<a class="sourceLine" id="cb23-15" title="15">          <span class="dt">yref =</span> <span class="st">&#39;paper&#39;</span>,</a>
+<a class="sourceLine" id="cb23-16" title="16">          <span class="dt">line =</span> <span class="kw">list</span>(<span class="dt">color =</span> <span class="st">&#39;black&#39;</span>,  <span class="dt">width =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb23-17" title="17">)</a>
+<a class="sourceLine" id="cb23-18" title="18"></a>
+<a class="sourceLine" id="cb23-19" title="19">p &lt;-<span class="st"> </span>p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">layout</span>(<span class="dt">annotations =</span> vaia.annotation,</a>
+<a class="sourceLine" id="cb23-20" title="20">         <span class="dt">shapes =</span> vaia.line)</a>
+<a class="sourceLine" id="cb23-21" title="21"></a>
+<a class="sourceLine" id="cb23-22" title="22">p</a></code></pre></div>
+<div id="htmlwidget-5e79ddc69daf49240e6e" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5e79ddc69daf49240e6e">{"x":{"visdat":{"3a0b4664b580fc":["function () ","plotlyVisDat"]},"cur_data":"3a0b4664b580fc","attrs":{"3a0b4664b580fc":{"x":{},"open":{},"close":{},"high":{},"low":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"candlestick"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"IQ diagram of VH backscatter","annotations":[{"text":"VAIA Storm","x":"2018-10-31","y":0.92,"xref":"x","yref":"paper","xanchor":"left","showarrow":true}],"shapes":[{"type":["function (x, y = NULL, iter = 1) ","{","    xy <- xy.coords(x, y, setLab = FALSE)","    ok <- complete.cases(xy$x, xy$y)","    Call <- sys.call()","    structure(.Call(C_tukeyline, as.double(xy$x[ok]), as.double(xy$y[ok]), ","        as.integer(iter), Call), class = \"tukeyline\")","}"],"x0":"2018-10-28","x1":"2018-10-30","y0":0,"y1":1,"xref":"x","yref":"paper","line":{"color":"black","width":2}}],"xaxis":{"domain":[0,1],"automargin":true,"title":"Date"},"yaxis":{"domain":[0,1],"automargin":true},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["2015-07-20 05:26:37","2015-07-23 16:58:34","2015-07-28 17:06:46","2015-08-01 05:26:43","2015-08-04 16:58:24","2015-08-08 05:18:23","2015-08-09 17:06:27","2015-08-13 05:26:44","2015-08-16 16:58:25","2015-08-20 05:18:23","2015-08-21 17:06:27","2015-08-25 05:26:45","2015-08-28 16:58:25","2015-09-01 05:18:24","2015-09-02 17:06:28","2015-09-06 05:26:45","2015-09-09 16:58:25","2015-09-13 05:18:24","2015-09-14 17:06:28","2015-09-18 05:26:45","2015-09-21 16:58:25","2015-09-26 17:06:28","2015-09-30 05:26:46","2015-10-03 16:58:26","2015-10-08 17:06:29","2015-10-12 05:26:46","2015-10-20 17:06:29","2015-10-24 05:26:40","2015-10-27 16:58:26","2015-10-31 05:18:25","2015-11-01 17:06:29","2015-11-05 05:26:40","2016-05-30 16:58:27","2016-06-03 05:18:28","2016-06-04 17:06:38","2016-06-08 05:26:38","2016-06-11 16:58:27","2016-06-15 05:18:29","2016-06-28 17:06:40","2016-07-05 16:58:29","2016-07-09 05:18:30","2016-07-14 05:26:39","2016-07-17 16:58:29","2016-07-21 05:18:31","2016-07-22 17:06:41","2016-07-26 05:26:40","2016-08-02 05:18:32","2016-08-07 05:26:50","2016-08-10 16:58:30","2016-08-14 05:18:32","2016-08-15 17:06:42","2016-08-19 05:26:42","2016-08-22 16:58:31","2016-08-26 05:18:33","2016-08-27 17:06:33","2016-08-31 05:26:42","2016-09-03 16:58:32","2016-09-07 05:18:33","2016-09-08 17:06:43","2016-09-12 05:26:42","2016-09-15 16:58:41","2016-09-19 05:18:34","2016-09-20 17:06:44","2016-09-24 05:26:43","2016-09-27 16:58:32","2016-10-01 05:18:34","2016-10-02 17:06:44","2016-10-06 05:26:43","2016-10-09 16:58:32","2016-10-13 05:18:34","2016-10-14 17:06:44","2016-10-18 05:26:43","2016-10-21 16:58:32","2016-10-25 05:18:34","2016-10-26 17:06:44","2016-10-30 05:26:43","2016-11-02 16:58:32","2016-11-06 05:18:34","2016-11-07 17:06:44","2017-05-30 17:06:44","2017-06-03 05:26:54","2017-06-06 16:58:27","2017-06-10 05:18:46","2017-06-11 17:06:45","2017-06-15 05:26:55","2017-06-18 16:58:28","2017-06-22 05:18:46","2017-06-23 17:06:45","2017-06-27 05:26:55","2017-06-30 16:58:28","2017-07-04 05:18:47","2017-07-05 17:06:46","2017-07-09 05:26:56","2017-07-12 16:58:29","2017-07-16 05:18:48","2017-07-17 17:06:46","2017-07-21 05:26:57","2017-07-24 16:58:30","2017-07-28 05:18:48","2017-07-29 17:06:47","2017-08-02 05:26:58","2017-08-05 16:58:30","2017-08-09 05:18:49","2017-08-10 17:06:48","2017-08-14 05:26:58","2017-08-17 16:58:31","2017-08-21 05:18:50","2017-08-22 17:06:48","2017-08-26 05:26:59","2017-08-29 16:58:32","2017-09-02 05:18:50","2017-09-03 17:06:49","2017-09-07 05:26:59","2017-09-10 16:58:32","2017-09-14 05:18:50","2017-09-15 17:06:49","2017-09-19 05:27:00","2017-09-22 16:58:32","2017-09-26 05:18:51","2017-09-27 17:06:50","2017-10-01 05:27:00","2017-10-04 16:58:33","2017-10-08 05:18:51","2017-10-09 17:06:50","2017-10-13 05:27:00","2017-10-16 16:58:33","2017-10-20 05:18:51","2017-10-21 17:06:50","2017-10-25 05:27:00","2017-10-28 16:58:33","2017-11-01 05:18:51","2017-11-02 17:06:50","2017-11-06 05:27:00","2017-11-09 16:58:33","2018-06-01 16:58:33","2018-06-05 05:18:51","2018-06-06 17:06:50","2018-06-10 05:27:01","2018-06-13 16:58:34","2018-06-17 05:18:52","2018-06-18 17:06:51","2018-06-22 05:27:02","2018-06-25 16:58:35","2018-06-29 05:18:53","2018-06-30 17:06:52","2018-07-04 05:27:02","2018-07-11 05:18:54","2018-07-12 17:06:53","2018-07-16 05:27:03","2018-07-19 16:58:36","2018-07-23 05:18:54","2018-07-24 17:06:53","2018-07-28 05:27:04","2018-07-31 16:58:37","2018-08-04 05:18:55","2018-08-05 17:06:54","2018-08-09 05:27:04","2018-08-12 16:58:37","2018-08-16 05:18:56","2018-08-17 17:06:55","2018-08-21 05:27:05","2018-08-24 16:58:38","2018-08-28 05:18:57","2018-08-29 17:06:56","2018-09-02 05:27:06","2018-09-05 16:58:39","2018-09-09 05:18:57","2018-09-10 17:06:56","2018-09-14 05:27:06","2018-09-17 16:58:39","2018-09-21 05:18:57","2018-09-22 17:06:56","2018-09-26 05:27:06","2018-09-29 16:58:39","2018-10-03 05:18:57","2018-10-04 17:06:56","2018-10-08 05:27:07","2018-10-11 16:58:39","2018-10-15 05:18:58","2018-10-16 17:06:57","2018-10-20 05:27:07","2018-10-23 16:58:40","2018-10-27 05:18:58","2018-10-28 17:06:57","2018-11-01 05:27:07","2018-11-04 16:58:39","2018-11-08 05:18:58","2018-11-09 17:06:56","2019-05-31 05:18:57","2019-06-01 17:06:56","2019-06-05 05:27:06","2019-06-08 16:58:39","2019-06-12 05:18:58","2019-06-13 17:06:57","2019-06-17 05:27:07","2019-06-20 16:58:40","2019-06-24 05:18:59","2019-06-25 17:06:58","2019-06-29 05:27:08","2019-07-02 16:58:41","2019-07-06 05:18:59","2019-07-07 17:06:58","2019-07-11 05:27:08","2019-07-14 16:58:42","2019-07-18 05:19:00","2019-07-19 17:06:59","2019-07-23 05:27:09","2019-07-26 16:58:42","2019-07-30 05:19:01","2019-07-31 17:07:00","2019-08-04 05:27:10","2019-08-07 16:58:43","2019-08-11 05:19:02","2019-08-12 17:07:01","2019-08-16 05:27:11","2019-08-19 16:58:44","2019-08-23 05:19:02","2019-08-24 17:07:01","2019-08-28 05:27:11","2019-08-31 16:58:44","2019-09-04 05:19:03","2019-09-05 17:07:02","2019-09-09 05:27:12","2019-09-12 16:58:45","2019-09-16 05:19:03","2019-09-17 17:07:02","2019-09-21 05:27:13","2019-09-24 16:58:46","2019-09-28 05:19:04","2019-09-29 17:07:03","2019-10-03 05:27:13","2019-10-06 16:58:46","2019-10-10 05:19:04","2019-10-11 17:07:03","2019-10-15 05:27:13","2019-10-18 16:58:46","2019-10-22 05:19:04","2019-10-23 17:07:03","2019-10-27 05:27:13","2019-10-30 16:58:46","2019-11-03 05:19:04","2019-11-04 17:07:03","2019-11-08 05:27:13","2020-05-30 05:27:13","2020-06-02 16:58:46","2020-06-06 05:19:04","2020-06-07 17:07:03","2020-06-11 05:27:14","2020-06-14 16:58:47","2020-06-18 05:19:05","2020-06-19 17:07:04","2020-06-23 05:27:14","2020-06-26 16:58:47","2020-06-30 05:19:06","2020-07-01 17:07:04","2020-07-05 05:27:15","2020-07-08 16:58:48","2020-07-12 05:19:06","2020-07-13 17:07:05","2020-07-17 05:27:16","2020-07-20 16:58:49","2020-07-24 05:19:07","2020-07-25 17:07:06","2020-07-29 05:27:17","2020-08-01 16:58:49","2016-10-15 16:58:03","2016-10-17 05:33:29","2016-10-20 17:06:12","2016-10-24 05:25:18","2016-11-08 16:58:03","2016-11-10 05:33:29","2016-09-26 17:06:02","2016-09-30 05:26:04","2016-10-07 05:17:44","2016-10-19 05:17:44","2016-10-31 05:17:44","2017-05-31 16:57:43","2017-06-04 05:17:44","2017-06-05 17:06:01","2017-06-09 05:25:56","2017-06-12 16:57:44","2017-06-16 05:17:44","2017-06-17 17:06:02","2017-06-21 05:25:56","2017-06-24 16:57:44","2017-06-28 05:17:45","2017-06-29 17:06:02","2017-07-03 05:25:57","2017-07-06 16:57:45","2017-07-10 05:17:46","2017-07-11 17:06:03","2017-07-15 05:25:58","2017-07-18 16:57:46","2017-07-22 05:17:47","2017-07-23 17:06:04","2017-07-27 05:25:58","2017-07-30 16:57:46","2017-08-03 05:17:47","2017-08-04 17:06:05","2017-08-08 05:25:59","2017-08-11 16:57:47","2017-08-15 05:17:48","2017-08-16 17:06:05","2017-08-20 05:26:00","2017-08-23 16:57:48","2017-08-27 05:17:48","2017-08-28 17:06:06","2017-09-01 05:26:00","2017-09-04 16:57:48","2017-09-08 05:17:49","2017-09-09 17:06:06","2017-09-13 05:26:01","2017-09-16 16:57:49","2017-09-20 05:17:49","2017-09-21 17:06:07","2017-09-25 05:26:01","2017-09-28 16:57:49","2017-10-02 05:17:50","2017-10-03 17:06:07","2017-10-07 05:26:01","2017-10-10 16:57:49","2017-10-14 05:17:50","2017-10-15 17:06:07","2017-10-19 05:26:01","2017-10-22 16:57:49","2017-10-26 05:17:50","2017-10-27 17:06:07","2017-10-31 05:26:02","2017-11-03 16:57:49","2017-11-07 05:17:50","2017-11-08 17:06:07","2018-05-30 05:17:50","2018-05-31 17:06:07","2018-06-04 05:26:02","2018-06-07 16:57:50","2018-06-11 05:17:51","2018-06-12 17:06:08","2018-06-16 05:26:03","2018-06-19 16:57:51","2018-06-23 05:17:51","2018-06-24 17:06:09","2018-06-28 05:26:03","2018-07-01 16:57:51","2018-07-05 05:18:03","2018-07-06 17:06:09","2018-07-10 05:26:20","2018-07-13 16:57:52","2018-07-17 05:18:12","2018-07-18 17:06:10","2018-07-22 05:26:21","2018-07-29 05:18:13","2018-07-30 17:06:11","2018-08-03 05:26:22","2018-08-06 16:57:53","2018-08-10 05:18:13","2018-08-11 17:06:11","2018-08-15 05:26:22","2018-08-18 16:57:54","2018-08-22 05:18:14","2018-08-23 17:06:12","2018-08-27 05:26:23","2018-08-30 16:57:55","2018-09-03 05:18:14","2018-09-04 17:06:13","2018-09-08 05:26:24","2018-09-11 16:57:55","2018-09-15 05:18:15","2018-09-16 17:06:13","2018-09-20 05:26:24","2018-09-23 16:57:55","2018-09-27 05:17:56","2018-09-28 17:06:13","2018-10-02 05:26:24","2018-10-05 16:57:56","2018-10-09 05:18:15","2018-10-10 17:06:14","2018-10-14 05:26:25","2018-10-17 16:57:56","2018-10-21 05:18:16","2018-10-22 17:06:14","2018-10-26 05:26:25","2018-10-29 16:57:56","2018-11-02 05:18:16","2018-11-03 17:06:14","2018-11-07 05:26:02","2018-11-10 16:57:56","2019-05-30 05:26:02","2019-06-02 16:57:56","2019-06-06 05:18:16","2019-06-07 17:06:14","2019-06-11 05:26:26","2019-06-14 16:57:56","2019-06-18 05:18:16","2019-06-19 17:06:15","2019-06-23 05:26:03","2019-06-26 16:57:57","2019-06-30 05:18:17","2019-07-01 17:06:15","2019-07-05 05:26:04","2019-07-08 16:57:58","2019-07-12 05:18:18","2019-07-13 17:06:16","2019-07-17 05:26:05","2019-07-20 16:57:59","2019-07-24 05:18:18","2019-07-25 17:06:17","2019-07-29 05:26:05","2019-08-01 16:57:59","2019-08-05 05:18:19","2019-08-06 17:06:18","2019-08-10 05:26:06","2019-08-13 16:58:00","2019-08-17 05:18:20","2019-08-18 17:06:18","2019-08-22 05:26:07","2019-08-25 16:58:01","2019-08-29 05:18:20","2019-08-30 17:06:19","2019-09-03 05:26:07","2019-09-06 16:58:01","2019-09-10 05:18:21","2019-09-11 17:06:19","2019-09-15 05:26:08","2019-09-18 16:58:02","2019-09-22 05:18:22","2019-09-27 05:26:09","2019-09-30 16:58:02","2019-10-04 05:18:22","2019-10-05 17:06:20","2019-10-09 05:26:09","2019-10-12 16:58:02","2019-10-16 05:18:22","2019-10-17 17:06:20","2019-10-21 05:26:09","2019-10-24 16:58:02","2019-10-28 05:18:22","2019-10-29 17:06:20","2019-11-02 05:26:09","2019-11-05 16:58:02","2019-11-09 05:18:14","2019-11-10 17:06:20","2020-05-31 05:18:22","2020-06-01 17:06:20","2020-06-05 05:26:09","2020-06-08 16:58:03","2020-06-12 05:18:23","2020-06-13 17:06:21","2020-06-17 05:26:09","2020-06-20 16:58:03","2020-06-24 05:18:23","2020-06-25 17:06:21","2020-06-29 05:26:10","2020-07-02 16:58:04","2020-07-06 05:18:24","2020-07-07 17:06:22","2020-07-11 05:26:11","2020-07-14 16:58:05","2020-07-18 05:18:24","2020-07-19 17:06:23","2020-07-23 05:26:11","2020-07-26 16:58:05","2020-07-30 05:18:25","2020-07-31 17:06:24","2020-08-04 05:26:12"],"open":[-12.0831584005245,-11.8046247267045,-12.2159977706657,-12.5422311583213,-11.5905923935921,-11.0505763513231,-11.3386226434721,-10.8573813791068,-11.1113169951685,-12.0879535373356,-12.2117320131526,-11.3257904611268,-12.3165528271702,-12.5299237550023,-12.1993020055272,-12.0344123966623,-9.70948554036916,-12.6529304372232,-12.6799980408413,-12.0518028617314,-12.0465839066672,-12.6822105522421,-13.4311924444897,-12.5564081351907,-12.5623109477552,-12.0656166323124,-13.1990623777577,-11.0710591620989,-12.5705980882902,-13.103018641903,-12.678699930283,-12.6984975863756,-11.9354407384565,-13.0762195574291,-11.9365053129237,-13.4204011510577,-12.5453008418849,-11.6961211422144,-11.4570747491735,-11.9376256846687,-11.1680115452482,-9.84326370714046,-12.3310943651319,-12.0316317479973,-10.290114569817,-10.9418491993615,-11.6891669780216,-10.7006175791098,-12.1789464202479,-12.0674208227786,-11.5595416299882,-12.1947303048062,-12.2000595162299,-11.96138243588,-12.0386060165945,-11.9708646469291,-11.9309273455011,-12.2789810685454,-12.0607687703356,-12.7073925142116,-12.8092850227648,-12.6850166128415,-11.9360308337702,-12.5412632862505,-12.9021883665227,-13.0787541798562,-12.3061733263263,-14.5616818783901,-13.4371570398573,-15.4401640210809,-11.4281498021747,-12.7844169270092,-13.9290299705285,-12.3166981635127,-12.1984385681943,-12.8035127723278,-13.8213729801002,-11.5679289034842,-15.1636985110109,-12.0797394000052,-12.4432501377567,-12.306305691557,-12.1501253013311,-11.1873716006614,-10.9625114269159,-12.800980418512,-11.6342377722312,-11.0559267122992,-10.8133490191639,-11.9829958974162,-12.3911512543645,-11.0778621450189,-11.8250329418922,-11.9008967764713,-11.5625666426251,-11.4387052923042,-11.0618632196405,-12.4196263788203,-12.8550333342918,-11.8224309962969,-11.1986946064239,-12.1827859270402,-13.1624981206665,-11.9540715454848,-11.9406148746361,-12.3428837238823,-12.5739295296742,-12.2993505045493,-13.0937045994472,-12.6886657375918,-12.2958457253178,-12.8088864963856,-10.8136229836164,-12.5583281315922,-12.9689453726007,-12.6928612583232,-11.9615999273571,-13.2053477162233,-13.1265571939937,-12.0596754599077,-13.3219554452293,-13.4660257089012,-12.9089306863239,-13.0348955482829,-13.1987186186603,-13.6978835891555,-13.4196680098381,-12.8170851105663,-15.3331930139012,-13.6921654633759,-12.9206614858319,-13.0576273324071,-15.0603606878948,-13.9512072937558,-12.9449094603281,-11.9132623069271,-11.5546998765081,-11.5458784230571,-12.9266863131364,-12.2039632423674,-11.6908535342649,-10.1868729671504,-13.0814738144059,-11.9381906243655,-10.7993499323129,-11.2184816639961,-11.0690503654287,-11.798106329671,-11.0730629837417,-11.9364185031265,-12.1352931548294,-11.0635108015919,-11.058858151535,-12.1933245053256,-12.1173736776398,-11.3370763562359,-12.1891597190567,-12.7042692230095,-12.4589595915786,-12.0578038301588,-12.5598925236212,-12.4203458964957,-12.2053623130714,-12.1962146085429,-11.0771736834271,-13.080090254056,-12.6161233343376,-12.1800083308112,-11.7162836785735,-13.5962902618525,-13.0674355565712,-12.3303552381421,-13.4404125149462,-13.6891727709735,-12.8556541230977,-12.3229064818943,-13.690323004759,-13.9411491899369,-13.7055296572463,-13.1691366496001,-14.8398643727124,-13.3076981468213,-13.5774672153419,-11.9267776074259,-12.4419341417441,-12.8225471505498,-11.9073109499978,-12.6613771785743,-13.1001425910325,-13.8830547145931,-13.0567691367383,-13.3292290431923,-10.935454896395,-13.1733103278453,-14.3098208920926,-13.0943590636665,-12.2836799282488,-13.1261536872675,-15.43373565228,-12.2920689835542,-12.6668874220745,-13.1694922840077,-13.7784250750457,-14.200813613868,-11.8959825670102,-12.8847239844528,-13.3262665550197,-11.9348981129049,-12.605209109753,-12.295865283258,-13.5784313689572,-14.1756286103623,-13.9099631833933,-12.1666497161208,-11.5524358985821,-13.92357307082,-12.8786063665283,-13.1027168515805,-14.3054854559624,-13.9285799707738,-13.8860927167051,-13.8180963125949,-13.1762399851118,-14.1014086171386,-14.1063180096879,-13.0785564779294,-14.6887807202465,-13.8854713367192,-14.1929808908315,-14.677469330788,-15.0866764830238,-14.9362543594355,-12.4026370682562,-14.1485715360446,-14.5372544690047,-14.8132201781126,-13.321916926645,-13.3796581036118,-13.933299122462,-13.5756958068289,-11.6405650871195,-13.7208048789591,-13.2740150661156,-14.4536627451907,-14.4427851413011,-13.0867337065602,-11.6773327460066,-13.6683168557088,-14.445920877649,-13.9385938620998,-11.6821968226633,-15.4400143994783,-12.8238714377406,-13.1935440922331,-12.7979570576612,-15.1978174262853,-14.4497428545368,-12.688994726368,-15.0594881561764,-14.4728239381914,-14.5543209833113,-10.9678602188981,-14.3243211855578,-13.1972011041947,-14.4325271173779,-12.2646879224913,-11.1129242644353,-14.4599286149847,-12.3358170525158,-13.9492768866753,-14.372610096565,-12.3294168798764,-13.3183151127232,-14.6866307670268,-13.5830546142623,-14.4090128838302,-12.4085137287697,-12.9522230236815,-12.1871826422474,-11.945156608482,-12.4211035287294,-11.0433628760115,-11.5569586973347,-11.9140664251606,-12.5187130177686,-11.4334034735246,-11.9228603201277,-11.0533248272246,-12.5532238541179,-12.0543624329555,-11.9642168162444,-12.6842486392434,-12.6987267734308,-12.2187539944472,-12.1628894170492,-12.949862842738,-12.5623411207797,-11.4250423968226,-12.3290326066585,-13.0406026588433,-12.8334248216277,-13.3083171677327,-11.8000260566508,-12.56553730809,-12.8944131615758,-13.0893364971144,-12.2067006269663,-12.0378869047622,-13.291758696061,-13.311033518139,-12.6813085413103,-12.7303855134267,-13.0579830054624,-14.0476912357915,-12.5583882304042,-12.7990332082579,-13.1696580829806,-12.5219639957491,-11.9408522303889,-14.7109088908637,-13.4385936729987,-13.4414943139326,-12.6811258845217,-13.574894932441,-13.7210889133295,-13.1768505129168,-13.0736694678977,-13.048094220369,-13.5695921108182,-14.8456526329369,-12.9256485060604,-12.5576396873738,-11.7877232622987,-12.440249032726,-12.3102545992768,-11.4731078420656,-12.1762375434434,-12.5751867313422,-12.3059025899399,-12.7945566578361,-12.5692799487328,-12.922369899725,-13.3063474735037,-12.1714874320492,-11.7129381505449,-12.2012913097366,-12.4428181037179,-11.8880676410729,-11.938802226514,-11.1973645559576,-12.3780429969421,-12.0599234232711,-11.9572346082393,-12.3110860528832,-12.9120049550111,-11.8063328985955,-12.1688644767544,-12.838854724476,-11.1075273519295,-11.5368685332842,-12.8298393515411,-12.8957982321976,-12.8041232999935,-13.1940014011063,-11.690991535316,-12.8267487219346,-11.6615997346218,-12.3164541965411,-12.6585210222166,-13.5178374125355,-13.689706257809,-12.82242533275,-13.9170707838831,-13.8113357970613,-13.6544834185896,-12.8325567179487,-13.8134981865834,-14.4232276448402,-12.9318477460196,-12.9403288049121,-13.7132815913662,-12.1817404081084,-11.1879649863419,-13.1805031589801,-11.6053856414659,-13.1304281195355,-12.8842179474391,-13.4091720552122,-13.5498580713723,-13.3112151366699,-12.8186504809455,-13.1923783655317,-12.1916306932479,-13.5687817003585,-11.1738892235283,-13.3779724994505,-13.8110542613625,-12.5588577589679,-13.8794775683963,-13.952628732796,-12.1888595065907,-13.4360784383606,-13.5709893352555,-13.8147613620788,-13.6132432446857,-12.437205448505,-13.58732063794,-14.3053109753113,-14.5411594654743,-11.6573506512014,-14.3117603289698,-14.0480272349364,-15.1268963945212,-12.8562680635819,-12.6933774501452,-14.0670141914045,-13.8614674726277,-12.0647160833193,-13.4255314501465,-12.4378240584822,-12.8987869062234,-14.1251668672002,-15.3961519419997,-14.3297511740608,-14.6160375430682,-15.3069887852619,-14.5717182927217,-14.6909810349445,-14.4175572672987,-15.0838597032365,-14.4390638801093,-12.0606687158004,-14.7917160226301,-13.945889692519,-14.8116665322252,-13.9301542167594,-12.8213019886314,-14.3058389950029,-12.6544551527191,-13.3121281889658,-15.4163081743591,-14.5971246891295,-14.2960260049051,-13.3166224537116,-11.4468800361856,-12.1775265490297,-14.0428701012373,-12.3778348647329,-14.1567095406994,-14.6831844736934,-14.2060301507089,-13.6957067909441,-14.0579843584407,-14.0482257059131,-13.7087089492667,-14.8743994607972,-14.4300486351562,-16.2943868578541,-15.4389785195025,-12.9462681980559,-15.0581256963541,-11.47501983316,-15.2088089818356,-13.1017317009395],"close":[-12.0831584005245,-11.8046247267045,-12.2159977706657,-12.5422311583213,-11.5905923935921,-11.0505763513231,-11.3386226434721,-10.8573813791068,-11.1113169951685,-12.0879535373356,-12.2117320131526,-11.3257904611268,-12.3165528271702,-12.5299237550023,-12.1993020055272,-12.0344123966623,-9.70948554036916,-12.6529304372232,-12.6799980408413,-12.0518028617314,-12.0465839066672,-12.6822105522421,-13.4311924444897,-12.5564081351907,-12.5623109477552,-12.0656166323124,-13.1990623777577,-11.0710591620989,-12.5705980882902,-13.103018641903,-12.678699930283,-12.6984975863756,-11.9354407384565,-13.0762195574291,-11.9365053129237,-13.4204011510577,-12.5453008418849,-11.6961211422144,-11.4570747491735,-11.9376256846687,-11.1680115452482,-9.84326370714046,-12.3310943651319,-12.0316317479973,-10.290114569817,-10.9418491993615,-11.6891669780216,-10.7006175791098,-12.1789464202479,-12.0674208227786,-11.5595416299882,-12.1947303048062,-12.2000595162299,-11.96138243588,-12.0386060165945,-11.9708646469291,-11.9309273455011,-12.2789810685454,-12.0607687703356,-12.7073925142116,-12.8092850227648,-12.6850166128415,-11.9360308337702,-12.5412632862505,-12.9021883665227,-13.0787541798562,-12.3061733263263,-14.5616818783901,-13.4371570398573,-15.4401640210809,-11.4281498021747,-12.7844169270092,-13.9290299705285,-12.3166981635127,-12.1984385681943,-12.8035127723278,-13.8213729801002,-11.5679289034842,-15.1636985110109,-12.0797394000052,-12.4432501377567,-12.306305691557,-12.1501253013311,-11.1873716006614,-10.9625114269159,-12.800980418512,-11.6342377722312,-11.0559267122992,-10.8133490191639,-11.9829958974162,-12.3911512543645,-11.0778621450189,-11.8250329418922,-11.9008967764713,-11.5625666426251,-11.4387052923042,-11.0618632196405,-12.4196263788203,-12.8550333342918,-11.8224309962969,-11.1986946064239,-12.1827859270402,-13.1624981206665,-11.9540715454848,-11.9406148746361,-12.3428837238823,-12.5739295296742,-12.2993505045493,-13.0937045994472,-12.6886657375918,-12.2958457253178,-12.8088864963856,-10.8136229836164,-12.5583281315922,-12.9689453726007,-12.6928612583232,-11.9615999273571,-13.2053477162233,-13.1265571939937,-12.0596754599077,-13.3219554452293,-13.4660257089012,-12.9089306863239,-13.0348955482829,-13.1987186186603,-13.6978835891555,-13.4196680098381,-12.8170851105663,-15.3331930139012,-13.6921654633759,-12.9206614858319,-13.0576273324071,-15.0603606878948,-13.9512072937558,-12.9449094603281,-11.9132623069271,-11.5546998765081,-11.5458784230571,-12.9266863131364,-12.2039632423674,-11.6908535342649,-10.1868729671504,-13.0814738144059,-11.9381906243655,-10.7993499323129,-11.2184816639961,-11.0690503654287,-11.798106329671,-11.0730629837417,-11.9364185031265,-12.1352931548294,-11.0635108015919,-11.058858151535,-12.1933245053256,-12.1173736776398,-11.3370763562359,-12.1891597190567,-12.7042692230095,-12.4589595915786,-12.0578038301588,-12.5598925236212,-12.4203458964957,-12.2053623130714,-12.1962146085429,-11.0771736834271,-13.080090254056,-12.6161233343376,-12.1800083308112,-11.7162836785735,-13.5962902618525,-13.0674355565712,-12.3303552381421,-13.4404125149462,-13.6891727709735,-12.8556541230977,-12.3229064818943,-13.690323004759,-13.9411491899369,-13.7055296572463,-13.1691366496001,-14.8398643727124,-13.3076981468213,-13.5774672153419,-11.9267776074259,-12.4419341417441,-12.8225471505498,-11.9073109499978,-12.6613771785743,-13.1001425910325,-13.8830547145931,-13.0567691367383,-13.3292290431923,-10.935454896395,-13.1733103278453,-14.3098208920926,-13.0943590636665,-12.2836799282488,-13.1261536872675,-15.43373565228,-12.2920689835542,-12.6668874220745,-13.1694922840077,-13.7784250750457,-14.200813613868,-11.8959825670102,-12.8847239844528,-13.3262665550197,-11.9348981129049,-12.605209109753,-12.295865283258,-13.5784313689572,-14.1756286103623,-13.9099631833933,-12.1666497161208,-11.5524358985821,-13.92357307082,-12.8786063665283,-13.1027168515805,-14.3054854559624,-13.9285799707738,-13.8860927167051,-13.8180963125949,-13.1762399851118,-14.1014086171386,-14.1063180096879,-13.0785564779294,-14.6887807202465,-13.8854713367192,-14.1929808908315,-14.677469330788,-15.0866764830238,-14.9362543594355,-12.4026370682562,-14.1485715360446,-14.5372544690047,-14.8132201781126,-13.321916926645,-13.3796581036118,-13.933299122462,-13.5756958068289,-11.6405650871195,-13.7208048789591,-13.2740150661156,-14.4536627451907,-14.4427851413011,-13.0867337065602,-11.6773327460066,-13.6683168557088,-14.445920877649,-13.9385938620998,-11.6821968226633,-15.4400143994783,-12.8238714377406,-13.1935440922331,-12.7979570576612,-15.1978174262853,-14.4497428545368,-12.688994726368,-15.0594881561764,-14.4728239381914,-14.5543209833113,-10.9678602188981,-14.3243211855578,-13.1972011041947,-14.4325271173779,-12.2646879224913,-11.1129242644353,-14.4599286149847,-12.3358170525158,-13.9492768866753,-14.372610096565,-12.3294168798764,-13.3183151127232,-14.6866307670268,-13.5830546142623,-14.4090128838302,-12.4085137287697,-12.9522230236815,-12.1871826422474,-11.945156608482,-12.4211035287294,-11.0433628760115,-11.5569586973347,-11.9140664251606,-12.5187130177686,-11.4334034735246,-11.9228603201277,-11.0533248272246,-12.5532238541179,-12.0543624329555,-11.9642168162444,-12.6842486392434,-12.6987267734308,-12.2187539944472,-12.1628894170492,-12.949862842738,-12.5623411207797,-11.4250423968226,-12.3290326066585,-13.0406026588433,-12.8334248216277,-13.3083171677327,-11.8000260566508,-12.56553730809,-12.8944131615758,-13.0893364971144,-12.2067006269663,-12.0378869047622,-13.291758696061,-13.311033518139,-12.6813085413103,-12.7303855134267,-13.0579830054624,-14.0476912357915,-12.5583882304042,-12.7990332082579,-13.1696580829806,-12.5219639957491,-11.9408522303889,-14.7109088908637,-13.4385936729987,-13.4414943139326,-12.6811258845217,-13.574894932441,-13.7210889133295,-13.1768505129168,-13.0736694678977,-13.048094220369,-13.5695921108182,-14.8456526329369,-12.9256485060604,-12.5576396873738,-11.7877232622987,-12.440249032726,-12.3102545992768,-11.4731078420656,-12.1762375434434,-12.5751867313422,-12.3059025899399,-12.7945566578361,-12.5692799487328,-12.922369899725,-13.3063474735037,-12.1714874320492,-11.7129381505449,-12.2012913097366,-12.4428181037179,-11.8880676410729,-11.938802226514,-11.1973645559576,-12.3780429969421,-12.0599234232711,-11.9572346082393,-12.3110860528832,-12.9120049550111,-11.8063328985955,-12.1688644767544,-12.838854724476,-11.1075273519295,-11.5368685332842,-12.8298393515411,-12.8957982321976,-12.8041232999935,-13.1940014011063,-11.690991535316,-12.8267487219346,-11.6615997346218,-12.3164541965411,-12.6585210222166,-13.5178374125355,-13.689706257809,-12.82242533275,-13.9170707838831,-13.8113357970613,-13.6544834185896,-12.8325567179487,-13.8134981865834,-14.4232276448402,-12.9318477460196,-12.9403288049121,-13.7132815913662,-12.1817404081084,-11.1879649863419,-13.1805031589801,-11.6053856414659,-13.1304281195355,-12.8842179474391,-13.4091720552122,-13.5498580713723,-13.3112151366699,-12.8186504809455,-13.1923783655317,-12.1916306932479,-13.5687817003585,-11.1738892235283,-13.3779724994505,-13.8110542613625,-12.5588577589679,-13.8794775683963,-13.952628732796,-12.1888595065907,-13.4360784383606,-13.5709893352555,-13.8147613620788,-13.6132432446857,-12.437205448505,-13.58732063794,-14.3053109753113,-14.5411594654743,-11.6573506512014,-14.3117603289698,-14.0480272349364,-15.1268963945212,-12.8562680635819,-12.6933774501452,-14.0670141914045,-13.8614674726277,-12.0647160833193,-13.4255314501465,-12.4378240584822,-12.8987869062234,-14.1251668672002,-15.3961519419997,-14.3297511740608,-14.6160375430682,-15.3069887852619,-14.5717182927217,-14.6909810349445,-14.4175572672987,-15.0838597032365,-14.4390638801093,-12.0606687158004,-14.7917160226301,-13.945889692519,-14.8116665322252,-13.9301542167594,-12.8213019886314,-14.3058389950029,-12.6544551527191,-13.3121281889658,-15.4163081743591,-14.5971246891295,-14.2960260049051,-13.3166224537116,-11.4468800361856,-12.1775265490297,-14.0428701012373,-12.3778348647329,-14.1567095406994,-14.6831844736934,-14.2060301507089,-13.6957067909441,-14.0579843584407,-14.0482257059131,-13.7087089492667,-14.8743994607972,-14.4300486351562,-16.2943868578541,-15.4389785195025,-12.9462681980559,-15.0581256963541,-11.47501983316,-15.2088089818356,-13.1017317009395],"high":[-10.058983387691,-10.3069418402954,-10.4576143457211,-10.1616109155304,-10.3985299922762,-9.41097615492595,-9.54754455051017,-9.19234601920692,-8.60871314294505,-10.1765494085581,-9.80881569288514,-9.044754941915,-10.3145123006699,-10.6995896302959,-10.6795694647326,-10.1982897001934,-8.28697515079303,-11.0520870611289,-11.0713153155363,-9.69395942109991,-10.409264634797,-10.9294470030465,-11.8023093183704,-10.6782836872482,-10.7173856072528,-10.3211130523929,-11.8014817765703,-9.32968298955257,-11.1838705919554,-11.2022573992883,-11.314408067902,-10.2877457459896,-10.3209301182363,-11.738234718381,-10.3205175976219,-11.4408541302815,-10.8007943792096,-9.82155376476438,-9.67971424328151,-10.0468086180074,-9.20982512132589,-8.08609837558224,-10.6801869530658,-10.5760109090001,-8.70519350379993,-8.94002433613479,-9.82086316410811,-8.55971781619672,-10.6887629582285,-9.45540821006495,-9.66827576710941,-9.44752567730889,-10.7192779686126,-9.82494625510409,-10.154269131699,-9.80285618157875,-10.2903170145842,-10.3341476571689,-10.1949772296329,-10.4571797952497,-11.1792842143062,-10.8170484081263,-10.3047224631073,-10.4568895988555,-11.313427001015,-10.8183229572103,-10.9129845488717,-12.676858873658,-11.7974255796164,-13.5449301780295,-9.94454218960402,-10.8229792428933,-12.4585179857562,-10.4723117049259,-10.1901981660265,-10.9630331916008,-11.9427594318744,-9.82297992894806,-12.9240913763876,-10.4478344103799,-10.5540027138612,-10.4329130101334,-10.5457116693372,-9.66538417051146,-9.44977455663501,-10.6095762093188,-9.41354146883452,-9.2981595730114,-9.18304725581947,-10.4489152128339,-10.4100989961264,-9.95483480052288,-9.71566216289124,-10.0677379891913,-10.2038923309761,-10.0651566512119,-8.82058455987339,-10.8230981855792,-10.6221644812844,-10.2008892467062,-9.57312325579059,-10.5534501478811,-11.1440488647441,-9.56087248281081,-10.1922003117902,-10.4070181407319,-10.931878068935,-10.317620781623,-11.0807124957673,-10.8209092433741,-10.6815538148528,-11.0762641770663,-8.95169417857348,-10.7040810628892,-11.4243558656044,-10.944305608589,-10.2956068662905,-11.3186260949967,-11.6179091167026,-10.3448548581528,-10.8119651985541,-11.8130207512885,-11.704702171078,-11.0730171754813,-10.9991370330554,-11.9267277812068,-11.6449405177018,-10.9606806543759,-13.0582879163678,-12.1911926960745,-11.5345011432483,-10.835473179508,-12.7934493423147,-12.1796409052378,-11.5933807429202,-10.3706413423204,-9.94763922930037,-9.56795817511809,-10.3119044203775,-10.3390786970865,-9.68317922097046,-8.43227798382365,-11.0482366785572,-10.560000347693,-8.94612099496749,-9.43419826269667,-9.11671158350803,-9.92782438625984,-9.08450136357301,-10.3211589074043,-10.6492043729313,-9.65416911540137,-8.81680570553005,-10.0521368303106,-10.2844573717207,-9.54317612553707,-9.92350059461626,-10.8121526472916,-10.8290556785644,-10.4442691206151,-10.3674232803671,-10.700112431176,-10.5596166291588,-10.206700279128,-8.68056398885338,-11.411359938471,-10.8955587151007,-10.0553144717425,-9.68259484743555,-12.1139293500501,-11.1946561005255,-10.3316885856542,-11.1742261510746,-11.9237400570632,-11.385646105212,-10.6864237999044,-10.9463808909491,-11.6596828763771,-12.1833457128468,-10.8627533359566,-12.1832926920956,-11.4515813945455,-11.9124601027269,-9.931214732333,-10.1677007335373,-11.3423673978583,-10.1178411314975,-10.9411596234263,-10.8895285255118,-11.4196535130143,-10.5976352845196,-11.6933191944195,-9.17086184649485,-11.1364932122432,-12.3231246314968,-11.3975213124257,-10.5293804711122,-10.6678907769364,-11.9311415240803,-10.8249293944404,-10.6095267876171,-11.3928107343869,-11.854682395964,-11.9497863800632,-10.3687830480457,-10.893762525693,-10.7103197056246,-10.1935289529331,-10.6898230086276,-10.6523675057615,-11.0771681796192,-12.4307641967797,-12.0759840509277,-10.4259636994486,-8.92715341102442,-12.5799729204864,-11.1132882359823,-11.3889388343859,-11.5712335943553,-12.4269792135677,-12.3666305404883,-11.8107030117835,-10.5884388520208,-12.1679112741382,-11.8624459248398,-11.4378242756581,-12.164815909585,-12.3818723026026,-12.3106167586232,-12.318930259614,-12.5404891479201,-12.7861262255951,-10.8645907183712,-12.4360925536951,-12.2844961613552,-13.0352716223386,-11.3233699231868,-11.6331546269891,-11.5531607644621,-11.6747497372796,-10.105675965285,-11.9498055376575,-11.1607110726032,-11.9011383081003,-12.5593373223762,-11.0539906184378,-9.43925241072236,-11.1059419960598,-12.0627730384192,-11.4424070001094,-9.96324820315663,-12.1957570147337,-11.052842879747,-11.0291954013163,-11.197696976621,-12.5350072016289,-12.6719966585277,-10.3157674760176,-12.9566783464505,-11.6941629203862,-12.4328062929841,-9.12588726013697,-12.5774460451631,-11.1954470105007,-12.6743067360367,-11.5658208775053,-9.77900475002517,-13.0651996889909,-10.953829636418,-12.8945051457318,-12.952606945657,-10.4428751012256,-10.8068645487291,-13.1850965165273,-12.0471043005968,-12.3965543429028,-10.7385568227943,-11.0765679930854,-10.4397571918172,-9.53952465479365,-10.5654108485453,-9.84303485828899,-10.2075291089055,-8.93112750073795,-11.0265841162452,-9.42541103317497,-10.0582679772703,-9.1743210180336,-10.8111035356484,-9.92915049252464,-10.327252499173,-10.5507821344211,-11.1855303242618,-10.6975576841822,-10.4235071108794,-10.7077369627406,-11.3186183477185,-9.8265383818857,-10.4276116240383,-11.0986011409784,-11.4405900998742,-11.6714862631936,-10.3048552409869,-9.91465517671276,-11.1984867958336,-11.15488759999,-10.7095246921001,-9.57693438571626,-11.5765466365966,-11.7154474641736,-11.1774296794825,-10.6799424942996,-11.6662480171926,-11.9343433590848,-10.9498766523769,-10.9363282301214,-11.4339647664723,-11.0687078465558,-10.4420781654191,-12.2104602105849,-12.0532537552875,-12.0657030398446,-10.8133206527037,-11.5414902539193,-11.6824688980446,-11.6921767354278,-11.301159422616,-11.2951628430358,-11.8178152740602,-13.194102231853,-11.3183158358573,-10.1891775560981,-10.3339681277403,-10.5731996482012,-10.6713123476306,-9.97434476391502,-10.5303356423035,-10.6713072169971,-10.5406601307223,-11.1979255928087,-10.8164190877265,-10.6792402132897,-11.8019739079548,-10.5820350994846,-10.0534022928632,-9.5348937680497,-11.068329057291,-10.1602752946178,-9.79460800523334,-9.30899187016589,-10.1335413575233,-10.3388166440281,-10.4423206526624,-10.5856242465661,-10.3898260866,-9.80249767986493,-10.189590662654,-11.3135147859892,-9.11282315252344,-10.3049520346427,-11.0609280322092,-10.818590230424,-10.9304554167364,-11.2895128044318,-9.70254155738685,-11.307115261809,-10.4446951134701,-10.5407128099003,-9.67959959335481,-12.1791921382779,-11.7961361536828,-10.9490511263222,-11.4336880969513,-12.0376187115614,-11.4227780590676,-10.9397735531022,-11.7725437258314,-12.6835155439059,-10.8234215967025,-11.3240048029013,-11.6807921586469,-10.2931498704038,-9.80010427776842,-11.7124721073267,-8.88682382196885,-11.3541315855581,-10.3829281976012,-11.5705738792714,-12.2189474082958,-11.5690160375458,-10.4587477298307,-11.7885631087018,-10.5490806311944,-11.5411949016129,-8.37128626045601,-11.6206409917981,-11.8181980698653,-10.9297909510155,-11.4030298918823,-12.4368342036115,-10.707634714777,-11.5554910158238,-11.4528731554765,-12.1961727487694,-11.8958282873073,-10.7039793960834,-11.1647149935141,-12.2081536752826,-12.6899517008755,-10.0693994368844,-11.8095038923731,-12.0499026914556,-13.1314140305104,-11.1942054610272,-10.0640420337736,-12.4378699526805,-11.8445715874983,-10.0325763152676,-10.9120583203375,-10.325091397716,-11.0921239024856,-12.6321662386244,-12.3710821657905,-12.4419619976558,-12.5480565096637,-13.1612793884201,-12.8193886372616,-13.3230636389862,-12.6104034733728,-12.1829466093859,-12.9572862706831,-10.3057962135093,-12.8529248816749,-10.6895135498722,-13.08324071663,-12.4349819750855,-11.447621063642,-12.3045893544796,-10.9529752070412,-11.4326255746956,-13.8152448602904,-13.1472704152876,-12.2921078713461,-10.3830657816407,-9.8169954314272,-10.5372856742749,-11.4471684852103,-9.84564143806882,-12.0989362586938,-12.8007266218108,-12.240761416343,-10.0233896333164,-12.5921093495168,-12.2079459296821,-12.0566167123041,-12.5987655854226,-12.8005608460343,-13.9409547026432,-12.8147065077126,-10.430791787951,-12.9185132616253,-9.56587597115604,-13.1790753941448,-10.921521453028],"low":[-14.9155151778648,-13.6730029093905,-13.9414261450919,-14.9471738911275,-13.1537106487411,-12.7110472128666,-13.0581155050777,-13.5826551004828,-14.8220795165984,-14.1896709076533,-14.4448891738646,-13.4458736279742,-14.3106691463578,-14.5525888757649,-13.956973256007,-14.6589427386383,-11.2777521652222,-14.4848297478625,-14.082130002988,-14.5580542909043,-14.1686853501887,-14.1507135211131,-17.3066013078659,-14.2942685870234,-13.9482893370807,-14.3305440205991,-15.0539313244752,-14.5765813579696,-14.3165982098866,-15.3194753962268,-14.1841840264622,-15.4366972304416,-13.5666868439607,-14.7019879924084,-13.8371479970287,-15.9560508508566,-14.1813845262101,-13.0577934192826,-13.4429679252991,-13.8033530609568,-12.8117782670065,-13.8004158849387,-13.9091396119337,-13.6909941141311,-12.4617926309255,-13.6837206284361,-13.2868626125141,-13.5815238884545,-14.3070527646679,-14.025046574059,-13.8283337908396,-14.3243482909294,-13.9276963429131,-13.4566819252323,-14.0808730658437,-15.2800923177585,-13.9411318720883,-14.110880253308,-13.8118975271712,-16.0776834910118,-14.5679754907247,-14.3017879182604,-13.5593939578177,-15.1678796412679,-14.8115374148282,-15.1663214581612,-14.3382323929636,-17.1641062283255,-15.1839845087793,-16.9144545696302,-13.3195221832385,-16.5970246475228,-15.9428356381996,-14.1719422041716,-14.0820065294548,-16.312999908969,-15.8357592232864,-13.7999100350126,-16.8033954845401,-13.9178090123065,-15.082421217038,-13.7122351119055,-14.1694586579059,-13.0606711810555,-13.8196432505863,-14.5145800727882,-13.8853610371213,-12.5643139945687,-13.4608764727611,-13.8057550394818,-14.3691127026976,-12.6953981265713,-14.6742956357349,-13.7008728312875,-13.336474461504,-12.8141998932023,-14.7009611991883,-14.1721503731943,-14.3913338014836,-13.3243971924615,-14.3974973291806,-14.0409214953896,-14.5739142003176,-14.1706248351725,-14.4174986970938,-13.9935805725791,-14.6955914068737,-13.806324876701,-14.8286118991941,-14.3237886936303,-14.3007145662706,-14.5673230293569,-13.5390865096949,-14.7053012728298,-14.843140904536,-14.1967227412374,-14.9552801213219,-14.7999299303664,-14.8648006142502,-14.3037951078918,-16.4333306885873,-15.1730011477334,-14.0585582550142,-15.4198960806218,-15.4493119211572,-15.4516526589721,-15.0499022336017,-14.5638560942406,-18.3210936266353,-15.4207357820194,-14.559502306663,-14.9368792213695,-17.8113762658075,-16.0484701113997,-14.6809664358691,-13.8016868683147,-13.1777406207059,-15.4184179924507,-14.802186375127,-14.3148915466013,-13.5494181431799,-13.3116442979748,-15.0570607698857,-13.9546761302125,-13.04223751852,-13.434460470553,-13.3919046055438,-13.5501320310542,-14.3151052129185,-13.8152612341489,-13.8835275386458,-13.0229181108431,-13.663374262651,-14.2125340889097,-13.8708602413226,-13.5842683278172,-14.6901274027097,-14.4387368785325,-14.0945810024049,-13.9515832765377,-16.3229119596075,-14.3123203007469,-13.6799670232475,-14.4319441252797,-14.332398679201,-15.0439758828652,-14.8372494425666,-13.8194277224186,-14.6941254431935,-15.6176064741249,-14.935268238702,-14.1846581536595,-17.0500527549238,-15.591925695446,-15.1204144158502,-14.3246998608406,-16.8586612870814,-15.5868482306077,-15.2016598937055,-14.8434800515786,-18.1956128837674,-15.6576324708085,-15.261201939301,-13.7040352599883,-16.0644327314789,-14.5619490301598,-13.6406666595636,-14.2887350747399,-15.1455285474695,-15.5901424123323,-15.8626361557719,-15.5619939237611,-12.462792082664,-14.8685970341805,-16.6586409035444,-15.6287746278211,-13.723466949077,-15.1587820815083,-17.937681517506,-14.0239504248624,-14.6713734290816,-15.0822385964313,-16.1596697144605,-16.1422258782879,-13.6385599024903,-14.9159774962344,-16.1186306505682,-13.8054813942668,-14.8887252563434,-14.5731897602386,-16.7605434980572,-16.2031271613926,-15.8934994205241,-14.3068876888034,-14.1900866838057,-15.5489398651357,-15.3621379909672,-14.8753374463607,-17.3331564313597,-15.561377146043,-15.3723587862858,-15.8195988808553,-16.3288349282029,-15.8701141075626,-15.8810742432117,-15.0430750195501,-17.8246482215976,-15.3876775238087,-15.4266480381597,-16.9169641211357,-17.5679398971727,-16.9474105647731,-13.8246647143894,-16.437132576686,-17.213298284208,-16.6820951229591,-15.0706699993688,-15.8413136519467,-16.4395027710644,-15.4176620149924,-13.3964751126201,-15.4404947000363,-16.0859557530036,-16.7988643765427,-16.5610289856547,-15.5665554594309,-13.5556178115391,-17.3993238046501,-16.5585629037085,-16.0576635642912,-13.6915390476054,-18.2901507923934,-14.8472492110934,-15.0893066916203,-15.2792296248219,-17.9377195006304,-16.8194508247775,-14.2826114915094,-17.3138854816393,-17.6733510700281,-16.4023384487772,-13.1932607241194,-16.8599143004487,-16.9096457626916,-16.3134813608587,-13.8589249456136,-12.6879411327356,-16.5060975510859,-14.6778354888301,-14.7681090091344,-17.7532551157795,-14.8281668765303,-16.7894701264236,-16.1788538188429,-15.3175614800273,-16.0678018903773,-14.0252701413262,-14.5577008574225,-13.6797108555933,-14.5538746481983,-14.1722731664801,-12.7442091747261,-13.4474153266624,-15.6624759656718,-14.4083652033702,-13.3418593263118,-13.6857940802921,-13.9183979292836,-14.3096411570643,-14.0685287893437,-13.5687895520042,-15.7924103097415,-13.9363750213514,-14.1024330027993,-13.7912799557972,-15.8175313692903,-14.0869093957211,-13.1729656560051,-13.7961896945287,-15.5553647345181,-14.4337286213458,-15.1843075818108,-13.3054964939078,-16.4532818971678,-14.8073144970073,-14.898474657667,-13.8096686525067,-14.2910754755672,-14.788705025997,-15.079366438852,-14.544936458395,-15.4524699658109,-14.9112279606331,-15.5543633531861,-14.0644092964945,-16.4060708575189,-14.6775159284715,-13.8080946403181,-14.0618447760488,-16.9206391061,-15.0494576391664,-15.3444424775597,-14.8264791506868,-17.0719548114666,-15.6631683127589,-14.6689648507197,-14.8130764454056,-15.9201399351493,-15.5395508465792,-16.6093756341916,-14.9505563017629,-14.4201861610959,-13.7980589819349,-15.7760499114882,-14.0617031607106,-13.209443742275,-14.077031972928,-15.1601028769066,-13.9373448448493,-14.4120011634771,-14.402860468876,-16.5573095658617,-15.2934118237157,-14.5461041224187,-13.7131700042116,-15.4403307560341,-14.0460664027079,-13.608904904234,-13.7116906001146,-14.1077673925872,-14.8689047842867,-13.8091696514476,-14.7113921778498,-14.4409975372441,-14.898612696533,-13.8345209963948,-14.6837368744415,-14.7133698204808,-13.0814409677995,-13.5915314868793,-15.5381330574039,-14.9450785327074,-14.9222499697683,-15.0793774101978,-14.699622639246,-14.8363718274552,-13.4461940987085,-14.0510271885602,-16.3239206566065,-15.4223159107078,-15.6880903833128,-14.1764492106251,-17.0603773645095,-15.6859622401202,-15.9063113141779,-14.8131790442107,-15.3286442177195,-16.4170063885805,-14.5429678269157,-15.0902398199125,-17.3132662148159,-13.9177512312524,-12.6784062975502,-15.0814794870321,-14.6788645576345,-14.818227628187,-15.8910341632761,-15.0420314880197,-15.1908993514599,-15.5535575088627,-14.932999700639,-14.9436254229842,-13.8056916631382,-15.3134789363754,-14.328031592272,-15.3146135074913,-15.7064319830464,-14.4381941273569,-16.6056404574861,-15.5358955089585,-13.9193070474203,-16.0608568891031,-17.7846634508061,-15.9375620388896,-15.8528729369321,-14.4317889177123,-17.143276960116,-16.1611355574116,-16.2011825470999,-13.9623960231252,-17.9812530789499,-15.8142472507745,-17.3968577922404,-15.065083618944,-17.5839036118111,-15.8054013737748,-15.8413867544334,-14.1516524631358,-16.6617418401943,-14.2985494882777,-14.636517392138,-16.1634052070332,-18.1609537580774,-15.9066474612916,-16.6612490417079,-17.934089280388,-16.6896715309113,-16.4143973583778,-16.3579731280235,-18.3200936150879,-16.5659337041308,-14.5541588996148,-16.7127973432161,-16.4085458973091,-16.7986847305732,-15.8362379642314,-14.4308246744198,-17.4395246702085,-14.5319298080455,-14.7055169264039,-17.4400033918607,-16.1107546242909,-16.5192087691549,-16.8637741434384,-13.1809023205204,-14.2928945692636,-16.1659705912035,-15.348895804291,-15.9007198978026,-16.3960379357525,-16.2924583620805,-15.6935289173262,-15.9250627930975,-16.4398624651289,-16.3242963333121,-17.5958527454149,-16.4156580774282,-18.9424785350143,-17.6283549432891,-15.5475555710999,-17.1794969203228,-13.1896022172849,-16.5669981608208,-16.4221376907438],"type":"candlestick","line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="analyze-data" class="section level2">
+<h2>Analyze data</h2>
+<p>Now, we have 40 “features”, ie. polygons, so we have to analyze all of them.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">feature1<span class="fl">.2017</span> &lt;-<span class="st"> </span>feature1[ <span class="kw">as.character.Date</span>( feature1<span class="op">$</span>Date, <span class="st">&quot;%Y&quot;</span> ) <span class="op">==</span><span class="st"> &quot;2017&quot;</span>, ]</a>
+<a class="sourceLine" id="cb24-2" title="2"></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="kw">plot</span>( feature1<span class="fl">.2017</span><span class="op">$</span>Date, feature1<span class="fl">.2017</span><span class="op">$</span>VH_p50 )</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">feature1.<span class="fl">2017.</span>lm &lt;-<span class="st"> </span><span class="kw">lm</span>( feature1<span class="fl">.2017</span><span class="op">$</span>VH_p50  <span class="op">~</span><span class="st"> </span>feature1<span class="fl">.2017</span><span class="op">$</span>Date )</a>
+<a class="sourceLine" id="cb25-2" title="2">feature1.<span class="fl">2017.</span>lm2 &lt;-<span class="st"> </span><span class="kw">lm</span>( feature1<span class="fl">.2017</span><span class="op">$</span>VH_p50  <span class="op">~</span><span class="st"> </span>feature1<span class="fl">.2017</span><span class="op">$</span>shadow_p50 )</a>
+<a class="sourceLine" id="cb25-3" title="3"></a>
+<a class="sourceLine" id="cb25-4" title="4"><span class="kw">summary</span>(feature1.<span class="fl">2017.</span>lm)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = feature1.2017$VH_p50 ~ feature1.2017$Date)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.95474 -0.41891  0.00289  0.45578  1.97433 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         2.015e+02  2.257e+01   8.925 1.28e-14 ***
+## feature1.2017$Date -1.424e-07  1.502e-08  -9.482 7.01e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6481 on 108 degrees of freedom
+## Multiple R-squared:  0.4543, Adjusted R-squared:  0.4493 
+## F-statistic: 89.91 on 1 and 108 DF,  p-value: 7.014e-16</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">summary</span>(feature1.<span class="fl">2017.</span>lm2)</a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = feature1.2017$VH_p50 ~ feature1.2017$shadow_p50)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.76379 -0.50034  0.00547  0.60049  1.75606 
+## 
+## Coefficients: (1 not defined because of singularities)
+##                           Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)              -12.56941    0.08326    -151   &lt;2e-16 ***
+## feature1.2017$shadow_p50        NA         NA      NA       NA    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.8732 on 109 degrees of freedom</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">ggplot</span>(feature1<span class="fl">.2017</span>, <span class="kw">aes</span>(<span class="dt">x=</span>Date , <span class="dt">y=</span>VH_p50) ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb29-2" title="2"><span class="st">     </span><span class="kw">geom_line</span>( <span class="kw">aes</span>(feature1<span class="fl">.2017</span><span class="op">$</span>Date, feature1.<span class="fl">2017.</span>lm<span class="op">$</span>fitted.values, <span class="dt">color=</span><span class="st">&quot;red&quot;</span> ) )</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">summary</span>(feature1.<span class="fl">2017.</span>lm) </a></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = feature1.2017$VH_p50 ~ feature1.2017$Date)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.95474 -0.41891  0.00289  0.45578  1.97433 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)         2.015e+02  2.257e+01   8.925 1.28e-14 ***
+## feature1.2017$Date -1.424e-07  1.502e-08  -9.482 7.01e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.6481 on 108 degrees of freedom
+## Multiple R-squared:  0.4543, Adjusted R-squared:  0.4493 
+## F-statistic: 89.91 on 1 and 108 DF,  p-value: 7.014e-16</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">ggplot</span>(feature1<span class="fl">.2017</span>, <span class="kw">aes</span>(<span class="dt">x=</span>Date , <span class="dt">y=</span>VH_p50) ) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="st">     </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<p><img src="webinar3_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co"># plot_ly(feature1, x = ~Date, xstart= ~Date,  xend = ~Date, color = ~Orbit, </span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="co">#         colors = c(&quot;red&quot;, &quot;forestgreen&quot;), hoverinfo = &quot;none&quot;) %&gt;%</span></a>
+<a class="sourceLine" id="cb33-3" title="3"><span class="co">#   add_segments(y = ~VH_p50,  ymin = ~VH_p25, yend = ~VH_p25, size = I(1)) %&gt;%</span></a>
+<a class="sourceLine" id="cb33-4" title="4"><span class="co">#  # add_segments(y = ~Open, yend = ~Close, size = I(3)) %&gt;%</span></a>
+<a class="sourceLine" id="cb33-5" title="5"><span class="co">#   layout(showlegend = FALSE, yaxis = list(title = &quot;VH&quot;)) %&gt;%</span></a>
+<a class="sourceLine" id="cb33-6" title="6"><span class="co">#   rangeslider()</span></a></code></pre></div>
+<p>We enclose all steps that we want to apply to a single feature inside a <strong>function</strong>. A function is an object that ‘does things’ taking input arguments - inside parenthesis - and returns a value (object).</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">myCoolFunction&lt;-<span class="cf">function</span>(var) {</a>
+<a class="sourceLine" id="cb34-2" title="2">  <span class="kw">print</span>( <span class="kw">sprintf</span>(<span class="st">&quot;ciao %s&quot;</span>, var) )</a>
+<a class="sourceLine" id="cb34-3" title="3">}</a>
+<a class="sourceLine" id="cb34-4" title="4"></a>
+<a class="sourceLine" id="cb34-5" title="5"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(<span class="st">&quot;Maria&quot;</span>, <span class="st">&quot;Bobby&quot;</span>, <span class="st">&quot;Cesare&quot;</span>) ){</a>
+<a class="sourceLine" id="cb34-6" title="6">  <span class="kw">myCoolFunction</span>(i)</a>
+<a class="sourceLine" id="cb34-7" title="7">}</a></code></pre></div>
+<pre><code>## [1] &quot;ciao Maria&quot;
+## [1] &quot;ciao Bobby&quot;
+## [1] &quot;ciao Cesare&quot;</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">myCoolFunction&lt;-<span class="cf">function</span>(feature) {</a>
+<a class="sourceLine" id="cb36-2" title="2">  feature.df&lt;-<span class="kw">as.data.frame</span>( feature<span class="op">$</span>properties )</a>
+<a class="sourceLine" id="cb36-3" title="3">  <span class="kw">print</span>(<span class="kw">nrow</span>(feature.df))</a>
+<a class="sourceLine" id="cb36-4" title="4">}</a>
+<a class="sourceLine" id="cb36-5" title="5"></a>
+<a class="sourceLine" id="cb36-6" title="6"><span class="cf">for</span>(i <span class="cf">in</span> data.gee<span class="op">$</span>features ){</a>
+<a class="sourceLine" id="cb36-7" title="7">  <span class="kw">myCoolFunction</span>(i)</a>
+<a class="sourceLine" id="cb36-8" title="8">}</a></code></pre></div>
+<pre><code>## [1] 464
+## [1] 479
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 463
+## [1] 480
+## [1] 463
+## [1] 490
+## [1] 463
+## [1] 463
+## [1] 463
+## [1] 463
+## [1] 499
+## [1] 509
+## [1] 463
+## [1] 463
+## [1] 464
+## [1] 463
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 463
+## [1] 463
+## [1] 463
+## [1] 464
+## [1] 463
+## [1] 463
+## [1] 464
+## [1] 463
+## [1] 463
+## [1] 463
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 464
+## [1] 464</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = false;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2020-08-16" />
+
+<title>Using Sentinel-1 for forests analysis: where can we push the limit?</title>
+
+<script src="paper2_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="paper2_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="paper2_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="paper2_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="paper2_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="paper2_files/navigation-1.1/tabsets.js"></script>
+<link href="paper2_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="paper2_files/highlightjs-9.12.0/highlight.js"></script>
+<link href="paper2_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="paper2_files/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="paper2_files/htmlwidgets-1.5/htmlwidgets.js"></script>
+<script src="paper2_files/viz-1.8.2/viz.js"></script>
+<link href="paper2_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="paper2_files/grViz-binding-1.0.6.1/grViz.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+<style type="text/css">
+  p.abstract{
+    text-align: center;
+    font-weight: bold;
+  }
+  div.abstract{
+    margin: auto;
+    width: 90%;
+  }
+</style>
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Using Sentinel-1 for forests analysis: where can we push the limit?</h1>
+<h4 class="author">Francesco Pirotti</h4>
+<address class="author_afil">
+CIRGEO Interdepartmental Research Center of Research of Geomatics<br><a class="author_email" href="mailto:#"><a href="mailto:francesco.pirotti@unipd.it" class="email">francesco.pirotti@unipd.it</a></a>
+</address>
+<h4 class="author">Francesco Pirotti</h4>
+<address class="author_afil">
+TESAF Department<br><a class="author_email" href="mailto:#"><a href="mailto:francesco.pirotti@unipd.it" class="email">francesco.pirotti@unipd.it</a></a>
+</address>
+<h4 class="date">2020-08-16</h4>
+<div class="abstract">
+<p class="abstract">Abstract</p>
+This is the abstract. It consists of two paragraphs.
+</div>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>In this work the backscatter response of Sentinel-1 C-band signal over forests is analysed to understand what and how it can be used. Below the points that are analysed:</p>
+<ul>
+<li>the effect of irregular terrain ie. mixed incidence angle</li>
+<li>effect of seasonality over different tree categories</li>
+<li></li>
+</ul>
+<p>a large mountain area</p>
+<p>Cyclical changes in vegetation is a well-known fact. Most research investigates fisiological changes connected to photosynthesis and climate over seasons. Interestingly even physical position/orientation of leaves and branches can reflect day/night (circadian leaf movements) in birch trees <span class="citation">[<a href="#ref-Puttonen2016">1</a>]</span>.</p>
+<p>In tropical forests Sentinel 1 and FIRMS has been used <span class="citation">[<a href="#ref-Reiche2018">2</a>]</span></p>
+</div>
+<div id="material-and-methods" class="section level1">
+<h1>Material and methods</h1>
+<p>The first step consisted in using Google Earth Engine to combine several image collection to filter data that was then analysed further in R CRAN. The data consist in Sentinel 1 VV and VH values from selected cells that have the following characteristics:</p>
+<ul>
+<li><p>are completely covered by trees - for this the forest cover map from 2000 <span class="citation">[<a href="#ref-Hansen2013">3</a>]</span> was used by selecting only cells withe value 100 (100% cover) and removing the ones that recorded loss between the period 2000-2019</p></li>
+<li><p>are not covered by snow at time of recording - this was done by removing analysis of the closest Sentinel 2 image before the date of each Sentinel 1 image. The</p></li>
+</ul>
+<div id="htmlwidget-0f2281d4e1ae23dc8ce2" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0f2281d4e1ae23dc8ce2">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = rectangle]        \n  rec1 [label = \"Step 1. Wake up\"]\n  rec2 [label = \"Step 2. Write code\"]\n  rec3 [label =  \"Step 3. ???\"]\n  rec4 [label = \"Step 4. PROFIT\"]\n  \n  # edge definitions with the node IDs\n  rec1 -> rec2 -> rec3 -> rec4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="theorycalculation" class="section level1">
+<h1>Theory/calculation</h1>
+<div id="sentinel-1" class="section level2">
+<h2>Sentinel 1</h2>
+<p>Google Earth Engine (GEE) provides Sentinel 1 in preprocessed GRD products with <span class="math inline">\(\sigma^0\)</span> (sigma-naught) of VV and VH polarizations, after processing for removing thermal noise, calibrating radiometry and converting <span class="math inline">\(\beta^0\)</span> beta-naught to sigma-naught using a digital elevation model (DEM). The DEM at the latitudes of the analysed study areas used is from the Shuttle Radar Topography Mission (SRTM) that took place in february 2000 <strong>???</strong>. Sigma-naught is provided in dB by transformation the backscatter value <span class="math inline">\(Y=10*log_{10}(X)\)</span> . <span class="citation">[<a href="#ref-Small2011">4</a>]</span>. The GEE product was further transformed to provide gamma-naught (<span class="math inline">\(\gamma^0\)</span>) values, thus correcting for the local incidence angle with the SRTM product. This removed the bias between ascending and descenging orbits that was evident from plotting the data.</p>
+<p>Incidence angle was further corrected using a frequency-histogram based mehod as described in <span class="citation">[<a href="#ref-Mladenova2013">5</a>]</span>. This method is not site-specific or sensor-dependant. Is has also proven to be effective not only for small incidence angles, which is the case here as the area is over mountainous region.</p>
+</div>
+<div id="palsar-2" class="section level2">
+<h2>PALSAR-2</h2>
+<p>Polarization data are stored in GEE as 16-bit digital numbers (DN). As per indication in the GEE website, the DN values can be converted to gamma naught (<span class="math inline">\(\gamma^0\)</span>) values in decibel unit (dB) using the following equation:</p>
+<p><span class="math display">\[
+\begin{aligned}
+ \gamma^0 = 10*log_{10}(DN) - 83.0  
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(83.0 \  dB\)</span> offset and <span class="math inline">\(\gamma^0\)</span> is in dB.</p>
+<p>values, thus correcting for the local incidence angle with the SRTM product.</p>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+</div>
+<div id="conclusions" class="section level1">
+<h1>Conclusions</h1>
+</div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
+<p>This effort is also part of the <a href="https://www.tesaf.unipd.it/ricerca/progetti-dip-tesaf">VAIA FRONT project - FRom lessong learned to future Options</a> .</p>
+</div>
+<div id="bibliography-styles" class="section level1">
+<h1>Bibliography styles</h1>
+<p>There are various bibliography styles available. You can select the style of your choice in the preamble of this document. These styles are Elsevier styles based on standard styles like Harvard and Vancouver. Please use BibTeX to generate your bibliography and include DOIs whenever available.</p>
+<p>Here are two sample references: <span class="citation">[<span class="citeproc-not-found" data-reference-id="Dirac1953888"><strong>???</strong></span>]</span>.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>References</h1>
+<div id="refs" class="references">
+<div id="ref-Puttonen2016">
+<p>[1] Puttonen E, Briese C, Mandlburger G, Wieser M, Pfennigbauer M, Zlinszky A, et al. Quantification of Overnight Movement of Birch (Betula pendula) Branches and Foliage with Short Interval Terrestrial Laser Scanning. Frontiers in Plant Science 2016;7. doi:<a href="https://doi.org/10.3389/fpls.2016.00222">10.3389/fpls.2016.00222</a>.</p>
+</div>
+<div id="ref-Reiche2018">
+<p>[2] Reiche J, Verhoeven R, Verbesselt J, Hamunyela E, Wielaard N, Herold M. Characterizing Tropical Forest Cover Loss Using Dense Sentinel-1 Data and Active Fire Alerts. Remote Sensing 2018;10:777. doi:<a href="https://doi.org/10.3390/rs10050777">10.3390/rs10050777</a>.</p>
+</div>
+<div id="ref-Hansen2013">
+<p>[3] Hansen MC, Potapov PV, Moore R, Hancher M, Turubanova SA, Tyukavina A, et al. High-Resolution Global Maps of 21st-Century Forest Cover Change. Science 2013;342:850–3. doi:<a href="https://doi.org/10.1126/science.1244693">10.1126/science.1244693</a>.</p>
+</div>
+<div id="ref-Small2011">
+<p>[4] Small D. Flattening gamma: Radiometric terrain correction for SAR imagery. IEEE Transactions on Geoscience and Remote Sensing 2011. doi:<a href="https://doi.org/10.1109/TGRS.2011.2120616">10.1109/TGRS.2011.2120616</a>.</p>
+</div>
+<div id="ref-Mladenova2013">
+<p>[5] Mladenova IE, Jackson TJ, Bindlish R, Hensley S. Incidence Angle Normalization of Radar Backscatter Data. IEEE Transactions on Geoscience and Remote Sensing 2013;51:1791–804. doi:<a href="https://doi.org/10.1109/TGRS.2012.2205264">10.1109/TGRS.2012.2205264</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

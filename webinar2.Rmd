@@ -1,0 +1,56 @@
+---
+title: "Webinar 2"
+author: "Francesco Pirotti [&lt;francesco.pirotti@unipd.it&gt;](mailto:francesco.pirotti@unipd.it)"
+date: "\\#Summer Webinar Series — August 5, 2020"
+output:
+  html_document:
+    code_folding: show
+    highlight: tango
+    theme: cosmo
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+  pdf_document:
+    toc: yes 
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
+
+```
+# Time-series of RADAR backscatter using GEE and R - part 1
+
+
+## Code & Copyleft
+
+```{r, child=c('copyright.Rmd')}
+``` 
+
+## Agenda
+
+The hypothesis is that a healthy/standing forest and a damaged forest will have significantly different backscatter values of RADAR. We will use Sentinel 1 data. For more reading on how RADAR works and Sentinel 1:
+
+- 
+
+ 
+
+- Load to Google Earth Engine (GEE) vegetation areas which have been subject to changes: (disturbance by fire, windthrow) 
+  - In the past 5 years (Sentinel 1 data are  available since 2014) 
+  - I will use areas strongly damaged by VAIA downloadable from the windthrow database   [[@Forzieri2020]](https://essd.copernicus.org/articles/12/257/2020/) linking to an <a href="https://figshare.com/articles/A_spatially-explicit_database_of_wind_disturbances_in_European_forests_over_the_period_2000-2018/9555008" target="_blank">open database</a>  - but you can use your own scenario  
+- Extract time series of Sentinel 1 backscatter data - i.e. a statistical aggregate of VV+VH backscatter values inside the polygons
+- Import extracted data in R CRAN ()
+- Plot time series data and applying a Z-score filter over past N values to detect changes
+
+## Google Earth Engine
+
+- The commented GEE script is included below and is available [here](https://code.earthengine.google.com/?scriptPath=users%2F2020_Kanan%2Fsummer_webinar_series%3Awebinar2).
+
+
+
+## Output
+The final output from processing in GEE is in GeoJSON format.  Why in GeoJSON and not in Shapefile? 
+Because GeoJSON allows non-structured attributes to be linked to each feature (polygon). Let's make an example: our polygons represent an area damaged by VAIA, so it comes with a table, which is  *structured* data, ie. each feature has a row in a table and one or more attributes which are table fields/columns. BUT if we have more complex data, imagine that we want to assign to each polygon the values of 
+ 
+  
+
+  
