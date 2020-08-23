@@ -30,19 +30,19 @@ knitr::opts_chunk$set(echo = T, message=FALSE, warning = F )
  
 
 ```{r message=FALSE, echo=F }
-library(icon)
- 
+
 ```
 # Agenda
 
-- Part 2 from webinar related to how Google Earth Engine (GEE) can be used to extract time series per each polygon of areas damaged by VAIA 
+- Part 2 from webinar related to how Google Earth Engine (GEE) can be used to extract time series per each polygon of areas damaged by VAIA  
+
 - Import extracted data in R CRAN
 - Plot time series data and applying a Z-score filter over past N values to detect changes
 
 # Before we begin
 
-- For this Webinar we use  R and RStudio IDE `r icon::fa_r_project(colour = "#384CB7") ` - if you want to follow along, make sure you have have installed R + RStudio in your PC   
-- Make sure you have downloaded the data [download here](data/webinar3/GEEdataFromWebinar2.zip).
+- For this Webinar we use  R and RStudio IDE  - if you want to follow along, make sure you have have installed R + RStudio in your PC   
+- Make sure you have downloaded the data [download here](data/webinGEEdataFromWebinar2advanced.zip).
 
 # Suggested reading
 
@@ -83,9 +83,9 @@ The first line extracts the file **webinar2vaia.geojson** from the archived data
 The second line reads the GeoJSON data.
 
 ```{r}
-mydata<-unzip("data/webinar3/GEEdataFromWebinar2.zip")
+#mydata<-unzip("data/webinar3/GEEdataFromWebinar2advanced.zip")
 mydata.adv<-unzip("data/webinar3/GEEdataFromWebinar2advanced.zip")
-data.gee <-    fromJSON( mydata )  
+#data.gee.adv <-    fromJSON( mydata )  
 data.gee.adv <-    fromJSON( mydata.adv )  
 
 ```
@@ -100,31 +100,33 @@ To see how data is structured, go to top left panel in RStudio, "Environment" an
 For example below we analyse the object "data.gee" and show "type", "id" of first feature(polygon) "features"[[1]]$"id".   
 Please note how we can use index ([[ N ]]) where N is the index. If we use **single square brakets** ([]) then we can show multiple indexes such as 1:3 (last line). The **":"** is a "range" of number, thus 1:3 means 1,2,3.
 ```{r}
- print(data.gee$type)
+ print(data.gee.adv$type)
 
- print(data.gee$features[[1]]$id )
+ print(data.gee.adv$features[[1]]$id )
  
- print(data.gee$features[[1]]$properties$Date[1:3] )
+ print(data.gee.adv$features[[1]]$properties$Date[1:3] )
  
 
 ```
 
 The data has 40 polygons of areas heavily damaged by VAIA storm. The "address" (index) of the information (properties) of the first area is 
 ```{r eval=F }
-data.gee$features[[1]]$properties
+summary( data.gee.adv$features[[1]]$properties )
 ```
 
 and the following plots the data.
 
 ```{r}
-plot( data.gee$features[[1]]$properties$Date, 
-      data.gee$features[[1]]$properties$VV_p50 )
+plot( data.gee.adv$features[[1]]$properties$Date, 
+      data.gee.adv$features[[1]]$properties$VV_p50 )
 ```
+
+### Date type
 
 But the plot is strange... why is "Date" in numbers? We can ask R to provide the class that the data is in by typing `class` function. 
 
 ```{r}
-class( data.gee$features[[1]]$properties$Date)
+class( data.gee.adv$features[[1]]$properties$Date)
 ```
 
 A Date timestamp is actually stored as a big integer, and R reads it as "numeric" and we must convert the class **numeric** to **date**.  
@@ -134,7 +136,7 @@ We can proceed  by using the function "as.POSIXct". But before we are dividing b
 
 
 ```{r}
- as.POSIXct.numeric( as.numeric( data.gee$features[[1]]$properties$Date[1:10] )/1000, 
+ as.POSIXct.numeric( as.numeric( data.gee.adv$features[[1]]$properties$Date[1:10] )/1000, 
                      origin = "1970-01-01", tz = "GMT")
 ```
  
@@ -150,7 +152,7 @@ We can proceed  by using the function "as.POSIXct". But before we are dividing b
 First we convert the properties (that we extracted from GEE remember?) from the first feature to a **data frame** which is R's way to define a table. The function "head" provides a view of the first rows of the table, to see how our data looks.
 
 ```{r}
-  feature1<-as.data.frame( data.gee$features[[1]]$properties )
+  feature1<-as.data.frame( data.gee.adv$features[[1]]$properties )
   head(feature1)
 ```
 
@@ -187,7 +189,7 @@ From results we can see a very weak signal that
 
 ```{r echo=F }
 
-myarea<-st_point(data.gee$features[[1]]$geometry$coordinates)
+myarea<-st_point(data.gee.adv$features[[1]]$geometry$coordinates)
 m <-   mapview() + mapview(  myarea  ) 
 
 m@map = m@map %>%   addWMSTiles(group = 'Orthophoto',
@@ -290,11 +292,14 @@ plot( feature1.2017$Date, feature1.2017$VH_p50 )
 
 
 feature1.2017.lm <- lm( feature1.2017$VH_p50  ~ feature1.2017$Date )
-feature1.2017.lm2 <- lm( feature1.2017$VH_p50  ~ feature1.2017$shadow_p50 )
+feature1.2017.lm2 <- lm( feature1.2017$VV_p90  ~ feature1.2017$lia_p75 )
 
 summary(feature1.2017.lm)
 summary(feature1.2017.lm2)
- 
+  
+
+ggplot(feature1.2017, aes(x=lia_p75 , y=VV_p90) ) + geom_point() +
+     geom_line( aes(feature1.2017$lia_p75, feature1.2017.lm2$fitted.values, color="red" ) )
 
 
 ggplot(feature1.2017, aes(x=Date , y=VH_p50) ) + geom_point() +
@@ -315,8 +320,12 @@ ggplot(feature1.2017, aes(x=Date , y=VH_p50) ) + geom_point() +
 ```
 
 
+### Functions  
+
 We enclose all steps that we want to apply to a single feature inside a **function**.
-A function is an object that 'does things' taking input arguments - inside parenthesis - and returns a value (object).
+A function is an object that 'does things' taking input arguments - inside the parenthesis - and returns a value (object).
+
+Here below the function _myCoolFunction_ takes the "var" object as variable: var is a string that will be printed on the console using another function, the _print_ function. Inside the parenthesis of the _print_ function there is  another function called _sprintf_ which takes two or more input arguments, the string and other variables interpreted with %s (string), %d (integer) or %f (double/float/numeric).  Look for more info in these by typing  `?print` and   `?sprintf` 
 
 ```{r}
 
@@ -340,7 +349,7 @@ myCoolFunction<-function(feature) {
   print(nrow(feature.df))
 }
 
-for(i in data.gee$features ){
+for(i in data.gee.adv$features ){
   myCoolFunction(i)
 }
 

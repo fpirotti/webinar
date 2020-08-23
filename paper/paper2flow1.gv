@@ -1,12 +1,15 @@
-digraph {
+graph {
   graph [layout = dot, rankdir = TB]
-  
   node [shape = rectangle]        
-  rec1 [label = 'Step 1. Wake up']
-  rec2 [label = 'Step 2. Write code']
-  rec3 [label =  'Step 3. ???']
-  rec4 [label = 'Step 4. PROFIT']
+  rec1 [label = '\"Canopy cover\" > 90%']
+  rec2 [label = 'VAIA damage area; \"damage degree\" > 90% ']
+  rec3 [label = <VAIA damage area inner buffer of 20 m; "Area" &gt; 25000  m<SUP>2</SUP>>];
+  rec4 [label = <<B>MASK</B>>]
   
   # edge definitions with the node IDs
-  rec1 -> rec2 -> rec3 -> rec4
+edge[color=grey]
+  rec1 -- {rec2}
+  rec2 -- {rec3} 
+  rec3 -- {rec4}
+  
   }

@@ -1,5 +1,5 @@
 ---
-title: "Using Sentinel-1 for detecting damage in forests: can we push the limit?"
+title: "Sentinel-1 backscatter for forest analysis: can we push the limit?"
 author:
 - affiliation: CIRGEO Interdepartmental Research Center of Research of Geomatics
   corresponding: francesco.pirotti@unipd.it
@@ -19,7 +19,7 @@ output:
     df_print: paged
     self_contained: false
   word_document: default
-csl: elsevier-vancouver.csl
+csl: elsevier-harvard.csl
 address:
 - address: Agripolis, University of Padova, Legnaro 35020, Italy
   code: CIRGEO Interdepartmental Research Center of Research of Geomatics
@@ -70,11 +70,14 @@ In tropical forests Sentinel 1 and FIRMS has been used [@Reiche2018]
 Material and methods
 ===================
 
-The first step consisted in using Google Earth Engine to combine several image collection to filter  data that was then analysed further in R CRAN. The data consist in Sentinel 1 VV and VH values from selected cells that have the following characteristics:
+The first step consisted the creation of a mask that isolates cells in the study area that were covered more than 95% with tree canopy and that were subject to more than 90% damage from VAIA storm. Furthermore the cell must be part of a damaged site whose area was larger than \( 25000\ m^2 \)  The data consist in Sentinel 1 VV and VH backscatter values only from these masked cells.  ie. that have the following characteristics:
 
-- are completely covered by trees - for this the forest cover map from 2000 [@Hansen2013] was used by selecting only cells withe value 100 (100% cover) and removing the ones that recorded loss between the period 2000-2019
+- are completely (>95%) covered by tree canopy - for this the forest cover map from 2000 [@Hansen2013] was used by selecting only cells withe value 100 (100% cover) and removing the ones that recorded loss between the period 2000-2019
 
-- are not covered by snow at time of recording - this was done by removing analysis of the closest Sentinel 2 image before the date of each Sentinel 1 image. The 
+- are not covered by snow at time of recording - this was done by removing analysis of the closest Sentinel 2 image before the date of each Sentinel 1 image.  
+
+- are damaged from VAIA's storm - for this the areas with forest loss defined in 2019 from [@Hansen2013] that intersect the areas from [@Forzieri2020] with > 80% damage.   
+
 
 
 
@@ -144,8 +147,6 @@ style of your choice in the preamble of this document. These styles are
 Elsevier styles based on standard styles like Harvard and Vancouver.
 Please use BibTeX to generate your bibliography and include DOIs
 whenever available.
-
-Here are two sample references: @Feynman1963118 [@Dirac1953888].
-
+ 
 References {#references .unnumbered}
 ==========

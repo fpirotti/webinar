@@ -51,6 +51,10 @@ The hypothesis is that a healthy/standing forest and a damaged forest will have 
 The final output from processing in GEE is in GeoJSON format.  Why in GeoJSON and not in Shapefile? 
 Because GeoJSON allows non-structured attributes to be linked to each feature (polygon). Let's make an example: our polygons represent an area damaged by VAIA, so it comes with a table, which is  *structured* data, ie. each feature has a row in a table and one or more attributes which are table fields/columns. BUT if we have more complex data, imagine that we want to assign to each polygon the values of 
  
-  
+## Conclusion
+
+The next seminar [here](webinar3.html) will be on plotting and processing our extracted data.
+
+
 
   
