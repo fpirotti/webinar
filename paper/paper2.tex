@@ -1,92 +1,69 @@
-\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
-%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
-\usepackage[hyphens]{url}
+% !TeX program = pdfLaTeX
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+%\documentclass[twocolumn]{svjour3}          % twocolumn
+%
+\smartqed  % flush right qed marks, e.g. at end of proof
+%
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
 
-  \journal{Science of Remote Sensing} % Sets Journal name
-
-
-\usepackage{lineno} % add
+\usepackage[hyphens]{url} % not crucial - just used below for the URL
+\usepackage{hyperref}
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-\usepackage{graphicx}
-\usepackage{booktabs} % book-quality tables
-%%%%%%%%%%%%%%%% end my additions to header
+%
+% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+%
+% insert here the call for the packages your document requires
+%\usepackage{latexsym}
+% etc.
+%
+% please place your own definitions here and don't use \def but
+% \newcommand{}{}
+%
+% Insert the name of "your journal" with
+% \journalname{myjournal}
+%
 
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-% use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[utf8]{inputenc}
-\else % if luatex or xelatex
-  \usepackage{fontspec}
-  \ifxetex
-    \usepackage{xltxtra,xunicode}
-  \fi
-  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
-  \newcommand{\euro}{€}
-\fi
-% use microtype if available
-\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
-\bibliographystyle{elsarticle-harv}
-\usepackage{graphicx}
-% We will generate all images so they have a width \maxwidth. This means
-% that they will get their normal width if they fit onto the page, but
-% are scaled down if they would overflow the margins.
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
-\else\Gin@nat@width\fi}
-\makeatother
-\let\Oldincludegraphics\includegraphics
-\renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=\maxwidth]{#1}}
-\ifxetex
-  \usepackage[setpagesize=false, % page size defined by xetex
-              unicode=false, % unicode breaks when used with xetex
-              xetex]{hyperref}
-\else
-  \usepackage[unicode=true]{hyperref}
-\fi
-\hypersetup{breaklinks=true,
-            bookmarks=true,
-            pdfauthor={},
-            pdftitle={Sentinel-1 backscatter for forest analysis: can we push the limit?},
-            colorlinks=false,
-            urlcolor=blue,
-            linkcolor=magenta,
-            pdfborder={0 0 0}}
-\urlstyle{same}  % don't use monospace font for urls
-
-\setcounter{secnumdepth}{0}
-% Pandoc toggle for numbering sections (defaults to be off)
-\setcounter{secnumdepth}{0}
+%% load any required packages here
 
 
-% Pandoc header
 
 
 
 \begin{document}
-\begin{frontmatter}
 
-  \title{Sentinel-1 backscatter for forest analysis: can we push the limit?}
-    \author[CIRGEO Interdepartmental Research Center of Research of Geomatics]{Francesco Pirotti\corref{1}}
-   \ead{francesco.pirotti@unipd.it} 
-    \author[TESAF Department]{Francesco Pirotti\corref{2}}
-   \ead{francesco.pirotti@unipd.it} 
-      \address[CIRGEO Interdepartmental Research Center of Research of Geomatics]{Agripolis, University of Padova, Legnaro 35020, Italy}
-    \address[TESAF Department]{University of Padova, Legnaro 35020, Italy}
-      \cortext[1]{Corresponding Author}
-    \cortext[2]{Equal contribution}
-  
-  \begin{abstract}
-  This is the abstract. It consists of two paragraphs.
-  \end{abstract}
-  
- \end{frontmatter}
+\title{Sentinel-1 backscatter for forest analysis: can we push the limit? }
+
+
+
+\author{  }
+
+
+\institute{
+    }
+
+\date{Received: date / Accepted: date}
+% The correct dates will be entered by the editor
+
+
+\maketitle
+
+\begin{abstract}
+This is the abstract. It consists of two paragraphs.
+\\
+\keywords{
+    }
+
+
+\end{abstract}
+
+
+\def\spacingset#1{\renewcommand{\baselinestretch}%
+{#1}\small\normalsize} \spacingset{1}
+
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -182,7 +159,18 @@ characteristics:
   with \textgreater{} 80\% damage.
 \end{itemize}
 
-\includegraphics{paper2_files/figure-latex/unnamed-chunk-1-1.pdf}
+\begin{figure}
+\centering
+\includegraphics{paper2_files/figure-latex/fig1-1.pdf}
+\caption{Diagram}
+\end{figure}
+
+For replicability, the full Google Earth Engine script code is available
+upon request to authors.
+
+The final output from this preliminary see figure @ref(fig:fig1)
+data-harvesting step is a dataset in GeoJSON format, further processed
+with R CRAN tools.
 
 \hypertarget{theorycalculation}{%
 \section{Theory/calculation}\label{theorycalculation}}
@@ -311,7 +299,7 @@ Small, D., 2011. Flattening gamma: Radiometric terrain correction for
 SAR imagery. IEEE Transactions on Geoscience and Remote Sensing.
 doi:\href{https://doi.org/10.1109/TGRS.2011.2120616}{10.1109/TGRS.2011.2120616}
 
+\bibliographystyle{spbasic}
+\bibliography{mybibfile2.bib}
 
 \end{document}
-
-

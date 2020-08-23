@@ -14,7 +14,11 @@ author:
   orcid: 0000-0002-4796-6406
 date: "`r Sys.Date()`"
 output:
-  pdf_document: rticles::elsevier_article
+  pdf_document_springer:  
+    - rticles::springer_article 
+  bookdown::pdf_document2: default
+  pdf_document:  
+    - rticles::elsevier_article
   html_document:
     df_print: paged
     self_contained: false
@@ -79,13 +83,16 @@ The first step consisted the creation of a mask that isolates cells in the study
 - are damaged from VAIA's storm - for this the areas with forest loss defined in 2019 from [@Hansen2013] that intersect the areas from [@Forzieri2020] with > 80% damage.   
 
 
-
-
-```{r echo=F}
+```{r  fig1, fig.cap="Diagram", echo=F}
 DiagrammeR::grViz("paper2flow1.gv")
 ```
 
+For replicability, the full Google Earth Engine script code is available upon request to authors.
 
+
+
+
+The final output from this preliminary see figure \@ref(fig:fig1)  data-harvesting step is a dataset in GeoJSON format, further processed with R CRAN tools.
  
 Theory/calculation
 ===================
